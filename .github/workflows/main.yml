@@ -16,6 +16,8 @@ jobs:
         with:
           cache: 'npm'
           node-version: 20.x
+      - name: Sync package.json & package-lock.json
+        run: npm install
       - name: Install dependencies in production
         run: npm ci --ignore-scripts
       - name: Cache react.js build
