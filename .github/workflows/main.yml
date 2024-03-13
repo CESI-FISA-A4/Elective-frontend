@@ -1,47 +1,30 @@
-name: Build and Deploy on prod
+name: CI/CD
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master  # ou la branche que vous souhaitez surveiller
 
-jobs: 
-  build-and-push:
+jobs:
+  build:
     runs-on: ubuntu-latest
     environment: prod-secrets
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
-        with:
-          cache: 'npm'
-          node-version: 20.x
-      - name: Sync package.json & package-lock.json
-        run: npm install
-      - name: Install dependencies in production
-        run: npm ci --ignore-scripts
-      - name: Cache react.js build
-        id: cache-npm
-        uses: actions/cache@v4
-        with:
-          path: .react/
-          key: ${{ runner.os }}-react-build-${{ hashFiles('src/','public/','react*','package*','jsconfig.json') }}
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: Build the app
-        continue-on-error: false
-        run: npm run build
-      - name: List files
-        run: ls -la
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.APP_IMAGE }}
-      - name: Deploy on cap rover
-        run: docker run caprover/cli-caprover:latest caprover deploy --caproverUrl "${{ secrets.APP_URL }}" --appToken "${{ secrets.APP_TOKEN }}" --caproverApp "${{ secrets.APP_NAME }}" --imageName "${{ secrets.APP_IMAGE }}"
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm install  # ou yarn install
+
+    - name: Build and test
+      run: npm run build && npm test  # ou yarn build && yarn test
+
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.APP_IMAGE }} .  # adapter le nom de l'image si nécessaire
+
+    - name: Push Docker image to registry
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        docker tag ${{ secrets.APP_IMAGE }} ${{ secrets.DOCKER_USERNAME }}/${{ secrets.APP_IMAGE }}:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.APP_IMAGE }}:latest
