@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { StyleContext } from '../../contexts/StyleProvider';
 import { useNavigate } from 'react-router-dom';
-import { Button, Checkbox, IconButton } from '@mui/material';
+import { Alert, Button, Checkbox, IconButton, Snackbar } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import ConfirmDeletion from '../Modal/ConfirmDeletion/ConfirmDeletion';
@@ -28,6 +28,9 @@ function ProductList() {
     const [rowSelected, setRowSelected] = useState({});
     const [deletionModalOppened, setDeletionModalOppened] = useState(false);
     const [addModalOppened, setAddModalOppened] = useState(false);
+
+    const [snackbarAddingActive, setSnackbarAddingActive] = useState(false);
+    const [snackbarDeletionActive, setSnackbarDeletionActive] = useState(false);
 
     const style = useContext(StyleContext);
     const navigate = useNavigate();
@@ -128,6 +131,7 @@ function ProductList() {
         }
 
         setSelectAll(false);
+        setSnackbarDeletionActive(true);
     }
 
     const handleNewProduct = async(newProduct) => {
@@ -139,6 +143,8 @@ function ProductList() {
 
         unSelectAllRow();
         setSelectAll(false);
+
+        setSnackbarAddingActive(true);
     }
 
     return (
@@ -219,6 +225,25 @@ function ProductList() {
                     </Table>
                 </TableContainer>
             }
+
+            <Snackbar open={snackbarAddingActive} autoHideDuration={5000} onClose={() => setSnackbarAddingActive(false)}>
+                <Alert
+                    onClose={() => setSnackbarAddingActive(false)}
+                    severity="success"
+                    variant="filled"
+                    sx={{ width: '100%' }}>
+                    Produit ajouté avec succès !
+                </Alert>
+            </Snackbar>
+
+            <Snackbar open={snackbarDeletionActive} autoHideDuration={5000} onClose={() => setSnackbarDeletionActive(false)}>
+                <Alert
+                    onClose={() => setSnackbarDeletionActive(false)}
+                    severity="info"
+                    variant="filled">
+                    Produit(s) supprimé(s) avec succès !
+                </Alert>
+            </Snackbar>
         </div>
     );
 }
