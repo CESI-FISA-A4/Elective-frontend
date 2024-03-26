@@ -9,7 +9,6 @@ function Card ({img, title, description, price, rate, page}) {
     const [quantity, setQuantity] = useState(0);
 
     return (
-        <a href={page}>
             <div className="card bg-greyColor rounded-lg">
                 <img src={img} alt="photo" />
                 <div className= "grid grid-cols-2 gap-x-6 gap-y-6">
@@ -22,9 +21,7 @@ function Card ({img, title, description, price, rate, page}) {
                     <ChooseQuantity className="ml-5 mr-3 mb-1" quantity={quantity} setQuantity={setQuantity}/>
                 </div>
             </div>
-        </a>
   );
 }
 
 export default Card;
-                // <button className="rounded bg-blackColor text-whiteColor" onClick={console.log("button works")}> Ajouter </button>

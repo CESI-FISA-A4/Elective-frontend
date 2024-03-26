@@ -1,6 +1,7 @@
 import './App.css';
 import Card from '../Card/Card';
 import product from '../../assets/product.svg';
+import OrderPreview from '../OrderPreview/OrderPreview';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       rate="4"
       page="/"
       />
+      <OrderPreview /> 
     </div>
   );
 }
