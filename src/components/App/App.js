@@ -1,13 +1,20 @@
 import './App.css';
-import Header from '../Header/Header';
+import Card from '../Card/Card';
+import product from '../../assets/product.svg';
+
 
 function App() {
   return (
     <div className="App">
-        <body>
-          <Header title="Welcome" />
-        </body>
-      </div>
+      <Card 
+      img={product}
+      title="Product"
+      description="Description"
+      price="22,5"
+      rate="4"
+      page="/"
+      />
+    </div>
   );
 }
 
