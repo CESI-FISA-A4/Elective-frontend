@@ -1,6 +1,7 @@
 import React from 'react';
 import './Card.css';
-import star from '../../assets/star.svg';
+import Rate from '../Rate/Rate.js';
+
 
 function Card ({img, title, description, price, rate}) {
 
@@ -8,15 +9,12 @@ function Card ({img, title, description, price, rate}) {
         <div className="card bg-greyColor rounded-lg">
             <img src={img} alt="product" />
             <div className= "grid grid-cols-2 gap-x-6 gap-y-6">
-                <h2 className="bg-blue-200 text-left"> {title} </h2>
-                <p className='bg-blue-200 text-right'> {price} € </p>
+                <h2 className="text-left pl-1"> {title} </h2>
+                <p className='text-right pr-1'> {price} € </p>
             </div>
-            <p className="bg-blue-200 text-left"> {description} </p>
-            <div className='grid grid-cols-2'>
-                <div className='grid grid-cols-2 gap-x-0'>
-                    <img src={star} alt="Star"></img>
-                    <p className="bg-blue-200 text-left mr-6"> {rate} </p> 
-                </div>
+            <p className=" text-left pl-1"> {description} </p>
+            <div className='grid grid-cols-2 mb—2'>
+                <Rate rate={rate}/>
                 <button className="rounded bg-blackColor text-whiteColor" onClick={console.log("button works")}> Ajouter </button>
             </div>
         </div>
