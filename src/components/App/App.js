@@ -4,10 +4,8 @@ import Header from '../Header/Header';
 function App() {
   return (
     <div className="App">
-        <body>
-          <Header title="Welcome" />
-        </body>
-      </div>
+      <Header title="Welcome" />
+    </div>
   );
 }
 
