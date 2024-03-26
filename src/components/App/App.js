@@ -11,6 +11,7 @@ function App() {
         price= "22,5"
         rate="4,5"
         img={img}
+        page={'/'}
         />
     </div>
   );
