@@ -3,12 +3,12 @@ name: CI/CD
 on:
   pull_request:
     branches:
-      - master  # ou la branche que vous souhaitez surveiller
+      - dev  # ou la branche que vous souhaitez surveiller
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: prod-secrets
+    environment: dev-secrets
     
     steps:
     - name: Checkout repository
