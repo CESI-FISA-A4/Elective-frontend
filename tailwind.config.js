@@ -20,7 +20,7 @@ export default {
         whiteColor: theme.palette.whiteColor.main,
         fontColor: theme.palette.FontColor.main
       },
+      },
     },
-  },
   plugins: [],
 }
