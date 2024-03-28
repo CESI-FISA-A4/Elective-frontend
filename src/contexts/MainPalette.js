@@ -6,8 +6,12 @@ export const theme = createTheme({
         main: '#1976d2',
     },
     secondary: {
-        main: '#f50057',
+        main: '#309F63',
     },
+    blackButtonColor: {
+        main: '#000000',
+        contrastText: "#FFFFFF",
+    }, 
     blackColor: {
         main: '#000000',
     },
