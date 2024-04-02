@@ -2,7 +2,7 @@ import { Button, TextField } from '@mui/material';
 import logo from '../../assets/logo.svg';
 import { useState } from 'react';
 
-function Login() {
+function LogIn() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -28,4 +28,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LogIn;
