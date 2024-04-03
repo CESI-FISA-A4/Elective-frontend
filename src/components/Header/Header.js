@@ -20,7 +20,7 @@ export default function Header({ title }) {
   const navigate = useNavigate();
 
   function handleClick() {
-    navigate("/HomePage");
+    navigate("/home-page");
   }
 
 return (
