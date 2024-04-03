@@ -1,11 +1,31 @@
 import './App.css';
+import RestaurantList from '../RestaurantList/RestaurantList';
+import HomePage from '../HomePage/HomePage';
+import { useNavigate,Routes,Route, } from 'react-router-dom';
+import Nav from '../../routes/Routes';
+
+
+
 
 function App() {
+  const navigate = useNavigate();
   return (
-    <div className="App">
-      App
-    </div>
+      <div>
+        <button onClick={() => navigate(-1)}>go back</button>
+        <Nav/>
+        <Routes>
+          <Route path="/home-page" element={<HomePage/>}/>
+          <Route path="/restaurant-list" element={<RestaurantList/>}/>
+        </Routes>
+      </div>
   );
+
+  // return (
+  //   <div>
+  //     <Header title={'welcome'}/>
+  //     <RestaurantList title={'results'}/>
+  //   </div>
+  // );
 }
 
 export default App;
