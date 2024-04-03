@@ -1,6 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import logo from '../../assets/logo.svg';
 import { useState } from 'react';
+import { login } from '../../services/auth.service';
 
 function LogIn() {
 
@@ -9,7 +10,7 @@ function LogIn() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(username, password);
+        login(username, password);
     }
 
 

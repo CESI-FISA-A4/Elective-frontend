@@ -12,11 +12,14 @@ function SignUp() {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [role, setRole] = useState('USER');
+    const [street, setStreet] = useState('');
+    const [postalCode, setPostalCode] = useState('');
+    const [city, setCity] = useState('');
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(username, password, firstname, lastname, role);
-        signup(username, password, firstname, lastname, role);
+        let address = street + ' ' + postalCode + ' ' + city;
+        signup(username, password, firstname, lastname, role, address);
     }
 
 
@@ -28,6 +31,9 @@ function SignUp() {
             <form onSubmit={handleSubmit}>
                 <TextField id="firstname" label="Prénom" variant="outlined"  onChange={(e) => {setFirstname(e.target.value)}}/>
                 <TextField id="lastname" label="Nom" variant="outlined"  onChange={(e) => {setLastname(e.target.value)}}/>
+                <TextField id="street" label="Numéro et rue" variant="outlined"  onChange={(e) => {setStreet(e.target.value)}}/>
+                <TextField id='postalCode' label='Code postal' variant='outlined' type="number" onChange={(e) => setPostalCode(e.target.value)}/>
+                <TextField id='city' label='Ville' variant='outlined' onChange={(e) => setCity(e.target.value)}/>
                 <TextField id="username_register" label="Nom d'utilisateur" variant="outlined"  onChange={(e) => {setUsername(e.target.value)}}/> 
                 <TextField id="password_register" label="Mot de passe" variant="outlined" type="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 <Select

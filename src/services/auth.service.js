@@ -2,27 +2,28 @@ import axios from 'axios';
 
 export const login = async (username, password) => {
     try {
-        console.log("login service reached");
-        const response = await axios.post('http://localhost:80/api/auth/login', {
+        const response = await axios.post('http://localhost:8080/api/auth/login', {
             username,
             password
         });
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(error);
     }
 }
 
-export const signup = async (username, password, firstname, lastname, role) => {
+export const signup = async (username, password, firstname, lastname, roleLabel, address) => {
     try {
-        console.log("signup service reached");
-        const response = await axios.post('http://localhost:80/api/auth/register', {
+        const response = await axios.post('http://localhost:8080/api/auth/register', {
             username,
             password,
             firstname,
             lastname,
-            role
+            roleLabel,
+            address
         });
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error(error);
