@@ -11,10 +11,18 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar } from '@mui/material';
 import { ThemeProvider } from "@mui/material/styles";
 import {theme} from '../../contexts/MainPalette' 
+import { useNavigate } from 'react-router-dom';
 
 
 
 export default function Header({ title }) {
+
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate("/HomePage");
+  }
+
 return (
     <ThemeProvider theme={theme}>
     <Box sx={{ flexGrow: 1 }}>
@@ -30,7 +38,7 @@ return (
             <MenuIcon />
           </IconButton>
           <Button
-          startIcon={<Avatar src={logo} />}
+          startIcon={<Avatar src={logo} onClick={handleClick} />}
         >
         </Button>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
@@ -44,6 +52,5 @@ return (
       </AppBar>
     </Box>
     </ThemeProvider>
-    
   );
 }
