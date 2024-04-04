@@ -10,18 +10,14 @@ import { useNavigate } from 'react-router-dom';
 function Card ({img, title, description, price, rate, page}) {
     const [quantity, setQuantity] = useState(0);
     const navigate = useNavigate();
-
-    const handleClickChangementPage = () => {
-        navigate("/home-page?texteFieldValue="+title
-        )
-    };
     
 
     return (
+        <a link={page}>
             <div className="card bg-greyColor rounded-lg">
-                <img src={test} alt="ImageCard" onClick={handleClickChangementPage} />
+                <img src={test} alt="ImageCard" />
                 <div className= "grid grid-cols-2 gap-x-6 gap-y-6">
-                    <h2 className="text-left pl-1" onClick={handleClickChangementPage}> {title} </h2>
+                    <h2 className="text-left pl-1"> {title} </h2>
                     <p className='text-right pr-1'> {price} € </p>
                 </div>
                 <p className=" text-left pl-1"> {description} </p>
@@ -30,6 +26,7 @@ function Card ({img, title, description, price, rate, page}) {
                     <ChooseQuantity className="ml-5 mr-3 mb-1" quantity={quantity} setQuantity={setQuantity}/>
                 </div>
             </div>
+        </a>
   );
 }
 
