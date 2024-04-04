@@ -1,14 +1,14 @@
-import axios_instance from '../axios';
+import axiosInstance from '../axios';
 
 export const login = async (username, password) => {
     try {
-        const response = await axios_instance.post('http://localhost:8080/api/auth/login', {
+        const response = await axiosInstance.post('http://localhost:8080/api/auth/login', {
             username,
             password
         });
         const accessToken = 'Bearer ' + response.data.accessToken;
         const refreshToken = 'Bearer ' + response.data.refreshToken;
-        axios_instance.defaults.headers.common['Authorization'] = accessToken;
+        axiosInstance.defaults.headers.common['Authorization'] = accessToken;
         localStorage.setItem('userId', response.data.userId)
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
@@ -19,7 +19,7 @@ export const login = async (username, password) => {
 
 export const signup = async (username, password, firstname, lastname, roleLabel, address) => {
     try {
-        const response = await axios_instance.post('http://localhost:8080/api/auth/register', {
+        const response = await axiosInstance.post('http://localhost:8080/api/auth/register', {
             username,
             password,
             firstname,
