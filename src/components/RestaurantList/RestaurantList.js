@@ -10,7 +10,7 @@ import Card from "../Card/Card";
 
 function RestaurantList({ title }) {
     const [changeValue, setChangeValue] = useState('');
-    const [cardValue,setCardValue] = useState([]);
+    const [cardValue,setCardValue] = useState();
 
     const handleSearchBarChange = async (RestaurantName) => {
         setChangeValue(RestaurantName);

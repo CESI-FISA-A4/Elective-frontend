@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 export default async function getRestaurantList (name){
     const img = '../../assets/product.svg';
     const title = 'menu TEST';
