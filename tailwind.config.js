@@ -20,6 +20,10 @@ export default {
         whiteColor: theme.palette.whiteColor.main,
         fontColor: theme.palette.FontColor.main
       },
+      fontSize: {
+        mainTitle : "2.5rem",
+        standard : "1rem",
+      }
     },
   },
   plugins: [],
