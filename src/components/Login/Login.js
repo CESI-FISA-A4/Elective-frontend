@@ -15,7 +15,7 @@ function LogIn() {
     }
 
     return (
-        <div className='w-screen flex flex-col items-center gap-y-6'>
+        <div className='mt-10 w-screen flex flex-col items-center gap-y-6'>
             <img src={logo} alt='logo' className='w-1/2 sm:w-1/4'/>
             <h1 className='text-mainTitle'>Bienvenue sur CESI Eats</h1>
 
@@ -24,6 +24,7 @@ function LogIn() {
                 <TextField className='w-full' id="password" label="Mot de passe" variant="outlined" type="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 <CustomButton type="submit" children={"Connexion"}/>
             </form>
+            <p>Pas encore inscrit ? Cliquez pour aller sur la page d'inscription</p>
         </div>
   );
 }
