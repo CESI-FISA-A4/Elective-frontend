@@ -1,21 +1,25 @@
-import axios from 'axios';
+import axios_instance from '../axios';
 
 export const login = async (username, password) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/auth/login', {
+        const response = await axios_instance.post('http://localhost:8080/api/auth/login', {
             username,
             password
         });
-        console.log(response.data);
-        return response.data;
+        const accessToken = 'Bearer ' + response.data.accessToken;
+        const refreshToken = 'Bearer ' + response.data.refreshToken;
+        axios_instance.defaults.headers.common['Authorization'] = accessToken;
+        localStorage.setItem('userId', response.data.userId)
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
     } catch (error) {
         console.error(error);
     }
-}
+} 
 
 export const signup = async (username, password, firstname, lastname, roleLabel, address) => {
     try {
-        const response = await axios.post('http://localhost:8080/api/auth/register', {
+        const response = await axios_instance.post('http://localhost:8080/api/auth/register', {
             username,
             password,
             firstname,
@@ -23,8 +27,11 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
             roleLabel,
             address
         });
-        console.log(response.data);
-        return response.data;
+        if (response.data === "User created successfully") {
+            login(username, password);
+        }else{
+            alert("Erreur lors de l'inscription");
+        }
     } catch (error) {
         console.error(error);
     }

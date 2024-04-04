@@ -13,8 +13,6 @@ function LogIn() {
         login(username, password);
     }
 
-
-
     return (
         <div>
             <img src={logo} alt='logo'/>
