@@ -1,0 +1,28 @@
+.profile {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    gap: 0px;
+    margin: 0px;
+    /* height: 100vh; */
+}
+
+.profile>* {
+    /* flex-grow: 1; */
+    width: 100%;
+    padding: 50px 10px;
+}
+
+.identity,
+.user-info,
+.context-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.identity img {
+    width: 50px;
+    height: 50px;
+}
