@@ -20,12 +20,6 @@ function App() {
       </div>
   );
 
-  // return (
-  //   <div>
-  //     <Header title={'welcome'}/>
-  //     <RestaurantList title={'results'}/>
-  //   </div>
-  // );
 }
 
 export default App;

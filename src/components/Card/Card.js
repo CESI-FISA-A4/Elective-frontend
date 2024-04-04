@@ -2,18 +2,27 @@ import {React, useState} from 'react';
 import './Card.css';
 import Rate from '../Rate/Rate.js';
 import ChooseQuantity from '../ChooseQuantity/ChooseQuantity.js';
+import test from '../../assets/product.svg';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function Card ({img, title, description, price, rate, page}) {
-
     const [quantity, setQuantity] = useState(0);
+    const navigate = useNavigate();
+
+    const handleClickChanegementPage = () => {
+        navigate("/home-page?texteFieldValue="+title
+        )
+    };
+    
 
     return (
-        <a href={page}>
+        <a link={page}>
             <div className="card bg-greyColor rounded-lg">
-                <img src={img} alt="photo" />
+                <img src={test} alt="photo" onClick={handleClickChanegementPage} />
                 <div className= "grid grid-cols-2 gap-x-6 gap-y-6">
-                    <h2 className="text-left pl-1"> {title} </h2>
+                    <h2 className="text-left pl-1" onClick={handleClickChanegementPage}> {title} </h2>
                     <p className='text-right pr-1'> {price} € </p>
                 </div>
                 <p className=" text-left pl-1"> {description} </p>
