@@ -1,8 +1,8 @@
 import { TextField } from '@mui/material';
-import CustomButton from '../../utils/button';
-import logo from '../../assets/logo.svg';
+import logo from '../../../assets/logo.svg';
 import { useState } from 'react';
 import { login } from '../../services/auth.service';
+import CustomButton from '../../../utils/components/CustomButton';
 
 function LogIn() {
 
