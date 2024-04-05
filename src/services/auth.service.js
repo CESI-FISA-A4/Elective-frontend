@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axios';
 
 export const login = async (username, password) => {
@@ -36,15 +37,24 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
     }
 }
 
-export const refreshToken = async () => {
+export const getNewAccessToken = async () => {
+    navigate = useNavigate();
     try {
         const refreshToken = localStorage.getItem('refreshToken');
         const response = await axiosInstance.post('http://localhost:8080/api/auth/refreshToken', {
             refreshToken
         });
-        const accessToken = 'Bearer ' + response.data.accessToken;
-        localStorage.setItem('accessToken', accessToken);
-        axiosInstance.defaults.headers.common['Authorization'] = accessToken;
+        if (response.status === 200) {
+            const accessToken = 'Bearer ' + response.data.accessToken;
+            localStorage.setItem('accessToken', accessToken);
+            axiosInstance.defaults.headers.common['Authorization'] = accessToken; 
+        } else {
+            if (response.status === 403){
+                navigate('/login');
+            }else{
+                alert("Erreur lors de la récupération du token");
+            }
+        }
     } catch (error) {
         console.error(error);
     }
