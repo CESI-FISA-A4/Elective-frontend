@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
+import SignUpPage from '../pages/SignUpPage';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<LoginPage/>}></Route>
           <Route path="/home" element={<HomePage/>}></Route>
           <Route path="/login" element={<LoginPage/>}></Route>
+          <Route path="/signup" element={<SignUpPage/>}></Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>

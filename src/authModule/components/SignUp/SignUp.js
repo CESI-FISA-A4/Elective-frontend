@@ -1,9 +1,8 @@
 import { TextField, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
-import logo from "../../assets/logo.svg";
+import logo from "../../../assets/logo.svg";
 import { signup } from "../../services/auth.service";
-import CustomButton from "../../utils/button";
-
+import CustomButton from "../../../utils/components/CustomButton";
 
 
 function SignUp() {
