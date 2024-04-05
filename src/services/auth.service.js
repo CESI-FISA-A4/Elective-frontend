@@ -10,6 +10,7 @@ export const login = async (username, password) => {
         const refreshToken = 'Bearer ' + response.data.refreshToken;
         axiosInstance.defaults.headers.common['Authorization'] = accessToken;
         localStorage.setItem('userId', response.data.userId)
+        localStorage.setItem('roleLabel', response.data.roleLabel)
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
     } catch (error) {
