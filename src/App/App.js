@@ -5,11 +5,12 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
+import RestaurantPage from '../pages/RestaurantPage';
 
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Header></Header>
         <Routes>
@@ -20,6 +21,7 @@ function App() {
             </RequireAuth>
             }>
           </Route>
+          <Route path="/restaurant" element={<RestaurantPage/>}></Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
           <Route path="/protected" element={
