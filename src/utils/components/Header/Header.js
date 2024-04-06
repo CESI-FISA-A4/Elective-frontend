@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import logo from '../../../assets/LogoApp.svg';
+import accountImg from '../../../assets/account.png';
 import Stack from '@mui/material/Stack';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar } from '@mui/material';
@@ -73,6 +74,7 @@ export default function Header({ title }) {
                 onClick={logoutUser}>
                 <LogoutIcon></LogoutIcon>
               </IconButton>
+              <img src={accountImg} width="50" height="50" alt="account" onClick={goToAccount}/>
             </Stack>
           </Toolbar>
         </AppBar>

@@ -1,0 +1,42 @@
+.account {
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 0px;
+}
+
+@media (max-width: 1000px) {
+    /* Adjust the breakpoint as needed */
+    .account {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 0px;
+    }
+}
+
+
+/* .account {
+    display: flex;
+    flex-direction: row;
+    gap: 0px;
+    margin: 0px;
+} */
+
+.account>* {
+    /* flex-grow: 1; */
+    width: 100%;
+    padding: 50px 10px;
+}
+
+.identity,
+.user-info,
+.context-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.identity img {
+    width: 90px;
+    height: 90px;
+}
