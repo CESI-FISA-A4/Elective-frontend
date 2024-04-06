@@ -3,6 +3,7 @@ import logo from '../../../assets/logo.svg';
 import { useState } from 'react';
 import { login } from '../../services/auth.service';
 import CustomButton from '../../../utils/components/CustomButton';
+import { Link } from 'react-router-dom';
 
 function LogIn() {
 
@@ -24,7 +25,9 @@ function LogIn() {
                 <TextField className='w-full' id="password" label="Mot de passe" variant="outlined" type="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 <CustomButton type="submit" children={"Connexion"}/>
             </form>
-            <p>Pas encore inscrit ? Cliquez pour aller sur la page d'inscription</p>
+            <Link to={'/signup'}>
+                <p>Pas encore inscrit ? Cliquez pour aller sur la page d'inscription</p>
+            </Link>
         </div>
   );
 }

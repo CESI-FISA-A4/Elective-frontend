@@ -3,6 +3,7 @@ import { useState } from "react";
 import logo from "../../../assets/logo.svg";
 import { signup } from "../../services/auth.service";
 import CustomButton from "../../../utils/components/CustomButton";
+import { Link } from "react-router-dom";
 
 
 function SignUp() {
@@ -50,14 +51,16 @@ function SignUp() {
                     <p className="w-1/3"> Choisir le type de compte :</p>
                     <Select
                         className='w-2/3' labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Rôle" onChange={(e) => {setRole(e.target.value)}}>
-                        <MenuItem value={'USER'}>Utilisateur</MenuItem>
+                        <MenuItem value={'user'}>Utilisateur</MenuItem>
                         <MenuItem value={'COMMERCIAL'}>Commercial</MenuItem>
                         <MenuItem value={'DELIVERYMAN'}>Livreur</MenuItem>
                     </Select> 
                 </div>
                 <CustomButton type="submit" children={"Inscription"}/>
             </form>
-            <p>Déjà inscrit ? Retourner à la page de connexion</p>
+            <Link to={'/login'}>
+                <p>Déjà inscrit ? Retourner à la page de connexion</p>
+            </Link>
         </div>
   );
 }
