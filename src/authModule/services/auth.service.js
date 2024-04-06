@@ -38,3 +38,8 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
         console.error(error);
     }
 }
+
+export const logout = () => {
+    localStorage.clear();
+    window.location.href = '/login';
+}

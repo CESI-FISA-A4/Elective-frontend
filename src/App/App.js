@@ -4,15 +4,22 @@ import './App.css';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
+import Header from '../utils/components/Header/Header';
 
 
 function App() {
   return (
     <div className="App">
       <Router>
+        <Header></Header>
         <Routes>
           <Route path="/" element={<LoginPage/>}></Route>
-          <Route path="/home" element={<HomePage/>}></Route>
+          <Route path="/home" element={
+            <RequireAuth>
+              <HomePage/>
+            </RequireAuth>
+            }>
+          </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
           <Route path="/protected" element={
