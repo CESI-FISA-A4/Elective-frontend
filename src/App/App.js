@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
+import GitRepos from '../RepoModule/components/GitRepo';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
+          <Route path='/GitRepos' element={<GitRepos/>}></Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>
