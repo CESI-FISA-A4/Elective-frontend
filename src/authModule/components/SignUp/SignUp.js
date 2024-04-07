@@ -1,22 +1,33 @@
 import { TextField, MenuItem, Select } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../../assets/logo.svg";
-import { signup } from "../../services/auth.service";
+import { getRoles, signup } from "../../services/auth.service";
 import CustomButton from "../../../utils/components/CustomButton";
 import { Link } from "react-router-dom";
 
 
 function SignUp() {
+    const [roleSource, setRoleSource] = useState({data: [], loading: false});
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
-    const [role, setRole] = useState('USER');
+    const [role, setRole] = useState('user');
     const [street, setStreet] = useState('');
     const [postalCode, setPostalCode] = useState('');
     const [city, setCity] = useState('');
+
+    useEffect(() => {
+        const fetchRoles = async() => {
+            setRoleSource({data: [], loading: false});
+            let response = await getRoles();
+            setRoleSource({data: response.data, loading: true});
+        } 
+
+        fetchRoles();
+    }, []);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -48,12 +59,14 @@ function SignUp() {
                 <TextField className='w-full' id="password_register" label="Mot de passe" variant="outlined" type="password" onChange={(e) => {setPassword(e.target.value)}}/>
                 <TextField className='w-full' id="confirmPassword" label="Confirmer le mot de passe" variant="outlined" type="password" onChange={(e) => {setConfirmPassword(e.target.value)}}/>
                 <div className='flex flex-row w-full items-center'>
-                    <p className="w-1/3"> Choisir le type de compte :</p>
+                    <p className="w-1/4 text-left">Role :</p>
                     <Select
-                        className='w-2/3' labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Rôle" onChange={(e) => {setRole(e.target.value)}}>
-                        <MenuItem value={'user'}>Utilisateur</MenuItem>
-                        <MenuItem value={'COMMERCIAL'}>Commercial</MenuItem>
-                        <MenuItem value={'DELIVERYMAN'}>Livreur</MenuItem>
+                        className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Rôle" onChange={(e) => {setRole(e.target.value)}}>
+                        {roleSource.loading && 
+                            roleSource.data.map((role, index) => {
+                                return <MenuItem key={index} value={role.label}>{role.label}</MenuItem>
+                            })
+                        }
                     </Select> 
                 </div>
                 <CustomButton type="submit" children={"Inscription"}/>
