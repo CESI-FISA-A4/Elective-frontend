@@ -52,6 +52,8 @@ export const getRoles = () => {
     })
 }
 
+export const isAdmin = () => localStorage.getItem("roleLabel") == "admin";
+
 export const logout = () => {
     localStorage.clear();
     window.location.href = '/login';

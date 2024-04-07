@@ -21,7 +21,7 @@ function App() {
             </RequireAuth>
             }>
           </Route>
-          <Route path="/restaurant" element={<RestaurantPage/>}></Route>
+          <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
           <Route path="/protected" element={

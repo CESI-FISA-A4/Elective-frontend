@@ -1,31 +1,68 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import SearchBar from "../../../utils/components/SearchBar/SearchBar";
 import Restaurant from "../Restaurant/Restaurant";
+import { getRestaurants, searchRestaurantsByName } from "../../services/restaurant.service";
 import './restaurantList.css';
+import { isAdmin } from "../../../authModule/services/auth.service";
 
 function RestaurantList() {
     const [restaurantName, setRestaurantName] = useState("");
+    const [restaurantSource, setRestaurantSource] = useState({data: [], loading: false});
 
-    let restaurants = [
-        {name: "Le resto", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem impedit iure consectetur necessitatibus officia animi ut earum nemo quaerat hic. Error blanditiis libero vero consequatur qui magnam at minus itaque!", imageUrl: "https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg" },
-        {name: "Le resto", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem impedit iure consectetur necessitatibus officia animi ut earum nemo quaerat hic. Error blanditiis libero vero consequatur qui magnam at minus itaque!", imageUrl: "https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg" },
-        {name: "Le resto", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem impedit iure consectetur necessitatibus officia animi ut earum nemo quaerat hic. Error blanditiis libero vero consequatur qui magnam at minus itaque!", imageUrl: "https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg" },
-        {name: "Le resto", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem impedit iure consectetur necessitatibus officia animi ut earum nemo quaerat hic. Error blanditiis libero vero consequatur qui magnam at minus itaque!", imageUrl: "https://t3.ftcdn.net/jpg/03/24/73/92/360_F_324739203_keeq8udvv0P2h1MLYJ0GLSlTBagoXS48.jpg" },
-    ]
+    const navigate = useNavigate();
 
-    const handleSearchBarChange = (value) => {
+    const fetchData = async(value="") => {
+        try {
+            setRestaurantSource({data: [], loading: false});
+            let response = null;
+            if(value) response = await searchRestaurantsByName(value);
+            else response = await getRestaurants();
+
+            setRestaurantSource({data: response.data, loading: true});
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const handleSearchBarChange = async(value) => {
         setRestaurantName(value);
+
+        fetchData(value);
+    }
+
+    const handleRestaurantUpdated = () => {
+        fetchData(restaurantName);
     }
 
     return (
         <div className="restaurant-list m-4">
-            <h1 className="text-mainTitle p-3">Rechercher un restaurant</h1>
+            <div className="flex justify-center items-center">
+                <h1 className="text-mainTitle p-3">Rechercher un restaurant</h1>
+                
+                {(isAdmin() || true) &&
+                    <IconButton aria-label="add" color='info' onClick={() => navigate("create")}>
+                        <AddBoxOutlinedIcon fontSize="large" />
+                    </IconButton>
+                }
+            </div>
 
-            <SearchBar onSearchChange={handleSearchBarChange}></SearchBar>
+            <SearchBar value={restaurantName} onSearchChange={handleSearchBarChange}></SearchBar>
             <br />
 
             <div className="restaurants">
-                {restaurants.map((resto, index) => <Restaurant key={index} name={resto.name} description={resto.description} imageUrl={resto.imageUrl} />)}
+                {restaurantSource.loading &&
+                    restaurantSource.data.map((resto, index) => 
+                    <Restaurant key={index} 
+                                data={resto} 
+                                onRestaurantUpdated={handleRestaurantUpdated}/>)
+                }
             </div>
         </div>
     );
