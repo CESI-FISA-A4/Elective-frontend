@@ -2,7 +2,7 @@ import axiosInstance from "../../utils/constants/axios";
 
 export const login = async (username, password) => {
     try {
-        const response = await axiosInstance.post('http://localhost:80/api/auth/login', {
+        const response = await axiosInstance.post('/api/auth/login', {
             username,
             password
         });
@@ -21,7 +21,7 @@ export const login = async (username, password) => {
 
 export const signup = async (username, password, firstname, lastname, roleLabel, address) => {
     try {
-        const response = await axiosInstance.post('http://localhost:80/api/auth/register', {
+        const response = await axiosInstance.post('/api/auth/register', {
             username,
             password,
             firstname,
@@ -37,6 +37,19 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
     } catch (error) {
         console.error(error);
     }
+}
+
+export const getRoles = () => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance.get('/api/auth/roles');
+    
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
 }
 
 export const logout = () => {
