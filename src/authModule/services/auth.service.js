@@ -79,7 +79,7 @@ export const isAdmin = () => localStorage.getItem("roleLabel") == "admin";
 
 export const isRestaurantOwner = () => localStorage.getItem("roleLabel") == "restaurantOwner";
 
-export const isDeliveryman = () => localStorage.getItem("roleLabel") == "deleveryman";
+export const isDeliveryman = () => localStorage.getItem("roleLabel") == "deliveryman";
 
 export const isTechnician = () => localStorage.getItem("roleLabel") == "technician";
 
