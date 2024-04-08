@@ -1,0 +1,65 @@
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import { CardActionArea, DialogActions, Button } from '@mui/material';
+import { isAdmin } from '../../../authModule/services/auth.service';
+import ConfirmDeletionModal from '../../../utils/components/Modal/ConfirmDeletionModal/ConfirmDeletionModal';
+import { useState } from 'react';
+import { deleteRestaurantById } from '../../services/restaurant.service';
+import { useNavigate } from 'react-router-dom';
+import './restaurant.css';
+
+
+function Restaurant({data, onRestaurantUpdated}) {
+    const [deleteModalActive, setDeleteModalActive] = useState(false);
+    const navigate = useNavigate();
+
+    const handleDeleteRestaurant = async() => {
+        setDeleteModalActive(false);
+        try {
+            await deleteRestaurantById(data._id);
+            onRestaurantUpdated();
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    return (
+        <div className="restaurant">
+            <Card>
+                <CardActionArea>
+                    <CardMedia
+                        component="img"
+                        height="140"
+                        srcSet={data.imgUrl}
+                        alt={data.name}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {data.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            {data.description}
+                        </Typography>
+                    </CardContent>
+                    {(isAdmin() || true) && 
+                        <DialogActions>
+                            <Button variant="contained" color="primary" onClick={() => navigate(`update/${data._id}`)}>Modifier</Button>
+                            <Button variant="contained" color="error" autoFocus onClick={() => setDeleteModalActive(true)}>Suppression</Button>
+                        </DialogActions>
+                    }
+                </CardActionArea>
+            </Card>
+            <ConfirmDeletionModal title={"Suppression restaurant"} 
+                content={"Suppression définitive de ce restaurant ?"} 
+                open={deleteModalActive}
+                onClose={() => setDeleteModalActive(false)}
+                onConfirm={handleDeleteRestaurant}>
+            </ConfirmDeletionModal>
+        </div>
+    );
+}
+
+
+export default Restaurant;
