@@ -63,6 +63,7 @@ export async function getArticleData(id) {
     try {
         console.log("getArticleData service reached");
         const response = await axiosInstance.get(`http://localhost:80/api/articles/${id}`);
+        console.log(response.data);
         return response.data;
     } catch (error) {
         alert(error);
