@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import CustomButton from '../../utils/button';
+import CustomButton from '../../../utils/components/CustomButton';
 export const FileUploader = ({handleFile}) => {
   
   const hiddenFileInput = useRef(null);

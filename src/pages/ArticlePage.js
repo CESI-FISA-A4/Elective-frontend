@@ -1,6 +1,5 @@
 import React from "react";
-import Header from "../components/Header/Header";
-import AddArticle from "../components/AddArticle/AddArticle";
+import AddArticle from "../articleModule/components/AddArticle/AddArticle";
 import { useState } from "react";
 import {Switch, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,16 +13,18 @@ function ArticlePage() {
     const [buttonText, setButtonText] = useState('Ajouter un article');
 
 
-    function handleChangeArticleType() {
-        setIsMenu(!isMenu);  
-        let articleType = isMenu===true ? 'menu' : 'produit' ;
+    function handleChangeArticleType(e) {
+        let newIsMenuValue = e.target.checked;
+        let articleType = newIsMenuValue ? 'menu' : 'produit' ;
         let newTitle = 'Ajouter / modifier un ' + articleType;
+        setIsMenu(newIsMenuValue); 
         setTitle(newTitle);
+        setButtonText(newTitle);
     }
 
     function handleIconButtonClick(){
         setIsEditable(!isEditable)
-        if (isEditable) {
+        if (!isEditable) {
             setButtonText(title);
         } else {
             setButtonText('Enregistrer mes modifications');
@@ -32,7 +33,6 @@ function ArticlePage() {
 
     return (
         <div>
-            <Header title={title}/>
             <div className="flex flex-row justify-end items-center p-4">
                 <p> Produit </p>
                 <Switch onChange={handleChangeArticleType}/>
@@ -41,7 +41,7 @@ function ArticlePage() {
                     <EditIcon  />
                 </IconButton>
             </div>
-            <AddArticle isEditable={isEditable} buttonText={buttonText}/>
+            <AddArticle title={title} isEditable={isEditable} buttonText={buttonText}/>
             {/*isMenu ? <ChooseQuantity /> : null*/}
         </div>
     );

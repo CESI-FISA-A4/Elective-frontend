@@ -2,10 +2,10 @@ import { TextField } from "@mui/material";
 import { useState } from "react";
 import FileUploader from "../FileUploader/FileUploader";
 import {addArticle, uploadFileToS3} from "../../services/article.service";
-import CustomButton from "../../utils/button";
-import product_img from "../../assets/product.svg";
+import CustomButton from "../../../utils/components/CustomButton";
+import product_img from "../../../assets/product.svg";
 
-function AddArticle({isEditable, buttonText}) {
+function AddArticle({title, isEditable, buttonText}) {
     
     const [name, setName] = useState('Salade ceasar ');
     const [price, setPrice] = useState('');
@@ -29,6 +29,7 @@ function AddArticle({isEditable, buttonText}) {
 
             <div className="flex flex-row justify-center">
                 <form className="flex flex-col w-1/2 mx-auto items-center gap-y-4 p-4 justify-center">
+                    <h1 className="fontSize-mainTitle">{title}</h1>
                     <div className="w-full flex flex-row space-x-5">            
                         <TextField disabled={!isEditable} className="w-4/5" id="name" label="Nom du produit" defaultValue={name} variant='outlined' onChange={(e) => setName(e.target.value)}/>
                         <TextField disabled={!isEditable} className="w-1/5 " id="price" label="Prix" defaultValue={price} type='number' variant='outlined' onChange={(e) => setPrice(e.target.value)}/>

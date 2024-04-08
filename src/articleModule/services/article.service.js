@@ -1,4 +1,4 @@
-import axiosInstance from "../axios";
+import axiosInstance from "../../utils/constants/axios";
 
 export async function addArticle (name, price, description, img) {
     try {
