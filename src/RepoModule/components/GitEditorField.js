@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Controlled as CodeMirror } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
 
-const CodeEditor = ({ owner, repo, path }) => {
+const GithubCodeEditor = ({ owner, repo, path }) => {
   const [code, setCode] = useState('');
   const [commitMessage, setCommitMessage] = useState('');
+
+  useEffect(() => {
+    fetchCode();
+  }, []);
 
   const fetchCode = async () => {
     try {
@@ -34,30 +35,29 @@ const CodeEditor = ({ owner, repo, path }) => {
     }
   };
 
+  const handleCodeChange = (event) => {
+    setCode(event.target.value);
+  };
+
   return (
     <div>
-      <button onClick={fetchCode}>Fetch Code</button>
-      <CodeMirror
+      <textarea
         value={code}
-        options={{
-          mode: 'javascript', // Change this according to your file type
-          theme: 'material',
-          lineNumbers: true,
-        }}
-        onBeforeChange={(editor, data, value) => {
-          setCode(value);
-        }}
+        onChange={handleCodeChange}
+        rows={25}
+        cols={130}
       />
+      <br />
       <input
         type="text"
         placeholder="Commit message"
         value={commitMessage}
         onChange={(e) => setCommitMessage(e.target.value)}
       />
+      <br />
       <button onClick={handleCommit}>Commit</button>
     </div>
   );
 };
 
-export default CodeEditor;
-
+export default GithubCodeEditor;

@@ -23,7 +23,7 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
-          <Route path='/GitRepos' element={<GitRepos/>}></Route>
+          <Route path='/Gitrepos' element={<GitRepos/>}></Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>
