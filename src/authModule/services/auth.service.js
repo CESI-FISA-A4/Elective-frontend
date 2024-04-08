@@ -17,6 +17,7 @@ export const login = async (username, password) => {
         window.location.href = '/home';
     } catch (error) {
         console.error(error);
+        alert(error);
     }
 } 
 

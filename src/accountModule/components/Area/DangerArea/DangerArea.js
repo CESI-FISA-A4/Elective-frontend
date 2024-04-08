@@ -3,14 +3,22 @@ import ConfirmDeletionModal from '../../../../utils/components/Modal/ConfirmDele
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../../authModule/services/auth.service';
+import { suspendAccountById } from '../../../services/account.service';
 
 
 function DangerArea() {
     const [deleteModalActive, setDeleteModalActive] = useState(false);
 
-    const handleDeleteAccount = () => {
+    const handleDeleteAccount = async() => {
         setDeleteModalActive(false);
-        logout('/signup');
+
+        try {
+            let userId = localStorage.getItem("userId");
+            await suspendAccountById(userId);
+            logout('/signup');
+        } catch (error) {
+            alert(error);
+        }
     }
 
     return (
