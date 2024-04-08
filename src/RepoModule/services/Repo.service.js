@@ -1,9 +1,9 @@
-import axiosInstance from "../../utils/constants/axios";
+import axios from 'axios';
 
 export const getRepository = () => {
     return new Promise(async(res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/');
+            const response = await axios.get('http://localhost:3006/api/git');
     
             res(response);
         } catch (error) {
@@ -16,7 +16,7 @@ export const getRepository = () => {
 export const getBranch = (repo) => {
     return new Promise(async(res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/{repo}');
+            const response = await axios.get('http://localhost:3006/api/git/'+repo);
     
             res(response);
         } catch (error) {
@@ -29,7 +29,8 @@ export const getBranch = (repo) => {
 export const getCompo = (repo, branch) => {
     return new Promise(async(res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/{repo}/branches/{branch}');
+            branch.replace("/", '%2F')
+            const response = await axios.get('http://http://localhost:3006/api/git/'+repo+'/'+branch);
     
             res(response);
         } catch (error) {
@@ -42,7 +43,7 @@ export const getCompo = (repo, branch) => {
 export const getCode = (repo, branch,comp) => {
     return new Promise(async(res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/{repo}/branches/{branch}/{comp}');
+            const response = await axios.get('http://http://localhost:3006/api/git/'+repo+'/'+branch+'/'+comp);
     
             res(response);
         } catch (error) {
@@ -55,7 +56,7 @@ export const getCode = (repo, branch,comp) => {
 
 export const commitSynch = async (repo, branch, code, commitMessage) => {
     try {
-        const response = await axiosInstance.post('/api/git/{repo}/branches/{branch}', {
+        const response = await axios.post('http://http://localhost:3006/api/git/'+repo+'/branches/'+branch, {
             code,
             commitMessage
         });
