@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { getOrderDetails } from '../../services/order.service';
 
 
 
@@ -31,7 +30,7 @@ function BasicTable() {
             </TableRow>
             </TableHead>
             <TableBody>
-            {rows.map((row) => (
+            {rows && rows.map((row) => (
                 <TableRow
                 key={row.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

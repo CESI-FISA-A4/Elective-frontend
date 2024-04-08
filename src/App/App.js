@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
+import OrderPage from '../pages/OrderPage';
 import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
@@ -27,6 +28,7 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
+          <Route path="/orders" element={<OrderPage/>}></Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>

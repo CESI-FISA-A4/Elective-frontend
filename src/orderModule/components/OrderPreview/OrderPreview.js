@@ -1,4 +1,4 @@
-import resto_img from '../../assets/resto_img.svg';
+import resto_img from '../../../assets/resto_img.svg';
 import './OrderPreview.css';
 
 function OrderPreview({ orderNumber, total, date, productNumber }) {

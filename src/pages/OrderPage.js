@@ -1,5 +1,5 @@
 import React from "react";
-import OrderDetails from "../../OrderDetails/OrderDetails";
+import OrderDetails from "../orderModule/components/OrderDetails/OrderDetails";
 
 function OrderPage() {
     return( 
