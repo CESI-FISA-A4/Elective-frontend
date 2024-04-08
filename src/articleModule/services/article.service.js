@@ -1,6 +1,45 @@
 import axiosInstance from "../../utils/constants/axios";
 
+export async function getProductsList() {
+    let restaurantId = getRestaurantByUserId(localStorage.getItem("userId"));  
+    const products = {"data":[
+        {
+            id: 1,
+            name: "Product 1",
+            price: 10,
+            description: "Description 1",
+            imageUrl: "https://via.placeholder.com/150",
+        },
+        {
+            id: 2,
+            name: "Product 2",
+            price: 20,
+            description: "Description 2",
+            imageUrl: "https://via.placeholder.com/150",
+        },
+        {
+            id: 3,
+            name: "Product 3",
+            price: 30,
+            description: "Description 3",
+            imageUrl: "https://via.placeholder.com/150",
+        }
+        ]
+    };
+
+    return products.data;
+    try {
+        console.log("getProductsList service reached");
+        const response = await axiosInstance.get(`http://localhost:80/api/articles/products/?restaurantId=${restaurantId}`);
+        return response.data;
+    } catch (error) {
+        alert(error);
+    }
+}
+
+
 async function getRestaurantByUserId(userId){
+    return 4;
     try {
         console.log("getRestaurantByUserId service reached");
         const response = await axiosInstance.get(`http://localhost:80/api/restaurants/?restaurantOwnerId=${userId}`);
@@ -18,7 +57,7 @@ export async function addArticle (name, price, description, imageUrl, isMenu) {
         let userId = localStorage.getItem("userId");
         let restaurantId = getRestaurantByUserId(userId);
         let productIdList = localStorage.getItem("productIdList") ? JSON.parse(localStorage.getItem("productList")) : [];
-        if (productIdList.length === 0) {
+        if (productIdList.length === 0 && isMenu) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {
@@ -77,7 +116,7 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
         let userId = localStorage.getItem("userId");
         let restaurantId = getRestaurantByUserId(userId);
         let productIdList = localStorage.getItem("productIdList") ? JSON.parse(localStorage.getItem("productList")) : [];
-        if (productIdList.length === 0) {
+        if (productIdList.length === 0 && isMenu) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {
