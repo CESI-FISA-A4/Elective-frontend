@@ -1,4 +1,5 @@
 import axiosInstance from "../../utils/constants/axios";
+import { camelCaseToSentence } from "../../utils/services/utils.service";
 
 export const login = async (username, password) => {
     try {
@@ -39,6 +40,22 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
     }
 }
 
+export const changePassword = (username, password, newPassword) => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance.post('/api/auth/change-password', {
+                username,
+                password,
+                newPassword,
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    });   
+}
+
 export const getRoles = () => {
     return new Promise(async(res, rej) => {
         try {
@@ -52,9 +69,28 @@ export const getRoles = () => {
     })
 }
 
+export const getRole = () => {
+    let roleLabel = localStorage.getItem("roleLabel");
+
+    return camelCaseToSentence(roleLabel);
+}
+
 export const isAdmin = () => localStorage.getItem("roleLabel") == "admin";
 
-export const logout = () => {
+export const isRestaurantOwner = () => localStorage.getItem("roleLabel") == "restaurantOwner";
+
+export const isDeliveryman = () => localStorage.getItem("roleLabel") == "deleveryman";
+
+export const isTechnician = () => localStorage.getItem("roleLabel") == "technician";
+
+export const isSalesman = () => localStorage.getItem("roleLabel") == "salesman";
+
+export const isDeveloper = () => localStorage.getItem("roleLabel") == "developer";
+
+export const isUser = () => localStorage.getItem("roleLabel") == "user";
+
+
+export const logout = (path='/login') => {
     localStorage.clear();
-    window.location.href = '/login';
+    window.location.href = path;
 }

@@ -16,6 +16,7 @@ import { theme } from '../../../contexts/MainPalette'
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../authModule/services/auth.service';
 import CustomButton from '../CustomButton';
+import './header.css';
 
 
 
@@ -74,7 +75,7 @@ export default function Header({ title }) {
                 onClick={logoutUser}>
                 <LogoutIcon></LogoutIcon>
               </IconButton>
-              <img src={accountImg} width="50" height="50" alt="account" onClick={goToAccount}/>
+              <img id="header-account" src={accountImg} width="50" height="50" alt="account" onClick={goToAccount}/>
             </Stack>
           </Toolbar>
         </AppBar>

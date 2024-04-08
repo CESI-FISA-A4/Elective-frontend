@@ -4,6 +4,7 @@ import logo from "../../../assets/logo.svg";
 import { getRoles, signup } from "../../services/auth.service";
 import CustomButton from "../../../utils/components/CustomButton";
 import { Link } from "react-router-dom";
+import { camelCaseToSentence } from "../../../utils/services/utils.service";
 
 
 function SignUp() {
@@ -64,7 +65,7 @@ function SignUp() {
                         className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" value={role} label="Rôle" onChange={(e) => {setRole(e.target.value)}}>
                         {roleSource.loading && 
                             roleSource.data.map((role, index) => {
-                                return <MenuItem key={index} value={role.label}>{role.label}</MenuItem>
+                                return <MenuItem key={index} value={role.label}>{camelCaseToSentence(role.label)}</MenuItem>
                             })
                         }
                     </Select> 

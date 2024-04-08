@@ -4,7 +4,7 @@ function AccountPage() {
     return (
         <Account></Account>
     );
-  }
-  
-  
-  export default AccountPage;
+}
+
+
+export default AccountPage;
