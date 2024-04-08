@@ -7,8 +7,8 @@ import { getRepository, getBranch, getCompo, getCode } from "../../services/Repo
 export default function GitRepos(){
     
     const [branches, setbranches] = useState({data: [], loading: false});
-    const [composants, setComposants] = useState({data: [], loading: false});
     const [repository, setRepository] = useState({data: [], loading: false});
+    const [composants, setComposants] = useState({data: [], loading: false});
 
     useEffect(() => {
         const fetchRepository = async() => {
@@ -41,21 +41,30 @@ export default function GitRepos(){
             <div>
             <InputLabel id="label">Repository</InputLabel>
                 <Select className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectRepo}>
+                {Object.values(repository).map((value, index) => (
+                    <div key={index}>{value}</div>
+                  ))}
                 </Select>
             
             </div>
             <div className="ml-5">
             <InputLabel id="label">Branches</InputLabel>
             <Select className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectBranch}>
+            {Object.values(branches).map((value, index) => (
+                <div key={index}>{value}</div>
+              ))}
             </Select>
             </div>
             </div>
             <div className="mt-3">Ajouter barre de recherche</div>
-          
+
+            {Object.keys(composants).map(key => (
+                <RepoCard key={key} composantName={composants[key]} onClick={onSelectCompo} />
+              ))}
             
             </div>
             <div className="mt-24 ml-24 ">
-            <CodeEditor repo='' branch=''/>
+            <CodeEditor repo={repository} branch={branches} composant={composants}/>
             </div>
 
         </div>
