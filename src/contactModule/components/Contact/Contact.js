@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextField, Select, MenuItem} from '@mui/material';
-import { submitContact } from '../../services/contact.service';
+import { submitContact } from '../../../services/contact.service';
 
 function Contact () {
     const [firstname, setFirstName] = useState('');
