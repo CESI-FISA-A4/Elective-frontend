@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {commitSynch, getCode} from '../../services/Repo.service';
+import CustomButton from '../../../utils/components/CustomButton';
 
-const GithubCodeEditor = ({ repo, branch }) => {
+const GithubCodeEditor = ({ repo, branch, composant }) => {
   const [code, setCode] = useState('');
   const [commitMessage, setCommitMessage] = useState('');
 
@@ -35,7 +36,7 @@ const GithubCodeEditor = ({ repo, branch }) => {
         onChange={(e) => setCommitMessage(e.target.value)}
       />
       <br />
-      <button onClick={handleCommit}>Commit</button>
+      <CustomButton onClick={handleCommit}>Commit</CustomButton>
     </div>
   );
 };
