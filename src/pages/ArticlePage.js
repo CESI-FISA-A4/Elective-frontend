@@ -41,7 +41,7 @@ function ArticlePage() {
                     <EditIcon  />
                 </IconButton>
             </div>
-            <AddArticle title={title} isEditable={isEditable} buttonText={buttonText}/>
+            <AddArticle isMenu={isMenu} title={title} isEditable={isEditable} buttonText={buttonText}/>
             {/*isMenu ? <ChooseQuantity /> : null*/}
         </div>
     );
