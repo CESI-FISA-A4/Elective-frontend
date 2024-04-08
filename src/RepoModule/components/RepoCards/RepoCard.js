@@ -1,6 +1,6 @@
-import trash from '../../assets/trash.svg'
-import download from '../../assets/download.svg'
-import edit from '../../assets/edit.svg'
+import trash from '../../../assets/trash.svg'
+import download from '../../../assets/download.svg'
+import edit from '../../../assets/edit.svg'
 
 export default function RepoCard({composantName}){
     return (

@@ -5,7 +5,7 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
-import GitRepos from '../RepoModule/components/GitRepo';
+import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
 
 
 function App() {
