@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TextField } from '@mui/material';
 import FormModal from "../../../utils/components/Modal/FormModal/FormModal";
 
@@ -8,11 +8,18 @@ function EditIdentity({open, data, onCancel, onIdentityUpdated}) {
     const [lastname, setLastname] = useState(data.lastname ?? "");
     const [address, setAddress] = useState(data.address ?? "");
 
+    useEffect(() => {
+        setImageUrl(data.imageUrl);
+        setFirstname(data.firstname);
+        setLastname(data.lastname);
+        setAddress(data.address);
+    }, [data])
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         if(!firstname || !lastname || !address) alert('firstname, lastname, address required');
-        else onIdentityUpdated({imageUrl, firstname, lastname, address});
+        else onIdentityUpdated({userId: data.userId, imageUrl, firstname, lastname, address});
     }
 
     return (

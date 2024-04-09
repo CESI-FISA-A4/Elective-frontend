@@ -79,3 +79,19 @@ export const suspendAccountById = (id) => {
         }
     })
 }
+
+export const activateAccountById = (id) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "POST",
+                url: `/api/accounts/${id}/activate`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
