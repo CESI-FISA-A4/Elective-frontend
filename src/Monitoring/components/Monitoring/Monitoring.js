@@ -1,6 +1,6 @@
 import { getMonitoring } from "../../services/monitoring.service";
 import MonitoringCard from "../MonitoringCard/MonitoringCard"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function MonitoringGeneral(){
 
@@ -16,12 +16,15 @@ export default function MonitoringGeneral(){
             alert(error);
         }
     }
-
+    useEffect(() => {
+        fetchAccount();
+    }, []);
 
     return(
         <div className=" flex h-screen w-screen mt-10">
-        
-            <MonitoringCard name='test' address='test' port='test' state={false}/>
+        {monitoringInfo.loading && monitoringInfo.data.map(MonitoringData => (
+            <MonitoringCard name={MonitoringData.name} address={MonitoringData.address} port={MonitoringData.port} state={MonitoringData.state} endPoint={MonitoringData.endPoint}/>
+        ))}
         </div>
     )
 }
