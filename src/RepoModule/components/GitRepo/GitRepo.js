@@ -50,11 +50,22 @@ export default function GitRepos(){
         }
     }
 
-    async function onSelectCompo(e){
+    async function onClickCompo(value){
         setComposants({data: '', loading: false});
-        setComposantVal(e.target.value);
+        setComposantVal(value);
         try {
-            const codeResponse = await getCode(repositoryVal, brancheVal, e.target.value);
+            const codeResponse = await getCode(repositoryVal, brancheVal, value);
+            setCode({data: codeResponse.data, loading: true});
+        } catch (error) {
+            alert(error);
+        }
+    }
+
+    async function onClickDownload(value){
+        setComposants({data: '', loading: false});
+        setComposantVal(value);
+        try {
+            const codeResponse = await getCode(repositoryVal, brancheVal, value);
             setCode({data: codeResponse.data, loading: true});
         } catch (error) {
             alert(error);
@@ -83,10 +94,10 @@ export default function GitRepos(){
                         </Select>
                     </div>
                 </div>
-                <div className="mt-3">Ajouter barre de recherche</div>
+                <div className="mt-3 mb-3">Ajouter barre de recherche</div>
                 
                 {composants.data.map(compo => (
-                    <RepoCard composantName={compo.name} key={compo.size} value={compo.name} onClick={onSelectCompo} className='mt-5'/>
+                    <RepoCard composantName={compo.name} key={compo.size} value={compo.path} onClickEdit={() => onClickCompo(compo.path)}  onClickDownload={console.log('dl')}/>
                 ))}
             
             </div>
