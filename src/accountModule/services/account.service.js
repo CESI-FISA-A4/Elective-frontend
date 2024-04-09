@@ -1,5 +1,21 @@
 import axiosInstance from "../../utils/constants/axios";
 
+export const getAllAccounts = () => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/accounts`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
 export const getAccountById = (id) => {
     return new Promise(async (res, rej) => {
         try {

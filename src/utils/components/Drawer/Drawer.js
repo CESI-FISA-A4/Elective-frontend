@@ -40,7 +40,7 @@ export default function SwipeableTemporaryDrawer() {
             additionnalLinks = [{ path: "/restaurants", text: "Réception des commandes", icon: <BorderColorIcon /> }];
             break;
         case "salesman":
-            additionnalLinks = [{ path: "/restaurants", text: "Liste des clients", icon: <PeopleIcon /> }, { path: "/restaurants", text: "Statut des commandes", icon: <QueryStatsIcon /> }];
+            additionnalLinks = [{ path: "/clients", text: "Liste des clients", icon: <PeopleIcon /> }, { path: "/restaurants", text: "Statut des commandes", icon: <QueryStatsIcon /> }];
             break;
         case "technician":
         case "developer":

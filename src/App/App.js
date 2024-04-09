@@ -7,6 +7,7 @@ import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
 import './App.css';
+import ClientPage from '../pages/ClientPage';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage/>}></Route>
           <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/clients" element={<ClientPage />}></Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
