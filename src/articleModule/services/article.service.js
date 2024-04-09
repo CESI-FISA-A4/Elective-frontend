@@ -2,35 +2,8 @@ import axiosInstance from "../../utils/constants/axios";
 
 export async function getProductsList() {
     let restaurantId = getRestaurantByUserId(localStorage.getItem("userId"));  
-    const products = {"data":[
-        {
-            id: 1,
-            name: "Product 1",
-            price: 10,
-            description: "Description 1",
-            imageUrl: "https://via.placeholder.com/150",
-        },
-        {
-            id: 2,
-            name: "Product 2",
-            price: 20,
-            description: "Description 2",
-            imageUrl: "https://via.placeholder.com/150",
-        },
-        {
-            id: 3,
-            name: "Product 3",
-            price: 30,
-            description: "Description 3",
-            imageUrl: "https://via.placeholder.com/150",
-        }
-        ]
-    };
-
-    return products.data;
     try {
-        console.log("getProductsList service reached");
-        const response = await axiosInstance.get(`http://localhost:80/api/articles/products/?restaurantId=${restaurantId}`);
+        const response = await axiosInstance.get(`http://localhost:80/api/articles/products/restaurant/${restaurantId}`);
         return response.data;
     } catch (error) {
         alert(error);
@@ -39,10 +12,10 @@ export async function getProductsList() {
 
 
 async function getRestaurantByUserId(userId){
-    return 4;
     try {
         console.log("getRestaurantByUserId service reached");
-        const response = await axiosInstance.get(`http://localhost:80/api/restaurants/?restaurantOwnerId=${userId}`);
+        const response = await axiosInstance.get(`http://localhost:80/api/restaurants/${userId}`);
+        localStorage.setItem("restaurantId", response.data[0].id);
         return response.data[0].id;
     } catch (error) {
         alert(error);
@@ -77,7 +50,7 @@ export async function addArticle (name, price, description, imageUrl, isMenu) {
                 imageUrl
                 });
         }
-
+        alert("Article ajouté !");
         return response.data;
     } catch (error) {
         alert(error);
@@ -136,7 +109,7 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
                 imageUrl
                 });
         }
-
+        alert("Modifications enregistrées !");
         return response.data;
     } catch (error) {
         alert(error);
