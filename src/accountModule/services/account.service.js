@@ -32,6 +32,22 @@ export const updateAccountById = (id, data) => {
     })
 }
 
+export const mentorAccountByCode = (code) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "POST",
+                url: `/api/accounts/mentor/${code}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
 export const suspendAccountById = (id) => {
     return new Promise(async (res, rej) => {
         try {

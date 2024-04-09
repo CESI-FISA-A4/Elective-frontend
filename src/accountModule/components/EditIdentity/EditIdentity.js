@@ -11,9 +11,8 @@ function EditIdentity({open, data, onCancel, onIdentityUpdated}) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(data);
-
-        onIdentityUpdated({imageUrl, firstname, lastname, address});
+        if(!firstname || !lastname || !address) alert('firstname, lastname, address required');
+        else onIdentityUpdated({imageUrl, firstname, lastname, address});
     }
 
     return (
