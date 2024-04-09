@@ -42,7 +42,6 @@ function PreviewProduct({ productsList }) {
 
   return (
     <div className='ml-6 flex flex-row w-full gap-6 overflow-auto'>
-      test
     {productsList.map((item) => (
         <Card orientation="horizontal" size="sm" key={item.id} variant="outlined">
           <AspectRatio ratio="1" sx={{ minWidth: 60 }}>

@@ -13,7 +13,6 @@ export async function getProductsList() {
 
 async function getRestaurantByUserId(userId){
     try {
-        console.log("getRestaurantByUserId service reached");
         const response = await axiosInstance.get(`http://localhost:80/api/restaurants/${userId}`);
         localStorage.setItem("restaurantId", response.data[0].id);
         return response.data[0].id;
@@ -25,7 +24,6 @@ async function getRestaurantByUserId(userId){
 
 export async function addArticle (name, price, description, imageUrl, isMenu) {
     try {
-        console.log("addArticle service reached");
         let response;
         let userId = localStorage.getItem("userId");
         let restaurantId = getRestaurantByUserId(userId);
@@ -60,7 +58,6 @@ export async function addArticle (name, price, description, imageUrl, isMenu) {
 export async function uploadFileToS3(file) {
     let s3Url = "";
     try {
-        console.log("uploadFileToS3 service reached");
         const response = await axiosInstance.post(s3Url, {
         file
         });
@@ -73,9 +70,7 @@ export async function uploadFileToS3(file) {
 
 export async function getArticleData(id) {
     try {
-        console.log("getArticleData service reached");
         const response = await axiosInstance.get(`http://localhost:80/api/articles/${id}`);
-        console.log(response.data);
         return response.data;
     } catch (error) {
         alert(error);
