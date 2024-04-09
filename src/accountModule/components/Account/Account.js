@@ -46,7 +46,7 @@ function Account() {
                         <ChangePassword></ChangePassword>
                         <br />
                         {accountData.loading &&
-                            <MentorArea mentorCode={accountData.data.mentorCode}></MentorArea>
+                            <MentorArea identity={accountData.data}></MentorArea>
                         }  
                         <br />
                         <DangerArea></DangerArea>
