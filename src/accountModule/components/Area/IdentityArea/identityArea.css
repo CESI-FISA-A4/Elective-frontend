@@ -1,0 +1,12 @@
+.identity-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 20px;
+}
+
+.identity-area img {
+    width: 120px;
+    height: 120px;
+}

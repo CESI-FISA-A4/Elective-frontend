@@ -1,0 +1,30 @@
+.account {
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    margin: auto;
+    justify-content: space-evenly;
+}
+
+.restaurant-stat {
+    grid-column: span 3;
+}
+
+@media (max-width: 1000px) {
+    /* Adjust the breakpoint as needed */
+    .account {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 0px;
+    }
+    .command-area,
+    .restaurant-stat {
+        grid-column: span 2;
+    }
+}
+
+.account>* {
+    /* flex-grow: 1; */
+    width: 100%;
+    padding: 50px 10px;
+}

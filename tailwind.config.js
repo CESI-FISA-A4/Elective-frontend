@@ -22,6 +22,7 @@ export default {
       },
       fontSize: {
         mainTitle : "2.5rem",
+        secondaryTitle : "2rem",
         standard : "1rem",
       }
     },
