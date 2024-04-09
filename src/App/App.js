@@ -1,6 +1,5 @@
 import RequireAuth from '../authModule/components/RequireAuth';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
@@ -19,12 +18,6 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage/>}></Route>
           <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/home" element={
-            <RequireAuth>
-              <HomePage/>
-            </RequireAuth>
-            }>
-          </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>

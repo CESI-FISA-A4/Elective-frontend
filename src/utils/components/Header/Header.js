@@ -9,7 +9,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import logo from '../../../assets/LogoApp.svg';
 import accountImg from '../../../assets/account.png';
 import Stack from '@mui/material/Stack';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar } from '@mui/material';
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from '../../../contexts/MainPalette'
@@ -17,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../authModule/services/auth.service';
 import CustomButton from '../CustomButton';
 import './header.css';
+import SwipeableTemporaryDrawer from '../Drawer/Drawer';
 
 
 
@@ -48,15 +48,7 @@ export default function Header({ title }) {
       <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" color="greenColor" >
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 1 / 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+            <SwipeableTemporaryDrawer />
             <Button
               startIcon={<Avatar src={logo} onClick={goToHome} />}
             >

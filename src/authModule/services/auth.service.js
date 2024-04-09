@@ -14,7 +14,7 @@ export const login = async (username, password) => {
         localStorage.setItem('roleLabel', response.data.roleLabel)
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
-        window.location.href = '/home';
+        window.location.href = '/restaurants';
     } catch (error) {
         console.error(error);
         alert(error);
