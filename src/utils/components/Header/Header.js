@@ -24,7 +24,7 @@ export default function Header({ title }) {
   const navigate = useNavigate();
 
   const goToHome = () => {
-    navigate("/home");
+    navigate("/restaurants");
   }
 
   const goToSignup = () => {

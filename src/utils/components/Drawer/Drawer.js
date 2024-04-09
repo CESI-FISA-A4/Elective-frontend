@@ -17,14 +17,15 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import PeopleIcon from '@mui/icons-material/People';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { Link } from 'react-router-dom';
 
 export default function SwipeableTemporaryDrawer() {
     const [state, setState] = React.useState(false);
 
     const mainLinks = [
-        { text: "Rechercher un restaurant", icon: <RestaurantIcon /> },
-        { text: "Compte", icon: <AccountCircleIcon /> },
-        { text: "Contact", icon: <EmailIcon /> },
+        { path: "/restaurants", text: "Rechercher un restaurant", icon: <RestaurantIcon /> },
+        { path: "/account", text: "Compte", icon: <AccountCircleIcon /> },
+        { path: "/contact", text: "Contact", icon: <EmailIcon /> },
     ];
 
     let additionnalLinks = [];
@@ -33,17 +34,17 @@ export default function SwipeableTemporaryDrawer() {
 
     switch (roleLabel) {
         case "restaurantOwner":
-            additionnalLinks = [{ text: "Mes restaurants", icon: <FoodBankIcon /> }];
+            additionnalLinks = [{ path: "/restaurants", text: "Mes restaurants", icon: <FoodBankIcon /> }];
             break;
         case "deliveryman":
-            additionnalLinks = [{ text: "Réception des commandes", icon: <BorderColorIcon /> }];
+            additionnalLinks = [{ path: "/restaurants", text: "Réception des commandes", icon: <BorderColorIcon /> }];
             break;
         case "salesman":
-            additionnalLinks = [{ text: "Liste des clients", icon: <PeopleIcon /> }, { text: "Statut des commandes", icon: <QueryStatsIcon /> }];
+            additionnalLinks = [{ path: "/restaurants", text: "Liste des clients", icon: <PeopleIcon /> }, { path: "/restaurants", text: "Statut des commandes", icon: <QueryStatsIcon /> }];
             break;
         case "technician":
         case "developer":
-            additionnalLinks = [{ text: "Git", icon: <GitHubIcon /> }, { text: "Statistiques", icon: <QueryStatsIcon /> }];
+            additionnalLinks = [{ path: "/restaurants", text: "Git", icon: <GitHubIcon /> }, { path: "/restaurants", text: "Statistiques", icon: <QueryStatsIcon /> }];
             break;
     }
     // const restaurantLinks 
@@ -69,12 +70,14 @@ export default function SwipeableTemporaryDrawer() {
             <List>
                 {mainLinks.map((link, index) => (
                     <ListItem key={index} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {link.icon}
-                            </ListItemIcon>
-                            <ListItemText primary={link.text} />
-                        </ListItemButton>
+                        <Link to={link.path}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    {link.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={link.text} />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>
@@ -82,12 +85,14 @@ export default function SwipeableTemporaryDrawer() {
             <List>
                 {additionnalLinks.map((link, index) => (
                     <ListItem key={index} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {link.icon}
-                            </ListItemIcon>
-                            <ListItemText primary={link.text} />
-                        </ListItemButton>
+                        <Link to={link.path}>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    {link.icon}
+                                </ListItemIcon>
+                                <ListItemText primary={link.text} />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>
