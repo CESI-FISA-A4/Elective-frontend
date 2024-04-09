@@ -29,7 +29,7 @@ function AddArticle({isMenu, title, isEditable, buttonText}) {
             return; 
         }
         e.preventDefault();
-        if(id !== undefined){
+        if(id.type !== undefined){
             updateArticle(name, price, description, fileUrl, id, isMenu, productsList);
         }else{
             addArticle(name, price, description, fileUrl, isMenu);
