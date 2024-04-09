@@ -3,6 +3,11 @@
     flex-direction: column;
     justify-content: space-between;
     width: 220px;
+    cursor: pointer;
+}
+
+.restaurant:hover {
+    scale: 1.05;
 }
 
 .content {

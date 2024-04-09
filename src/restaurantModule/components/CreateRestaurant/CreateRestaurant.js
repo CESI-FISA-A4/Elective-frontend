@@ -9,7 +9,7 @@ function CreateRestaurant() {
     const handleRestaurantCreation = async(data) => {
         try {
             await createRestaurant(data);
-            navigate('restaurants');
+            navigate(-1);
         } catch (error) {
             alert(error);
         }

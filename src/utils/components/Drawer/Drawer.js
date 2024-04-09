@@ -34,7 +34,7 @@ export default function SwipeableTemporaryDrawer() {
 
     switch (roleLabel) {
         case "restaurantOwner":
-            additionnalLinks = [{ path: "/restaurants", text: "Mes restaurants", icon: <FoodBankIcon /> }];
+            additionnalLinks = [{ path: "/restaurants/owner", text: "Mes restaurants", icon: <FoodBankIcon /> }];
             break;
         case "deliveryman":
             additionnalLinks = [{ path: "/restaurants", text: "Réception des commandes", icon: <BorderColorIcon /> }];
