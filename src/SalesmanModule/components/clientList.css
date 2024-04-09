@@ -1,0 +1,9 @@
+.row:hover>* {
+    /* color: blue; */
+    cursor: pointer;
+    background-color: rgb(224, 224, 224);
+}
+
+.head {
+    background-color: #46b077;
+}
