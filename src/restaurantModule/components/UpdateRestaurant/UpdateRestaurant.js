@@ -27,7 +27,7 @@ function UpdateRestaurant() {
     const handleRestaurantUpdate = async(data) => {
         try {
             await updateRestaurantById(id, data);
-            navigate('/restaurants');
+            navigate(-1);
         } catch (error) {
             alert(error);
         }

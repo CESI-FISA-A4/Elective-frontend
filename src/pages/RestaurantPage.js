@@ -3,6 +3,8 @@ import RestaurantList from "../restaurantModule/components/RestaurantList/Restau
 import CreateRestaurant from '../restaurantModule/components/CreateRestaurant/CreateRestaurant';
 import RequireAuth from '../authModule/components/RequireAuth';
 import UpdateRestaurant from '../restaurantModule/components/UpdateRestaurant/UpdateRestaurant';
+import MyRestaurantList from '../restaurantModule/components/MyRestaurantList/MyRestaurantList';
+import RestaurantDetail from '../restaurantModule/components/RestaurantDetails/RestaurantDetails';
 
 
 function RestaurantPage() {
@@ -12,6 +14,11 @@ function RestaurantPage() {
 
             <Routes>
                 <Route path="" element={<RestaurantList />}/>
+                <Route path="owner" element={
+                    <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
+                        <MyRestaurantList />
+                    </RequireAuth>
+                }/>
                 <Route path="create" element={
                     <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                         <CreateRestaurant />
@@ -23,7 +30,7 @@ function RestaurantPage() {
                         <UpdateRestaurant />
                     </RequireAuth>
                 }></Route>
-                <Route path=":id" element={<h1>VUE DETAIL</h1>} />
+                <Route path=":id" element={<RestaurantDetail />} />
             </Routes>
         </div>
     );

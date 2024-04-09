@@ -2,25 +2,23 @@ import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import SearchBar from "../../../utils/components/SearchBar/SearchBar";
 import Restaurant from "../Restaurant/Restaurant";
 import { getRestaurants, searchRestaurantsByName } from "../../services/restaurant.service";
 import Grid from '@mui/material/Grid';
-import { isAdmin } from "../../../authModule/services/auth.service";
-import './restaurantList.css';
+import { isAdmin, isRestaurantOwner } from "../../../authModule/services/auth.service";
+import './myRestaurantList.css';
 
-function RestaurantList() {
-    const [restaurantName, setRestaurantName] = useState("");
+function MyRestaurantList() {
     const [restaurantSource, setRestaurantSource] = useState({data: [], loading: false});
 
     const navigate = useNavigate();
 
-    const fetchData = async(value="") => {
+    const fetchData = async() => {
         try {
             setRestaurantSource({data: [], loading: false});
-            let response = null;
-            if(value) response = await searchRestaurantsByName(value);
-            else response = await getRestaurants();
+
+            let userId = localStorage.getItem("userId");
+            let response = await getRestaurants({restaurantOwnerId: userId});
 
             setRestaurantSource({data: response.data, loading: true});
         } catch (error) {
@@ -32,32 +30,29 @@ function RestaurantList() {
         fetchData();
     }, []);
 
-    const handleSearchBarChange = async(value) => {
-        setRestaurantName(value);
-
-        fetchData(value);
-    }
-
     const handleRestaurantUpdated = () => {
-        fetchData(restaurantName);
+        fetchData();
     }
 
     return (
         <div className="restaurant-list m-4">
             <div className="flex justify-center items-center">
-                <h1 className="text-mainTitle p-3">Rechercher un restaurant</h1>
+                <h1 className="text-mainTitle p-3">Mes restaurants</h1>
+                
+                {(isAdmin() || isRestaurantOwner()) &&
+                    <IconButton aria-label="add" color='info' onClick={() => navigate("/restaurants/create")}>
+                        <AddBoxOutlinedIcon fontSize="large" />
+                    </IconButton>
+                }
             </div>
-
-            <SearchBar value={restaurantName} onSearchChange={handleSearchBarChange}></SearchBar>
             <br />
-
             <Grid className="restaurants" container alignItems="stretch">
                 {restaurantSource.loading &&
                     restaurantSource.data.map((resto, index) => 
                     <Grid item style={{display: 'flex', padding: 8}}>
-                        <Restaurant key={index} 
-                                data={resto} 
-                                onRestaurantUpdated={handleRestaurantUpdated}
+                        <Restaurant enableUpdate={true} key={index} 
+                            data={resto} 
+                            onRestaurantUpdated={handleRestaurantUpdated}
                         />
                     </Grid>)
                 }
@@ -67,4 +62,4 @@ function RestaurantList() {
 }
 
 
-export default RestaurantList;
+export default MyRestaurantList;
