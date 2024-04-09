@@ -5,8 +5,9 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import SearchBar from "../../../utils/components/SearchBar/SearchBar";
 import Restaurant from "../Restaurant/Restaurant";
 import { getRestaurants, searchRestaurantsByName } from "../../services/restaurant.service";
-import './restaurantList.css';
+import Grid from '@mui/material/Grid';
 import { isAdmin } from "../../../authModule/services/auth.service";
+import './restaurantList.css';
 
 function RestaurantList() {
     const [restaurantName, setRestaurantName] = useState("");
@@ -56,14 +57,17 @@ function RestaurantList() {
             <SearchBar value={restaurantName} onSearchChange={handleSearchBarChange}></SearchBar>
             <br />
 
-            <div className="restaurants">
+            <Grid className="restaurants" container alignItems="stretch">
                 {restaurantSource.loading &&
                     restaurantSource.data.map((resto, index) => 
-                    <Restaurant key={index} 
+                    <Grid item style={{display: 'flex', padding: 8}}>
+                        <Restaurant key={index} 
                                 data={resto} 
-                                onRestaurantUpdated={handleRestaurantUpdated}/>)
+                                onRestaurantUpdated={handleRestaurantUpdated}
+                        />
+                    </Grid>)
                 }
-            </div>
+            </Grid>
         </div>
     );
 }

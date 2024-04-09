@@ -1,0 +1,10 @@
+.restaurant {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 220px;
+}
+
+.content {
+    flex: 1;
+}

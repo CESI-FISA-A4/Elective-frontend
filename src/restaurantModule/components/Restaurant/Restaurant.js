@@ -26,16 +26,15 @@ function Restaurant({data, onRestaurantUpdated}) {
     }
 
     return (
-        <div className="restaurant">
-            <Card>
-                <CardActionArea>
+            <Card className='restaurant'>
+                {/* <CardActionArea> */}
                     <CardMedia
                         component="img"
                         height="140"
                         srcSet={data.imgUrl}
                         alt={data.name}
                     />
-                    <CardContent>
+                    <CardContent className='content'>
                         <Typography gutterBottom variant="h5" component="div">
                             {data.name}
                         </Typography>
@@ -44,20 +43,19 @@ function Restaurant({data, onRestaurantUpdated}) {
                         </Typography>
                     </CardContent>
                     {(isAdmin() || true) && 
-                        <DialogActions>
-                            <Button variant="contained" color="primary" onClick={() => navigate(`update/${data._id}`)}>Modifier</Button>
-                            <Button variant="contained" color="error" autoFocus onClick={() => setDeleteModalActive(true)}>Suppression</Button>
-                        </DialogActions>
+                    <DialogActions>
+                        <Button variant="contained" color="primary" onClick={() => navigate(`update/${data._id}`)}>Modifier</Button>
+                        <Button variant="contained" color="error" autoFocus onClick={() => setDeleteModalActive(true)}>Suppression</Button>
+                    </DialogActions>
                     }
-                </CardActionArea>
+                {/* </CardActionArea> */}
+                <ConfirmDeletionModal title={"Suppression restaurant"} 
+                    content={"Suppression définitive de ce restaurant ?"} 
+                    open={deleteModalActive}
+                    onClose={() => setDeleteModalActive(false)}
+                    onConfirm={handleDeleteRestaurant}>
+                </ConfirmDeletionModal>
             </Card>
-            <ConfirmDeletionModal title={"Suppression restaurant"} 
-                content={"Suppression définitive de ce restaurant ?"} 
-                open={deleteModalActive}
-                onClose={() => setDeleteModalActive(false)}
-                onConfirm={handleDeleteRestaurant}>
-            </ConfirmDeletionModal>
-        </div>
     );
 }
 
