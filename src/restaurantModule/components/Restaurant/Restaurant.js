@@ -25,7 +25,7 @@ function Restaurant({ data, onRestaurantUpdated, enableUpdate }) {
     }
 
     return (
-        <Card className='restaurant' onClick={navigate(`/restaurants/${data._id}`)}>
+        <Card className='restaurant' onClick={() => navigate(`/restaurants/${data._id}`)}>
             <CardMedia
                 component="img"
                 height="140"

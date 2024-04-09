@@ -54,7 +54,7 @@ function RestaurantList() {
             <Grid className="restaurants" container alignItems="stretch">
                 {restaurantSource.loading &&
                     restaurantSource.data.map((resto, index) => 
-                    <Grid item style={{display: 'flex', padding: 8}}>
+                    <Grid key={index} item style={{display: 'flex', padding: 8}}>
                         <Restaurant key={index} 
                                 data={resto} 
                                 onRestaurantUpdated={handleRestaurantUpdated}
