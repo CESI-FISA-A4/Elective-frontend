@@ -90,6 +90,7 @@ export const isDeveloper = () => localStorage.getItem("roleLabel") == "developer
 
 export const isUser = () => localStorage.getItem("roleLabel") == "user";
 
+export const isConnected = () => localStorage.getItem("accessToken") !== undefined;
 
 export const logout = (path='/login') => {
     localStorage.clear();

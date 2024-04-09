@@ -4,6 +4,7 @@ import CreateRestaurant from '../restaurantModule/components/CreateRestaurant/Cr
 import RequireAuth from '../authModule/components/RequireAuth';
 import UpdateRestaurant from '../restaurantModule/components/UpdateRestaurant/UpdateRestaurant';
 import MyRestaurantList from '../restaurantModule/components/MyRestaurantList/MyRestaurantList';
+import RestaurantDetail from '../restaurantModule/components/RestaurantDetails/RestaurantDetails';
 
 
 function RestaurantPage() {
@@ -29,7 +30,7 @@ function RestaurantPage() {
                         <UpdateRestaurant />
                     </RequireAuth>
                 }></Route>
-                <Route path=":id" element={<h1>VUE DETAIL</h1>} />
+                <Route path=":id" element={<RestaurantDetail />} />
             </Routes>
         </div>
     );
