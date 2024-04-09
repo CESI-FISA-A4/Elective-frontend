@@ -3,7 +3,10 @@ import axiosInstance from "../../utils/constants/axios";
 export async function getProductsList() {
     let restaurantId = getRestaurantByUserId(localStorage.getItem("userId"));  
     try {
-        const response = await axiosInstance.get(`http://localhost:80/api/articles/products/restaurant/${restaurantId}`);
+        const response = await axiosInstance({
+            url: `/api/articles/products/restaurant/${restaurantId}`,
+            headers: { "Authorization": localStorage.getItem('accessToken') },
+        });
         return response.data;
     } catch (error) {
         alert(error);
@@ -13,7 +16,10 @@ export async function getProductsList() {
 
 async function getRestaurantByUserId(userId){
     try {
-        const response = await axiosInstance.get(`http://localhost:80/api/restaurants/${userId}`);
+        const response = await axiosInstance({
+            url: `/api/restaurants/${userId}`,
+            headers: { "Authorization": localStorage.getItem('accessToken') },
+        });
         localStorage.setItem("restaurantId", response.data[0].id);
         return response.data[0].id;
     } catch (error) {
@@ -32,21 +38,31 @@ export async function addArticle (name, price, description, imageUrl, isMenu) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {
-            response = await axiosInstance.post("http://localhost:80/api/articles/menus/", {
-                name,
-                price,
-                restaurantId,
-                description,
-                imageUrl,
-                productIdList
-                });        
+            response = await axiosInstance({
+                method : "POST",
+                url: `/api/articles/menus/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                data: {
+                    name,
+                    price,
+                    restaurantId,
+                    description,
+                    imageUrl,
+                    productIdList
+                }
+            });        
         }else{
-            response = await axiosInstance.post("http://localhost:80/api/articles/products/", {
-                name,
-                price,
-                description,
-                imageUrl
-                });
+            response = await axiosInstance({
+                method : "POST",
+                url: `/api/articles/products/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                data: {
+                    name,
+                    price,
+                    description,
+                    imageUrl
+                }
+            }); 
         }
         alert("Article ajouté !");
         return response.data;
@@ -70,7 +86,10 @@ export async function uploadFileToS3(file) {
 
 export async function getArticleData(id) {
     try {
-        const response = await axiosInstance.get(`http://localhost:80/api/articles/${id}`);
+        const response = await axiosInstance({
+            url: `/api/articles/${id}`,
+            headers: { "Authorization": localStorage.getItem('accessToken') },
+        }); 
         return response.data;
     } catch (error) {
         alert(error);
@@ -79,7 +98,6 @@ export async function getArticleData(id) {
 
 export async function updateArticle(name, price, description, imageUrl, id, isMenu){
     try {
-        console.log("updateArticle service reached");
         let response;
         let userId = localStorage.getItem("userId");
         let restaurantId = getRestaurantByUserId(userId);
@@ -87,22 +105,32 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
         if (productIdList.length === 0 && isMenu) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
-        if (isMenu) {
-            response = await axiosInstance.put(`http://localhost:80/api/articles/menus/${id}`, {
-                name,
-                price,
-                restaurantId,
-                description,
-                imageUrl,
-                productIdList
-                });        
+        if (isMenu) {       
+            response = await axiosInstance({
+                method : "PUT",
+                url: `/api/articles/menus/${id}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                data: {
+                    name,
+                    price,
+                    restaurantId,
+                    description,
+                    imageUrl,
+                    productIdList
+                }
+            }); 
         }else{
-            response = await axiosInstance.put(`http://localhost:80/api/articles/products/${id}`, {
-                name,
-                price,
-                description,
-                imageUrl
-                });
+            response = await axiosInstance({
+                method : "PUT",
+                url: `/api/articles/product/${id}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                data: {
+                    name,
+                    price,
+                    description,
+                    imageUrl
+                }
+            }); 
         }
         alert("Modifications enregistrées !");
         return response.data;
