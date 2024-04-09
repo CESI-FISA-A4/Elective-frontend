@@ -7,7 +7,6 @@ import Header from '../utils/components/Header/Header';
 import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
-import Contact from '../contactModule/components/Contact/Contact';
 import './App.css';
 
 
