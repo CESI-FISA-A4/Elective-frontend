@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 function ArticlePage() {
 
-    const [isEditable, setIsEditable] = useState(true);
+    const [isEditable, setIsEditable] = useState(false);
     const [isMenu , setIsMenu] = useState(false);
     const [title, setTitle] = useState('Ajouter un article');
     const [buttonText, setButtonText] = useState('Ajouter un article');
@@ -23,8 +23,9 @@ function ArticlePage() {
     }
 
     function handleIconButtonClick(){
-        setIsEditable(!isEditable)
-        if (!isEditable) {
+        let newIsEditableValue = !isEditable;
+        setIsEditable(newIsEditableValue)
+        if (newIsEditableValue === false) {
             setButtonText(title);
         } else {
             setButtonText('Enregistrer mes modifications');
@@ -42,7 +43,6 @@ function ArticlePage() {
                 </IconButton>
             </div>
             <AddArticle isMenu={isMenu} title={title} isEditable={isEditable} buttonText={buttonText}/>
-            {/*isMenu ? <ChooseQuantity /> : null*/}
         </div>
     );
 }
