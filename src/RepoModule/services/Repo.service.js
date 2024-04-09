@@ -1,10 +1,13 @@
 import axiosInstance from "../../utils/constants/axios";
+import React from "react";
 
 export const getRepository = () => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git');
-    
+            const response = await axiosInstance({
+                url: `/api/git`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
             res(response);
         } catch (error) {
             console.error(error);
@@ -13,11 +16,14 @@ export const getRepository = () => {
     })
 }
 
+
 export const getBranch = (repo) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/'+repo);
-    
+            const response = await axiosInstance({
+                url: `/api/git/${repo}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
             res(response);
         } catch (error) {
             console.error(error);
@@ -27,12 +33,16 @@ export const getBranch = (repo) => {
 }
 
 export const getCompo = (repo, branch) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
-            branch.replace("/", '%2F')
-            const response = await axiosInstance.get('/api/git/'+repo+'/'+branch);
-    
-            res(response);
+            if (branch !== undefined) {
+                branch = branch.replace("/", '%2F')
+                const response = await axiosInstance({
+                    url: `/api/git/${repo}/${branch}`,
+                    headers: { "Authorization": localStorage.getItem('accessToken') }
+                });
+                res(response);
+        }
         } catch (error) {
             console.error(error);
             rej(error);
@@ -41,11 +51,16 @@ export const getCompo = (repo, branch) => {
 }
 
 export const getCode = (repo, branch,comp) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/git/'+repo+'/'+branch+'/'+comp);
-    
-            res(response);
+            if (branch !== undefined) {
+                branch = branch.replace("/", '%2F')
+                const response = await axiosInstance({
+                    url: `/api/git/${repo}/${branch}/${comp}`,
+                    headers: { "Authorization": localStorage.getItem('accessToken') }
+                });
+                res(response);
+            }
         } catch (error) {
             console.error(error);
             rej(error);
@@ -53,19 +68,20 @@ export const getCode = (repo, branch,comp) => {
     })
 }
 
-
-export const commitSynch = async (repo, branch, code, commitMessage) => {
-    try {
-        const response = await axiosInstance.post('/api/git/'+repo+'/branches/'+branch, {
-            code,
-            commitMessage
-        });
-        if (response.data === "Commit sync successfully") {
-            window.location.href = '/gitrepos';
-        }else{
-            alert("Erreur lors de la synchronisation");
+export const commitSynch = (repo, branch, code, commitMessage) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "PATCH",
+                url: `/api/git/${repo}/${branch}/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                code,
+                commitMessage
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
         }
-    } catch (error) {
-        console.error(error);
-    }
+    })
 }

@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {commitSynch, getCode} from '../../services/Repo.service';
 import CustomButton from '../../../utils/components/CustomButton';
 
-const GithubCodeEditor = ({ repo, branch, composant }) => {
-  const [code, setCode] = useState('');
+const GithubCodeEditor = ({ repo, branch, composant, code}) => {
+  const [codeVal, setCodeVal] = useState('');
   const [commitMessage, setCommitMessage] = useState('');
 
-  function handleCommit  (repo, branch, commitMessage, code) {
-    commitSynch();
+  function handleCommit  () {
+    commitSynch(repo, branch, commitMessage, codeVal);
   };
 
   useEffect(() => {
       const fetchCode = async() => {
-          setCode({data: [], loading: false});
           let response = await getCode();
-          setCode({data: response.data, loading: true});
+          setCodeVal(response.data);
       } 
       fetchCode();
   }, []); 
@@ -24,7 +23,7 @@ const GithubCodeEditor = ({ repo, branch, composant }) => {
       <textarea
         className='rounded-lg border border-black'
         value={code.value}
-        onChange={(e) => setCode(e.target.value)}
+        onChange={(e) => setCodeVal(e.target.value)}
         rows={25}
         cols={130}
       />

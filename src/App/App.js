@@ -8,7 +8,6 @@ import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
 import './App.css';
-import GitRepos from '../RepoModule/components/GitRepo';
 import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
 
 
