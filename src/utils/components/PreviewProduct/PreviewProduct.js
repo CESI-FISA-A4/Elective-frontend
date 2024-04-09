@@ -11,30 +11,29 @@ function PreviewProduct({ productsList }) {
 
   const [basketItems, setBasketItems] = useState([]); 
 
-  function addToBasket(e, productName) {
+  function addToBasket(e, productId) {
     e.preventDefault();
     let newBasketItems = [...basketItems];
-    let existingItemIndex = newBasketItems.findIndex(item => item.product === productName);
+    let existingItemIndex = newBasketItems.findIndex(item => item.id === productId);
     
     if (existingItemIndex !== -1) {
       newBasketItems[existingItemIndex].quantity++;
     } else {
-      let newBasketItem = { product: productName, quantity: 1 };
+      let newBasketItem = { id: productId, productName: productsList[productId].name, quantity: 1 };
       newBasketItems.push(newBasketItem);
     }
     setBasketItems(newBasketItems);
   }
   
 
-  function isInBasket(name){
-    return basketItems.find((item) => item.product === name);
+  function isInBasket(id){
+    return basketItems.find((item) => item.id === id);
   }
 
-  function findQuantity(name){
-    if (isInBasket(name)) {
-      let elementIndex = basketItems.findIndex((item) => item.product === name);
-      console.log(elementIndex);
-      return elementIndex != -1 ? basketItems[elementIndex].quantity : 0;
+  function findQuantity(id){
+    if (isInBasket(id)) {
+      let elementIndex = basketItems.findIndex((item) => item.id === id);
+      return elementIndex !== -1 ? basketItems[elementIndex].quantity : 0;
     }else {
       return 0;
     }
@@ -44,7 +43,7 @@ function PreviewProduct({ productsList }) {
   return (
     <div className='ml-6 flex flex-row w-full gap-6 overflow-auto'>
     {productsList.map((item) => (
-        <Card orientation="horizontal" size="sm" key={item.name} variant="outlined">
+        <Card orientation="horizontal" size="sm" key={item.id} variant="outlined">
           <AspectRatio ratio="1" sx={{ minWidth: 60 }}>
             <img
               srcSet={`${item.imageUrl}?h=120&fit=crop&auto=format&dpr=2 2x`}
@@ -52,9 +51,9 @@ function PreviewProduct({ productsList }) {
               alt={item.name}
             />
           </AspectRatio>
-          <Box sx={{ whiteSpace: 'nowrap', mx: 1 }} onClick={(e) => addToBasket(e, item.name)}> 
+          <Box sx={{ whiteSpace: 'nowrap', mx: 1 }} onClick={(e) => addToBasket(e, item.id)}> 
             <Typography level="title-md">{item.name}</Typography>
-            <Typography level="body-md">{findQuantity(item.name)}</Typography>
+            <Typography level="body-md">{findQuantity(item.id)}</Typography>
           </Box>
         </Card>
       ))}
