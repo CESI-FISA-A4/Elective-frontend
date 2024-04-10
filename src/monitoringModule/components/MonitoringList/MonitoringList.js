@@ -16,11 +16,28 @@ import './monitoringList.css';
 function MonitoringList() {
     const [monitoringSource, setMonitoringSource] = useState({ data: [], loading: false });
 
+    const areArrayDifferent = (arr1, arr2) => {
+        if (arr1.length !== arr2.length) {
+            return true;
+        }
+    
+        arr1.sort((a, b) => JSON.stringify(a) > JSON.stringify(b) ? 1 : -1);
+        arr2.sort((a, b) => JSON.stringify(a) > JSON.stringify(b) ? 1 : -1);
+    
+        for (let i = 0; i < arr1.length; i++) {
+            if (JSON.stringify(arr1[i]) !== JSON.stringify(arr2[i])) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
+
     const fetchData = async () => {
         try {
-            setMonitoringSource({ data: [], loading: false });
             let response = await getMonitoring();
-            setMonitoringSource({ data: response.data, loading: true });
+            if(areArrayDifferent(monitoringSource.data, response.data)) setMonitoringSource({ data: response.data, loading: true });
+            else setMonitoringSource({ data: monitoringSource.data, loading: true });
         } catch (error) {
             alert(error);
         }
