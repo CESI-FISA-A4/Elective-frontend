@@ -8,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import CustomButton from "../../../utils/components/CustomButton";
 import { createOrders } from "../../../orderModule/services/order.service";
 import TextField from '@mui/material/TextField'
-import CustomButton from "../../../utils/components/CustomButton";
-import { useNavigate } from 'react-router-dom';
 import './restaurantDetail.css';
 
 
