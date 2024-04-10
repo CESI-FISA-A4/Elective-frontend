@@ -1,6 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-
 function NotificationModal({open, onClose, title, content}) {
     return (
         <div className="NotificationModal">

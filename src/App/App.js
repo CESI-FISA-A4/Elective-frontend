@@ -28,7 +28,6 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
-          <Route path="/notification" element={<Notification/>}></Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>

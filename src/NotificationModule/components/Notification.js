@@ -1,16 +1,54 @@
+import { useState, useEffect } from "react";
 import NotificationModal from "../../utils/components/Modal/NotificationModal/NotificationModal";
-import { useNavigate } from 'react-router-dom';
+import {Button} from '@mui/material'
+import { getCommandeStates } from "../service/notification.service";
+import notificationModel from "../../Model/NotificationModel/NotificationModel";
 
+export default function Notification({ cmdId, cmdInprogr}){
+    const [notificationModal, setNotificatonModal] = useState(false);
+    const [cmdState, setCmdState] = useState(null); 
+    const [notificationInfo, setNotificationInfo]= useState({});
 
-export default function Notification(){
-    const navigate = useNavigate();
+    useEffect(() => {
+        if (cmdInprogr){
+            const fetchData = async () => {
+                try {
+                    let response = await getCommandeStates(cmdId);
+                    if(notificationModal){
+                        setNotificatonModal(false)
+                    }
+                    setNotificatonModal(true);
+                    if(cmdState === undefined || response.data.status.state !== cmdState){
+                        setCmdState(notificationModal.data.status.state);
+                        const UserProfil = localStorage.getItem("roleLabel");
+                        const info = notificationModel(UserProfil,  response.data.status.state);
+                        setNotificationInfo(info);
+                    }
+                } catch (error) {
+                console.error('Error fetching data:', error);
+                }
+            };
+        
+            fetchData();
+            const interval = setInterval(() => {
+                fetchData();
+            }, 10000);
+        
+    
+            return () => clearInterval(interval);
+        }
+        }, []);
+        
 
     return(
-        <NotificationModal title={"Livraison"} 
-            content={"Votre livraison est en cours!"} 
-            open={() => console.log('open !!')}
-            onClose={() => navigate(-1)}
-            onConfirm={() => navigate(-1)}>
-        </NotificationModal>
+        <div>
+            <Button variant="outlined" color="error" onClick={() => {setNotificatonModal(true)}} autoFocus>Suppression du compte</Button>
+            <NotificationModal title={setNotificationInfo.title} 
+                content={setNotificationInfo.content} 
+                open={notificationModal}
+                onClose={() => setNotificatonModal(false)}
+                onConfirm={() => setNotificatonModal(false)}>
+            </NotificationModal>
+        </div>
     )
 }
