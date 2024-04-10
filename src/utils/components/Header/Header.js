@@ -17,11 +17,18 @@ import { logout } from '../../../authModule/services/auth.service';
 import CustomButton from '../CustomButton';
 import './header.css';
 import SwipeableTemporaryDrawer from '../Drawer/Drawer';
+import { NotificationContext } from '../../../contexts/NotificationProvider';
 
 
 
 export default function Header({ title }) {
   const navigate = useNavigate();
+
+  const {test, setTest} = React.useContext(NotificationContext);
+
+  React.useEffect(() => {
+    console.log("DATA RECEIVED (HEADER) : test = "+test);
+  }, [test]);
 
   const goToHome = () => {
     navigate("/restaurants");
