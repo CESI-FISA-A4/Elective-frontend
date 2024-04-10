@@ -6,9 +6,9 @@ import Header from '../utils/components/Header/Header';
 import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
-import MonitoringGeneral from '../Monitoring/components/Monitoring/Monitoring'
-import './App.css';
 import ClientPage from '../pages/ClientPage';
+import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
+import './App.css';
 
 
 function App() {
@@ -30,7 +30,12 @@ function App() {
           </Route>
           <Route path="/login" element={<LoginPage/>}></Route>
           <Route path="/signup" element={<SignUpPage/>}></Route>
-          <Route path="/monitoring" element={<MonitoringGeneral/>}></Route>
+          <Route path="/monitoring" element={
+            <RequireAuth rolesAllowed={["admin", "technician"]}>
+              <MonitoringList/>
+            </RequireAuth>
+            }>
+          </Route>
           <Route path="/protected" element={
               <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                 <h2>TEST PROTECTED ROUTES</h2>
