@@ -34,8 +34,8 @@ function Account() {
 
     return (
         <>
-            {(isTechnician() || isDeveloper() || isSalesman()) ?
-                <IdentityArea></IdentityArea>
+            {(accountData.loading && (isTechnician() || isDeveloper() || isSalesman())) ?
+                <IdentityArea identity={accountData.data} onIdentityUpdated={onIdentityUpdated}></IdentityArea>
                 :
                 <div className='account'>
                     {accountData.loading &&

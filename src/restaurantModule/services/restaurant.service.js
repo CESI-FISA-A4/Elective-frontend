@@ -1,9 +1,13 @@
 import axiosInstance from "../../utils/constants/axios";
 
-export const getRestaurants = () => {
+export const getRestaurants = (queryParams={}) => {
     return new Promise(async(res, rej) => {
         try {
-            const response = await axiosInstance.get('/api/restaurants');
+            const response = await axiosInstance({
+                method: "GET",
+                url: '/api/restaurants', 
+                params: queryParams
+            });
             res(response);
         } catch (error) {
             console.error(error);
