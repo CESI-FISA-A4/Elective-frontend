@@ -70,8 +70,8 @@ function AddArticle({isMenu, title, isEditable, buttonText}) {
 
     return(
         <div>
-            <div className="flex flex-row justify-center">
-                <form className="flex flex-col w-1/2 mx-auto items-center gap-y-4 p-4 justify-center">
+            <div className="flex flex-col sm:flex-row justify-center">
+                <form className="flex flex-col w-4/5 sm:w-1/2 mx-auto items-center gap-y-4 p-4 justify-center">
                     <h1 className="text-secondaryTitle">{title}</h1>
                     <div className="w-full flex flex-row space-x-5">            
                         <TextField disabled={!isEditable} className="w-4/5" id="name" label="Nom du produit" value={name ?? ""} variant='outlined' onChange={(e) => setName(e.target.value)}/>
