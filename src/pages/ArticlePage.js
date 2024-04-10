@@ -3,12 +3,17 @@ import AddArticle from "../articleModule/components/AddArticle/AddArticle";
 import { useState } from "react";
 import {Switch, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
+import { useParams, useLocation } from "react-router-dom";
 
 
 function ArticlePage() {
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const isMenuQueryValue = queryParams.get('isMenu');    
 
-    const [isEditable, setIsEditable] = useState(true);
-    const [isMenu , setIsMenu] = useState(false);
+
+    const [isEditable, setIsEditable] = useState(isMenuQueryValue ? true : false);
+    const [isMenu , setIsMenu] = useState(isMenuQueryValue);
     const [title, setTitle] = useState('Ajouter un article');
     const [buttonText, setButtonText] = useState('Ajouter un article');
 
@@ -36,7 +41,7 @@ function ArticlePage() {
         <div>
             <div className="flex flex-row justify-end items-center p-4">
                 <p> Produit </p>
-                <Switch onChange={handleChangeArticleType}/>
+                <Switch defaultChecked={isEditable} onChange={handleChangeArticleType}/>
                 <p> Menu </p>
                 <IconButton className="ml-6" onClick={handleIconButtonClick}>
                     <EditIcon  />

@@ -34,7 +34,6 @@ export async function addArticle(name, price, description, imageUrl, isMenu) {
         let restaurantId = await getRestaurantByUserId(userId);
         let productIdList = localStorage.getItem("productIdList");
         productIdList = productIdList.split(',');
-        console.log(productIdList);
         if (isMenu && (productIdList.length === 0)) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
@@ -123,8 +122,9 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
         let ingredientList = [];
         let userId = localStorage.getItem("userId");
         let restaurantId = await getRestaurantByUserId(userId);
-        let productIdList = localStorage.getItem("productIdList") ? JSON.parse(localStorage.getItem("productList")) : [];
-        if (productIdList.length === 0 && isMenu) {
+        let productIdList = localStorage.getItem("productIdList");
+        productIdList = productIdList.split(',');
+        if (isMenu && (productIdList.length === 0)) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {

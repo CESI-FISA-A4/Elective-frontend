@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import FileUploader from "../FileUploader/FileUploader";
 import CustomButton from "../../../utils/components/CustomButton";
 import {getProductsByRestaurantId, getArticleData, updateArticle, addArticle} from "../../services/article.service";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import PreviewProduct from "../../../utils/components/PreviewProduct/PreviewProduct";
 
 function AddArticle({isMenu, title, isEditable, buttonText}) {
     const {id} = useParams();
+
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState(0);
@@ -20,24 +21,32 @@ function AddArticle({isMenu, title, isEditable, buttonText}) {
             async function fetchData() {
                 let newProductList = [];
                 if (id !== undefined) {
-                    let articleData = await getArticleData(id, isMenu);
-                    return articleData;
+                    try{
+                        let articleData = await getArticleData(id, isMenu);
+                        if (articleData != undefined) {
+                            return articleData;
+                         }else {
+                            throw new Error("Une erreur s'est produite ! Veuillez rafraichir la page.");
+                         }                    
+                    } catch (error) {
+                        alert(error)
+                    }
                 }
                 return {}; 
             }
             const articleData = await fetchData();
-            console.log(articleData);
-            setName(articleData.name);
-            setPrice(articleData.price);
-            setDescription(articleData.description);
-            setFileUrl(articleData.imageUrl);
+            if (articleData.status != 404){
+                setName(articleData.name);
+                setPrice(articleData.price);
+                setDescription(articleData.description);
+                setFileUrl(articleData.imageUrl);
+            }
         }
         async function getProducts(){
             let newProductList;
             if (isMenu) {
                 newProductList = await getProductsByRestaurantId();
             }
-            console.log("set state");
             setProductsList(newProductList);
         }
         if (id !== undefined){
