@@ -17,9 +17,10 @@ export const getOrders = (queryParams={}) => {
     })
 }
 
-export const createOrders = (queryParams={},data) => {
+export const createOrders = (data) => {
     return new Promise(async(res, rej) => {
         try {
+            console.log(data);
             const response = await axiosInstance({
                 method: "POST",
                 url: '/api/orders', 

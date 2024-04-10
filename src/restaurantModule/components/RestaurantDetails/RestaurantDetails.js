@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom';
-import { getRestaurantById } from "../../services/restaurant.service";
+import { getRestaurantById, getProductsByRestaurantId, getMenusByRestaurantId} from "../../services/restaurant.service";
+import './restaurantDetail.css';
 import Article from "../../../articleModule/components/Article/Article";
+import { isRestaurantOwner } from "../../../authModule/services/auth.service";
+import { useNavigate } from 'react-router-dom';
+import CustomButton from "../../../utils/components/CustomButton";
+import { createOrders } from "../../../orderModule/services/order.service";
 import CustomButton from "../../../utils/components/CustomButton";
 import { useNavigate } from 'react-router-dom';
 import './restaurantDetail.css';
@@ -13,21 +18,19 @@ function RestaurantDetail() {
     const naviguate = useNavigate();
 
     const [restaurant, setRestaurant] = useState({ data: {}, loading: false });
+    const [products, setProducts] = useState([]);
+    const [menus, setMenus] = useState([]);
+    const [basket, setBasket] = useState([]);
 
-    const products = [
-        { name: "Spaghettis bolognaise", price: "12,65", description: "Le meilleur plat du monde", imageUrl: "https://img.cuisineaz.com/660x660/2016/07/29/i84653-spaghettis-bolognaise-rapides.jpg" },
-        { name: "Spaghettis carbonara", price: "14,65", description: "Le 2ième meilleur plat du monde", imageUrl: "https://img.passeportsante.net/1200x675/2021-03-19/i100428-spaghetti-a-la-carbonara.webp" },
-        { name: "Spaghettis bolognaise", price: "12,65", description: "Le meilleur plat du monde", imageUrl: "https://img.cuisineaz.com/660x660/2016/07/29/i84653-spaghettis-bolognaise-rapides.jpg" },
-    ];
-    const menus = [
-        { name: "Menu pates", price: "21", description: "Les meilleurs plats", imageUrl: "https://cache.marieclaire.fr/data/photo/w1000_c17/cuisine/18q/photo-de-spaghetti-1.jpg" },
-        { name: "Menu pates", price: "21", description: "Les meilleurs plats", imageUrl: "https://cache.marieclaire.fr/data/photo/w1000_c17/cuisine/18q/photo-de-spaghetti-1.jpg" },
-    ];
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRestaurant = async () => {
             try {
+                let productsValue = await getProductsByRestaurantId(id);
+                setProducts(productsValue);
+                let menusValue = await getMenusByRestaurantId(id);
+                setMenus(menusValue);
                 setRestaurant({ data: {}, loading: false });
                 let response = await getRestaurantById(id);
                 setRestaurant({ data: response.data, loading: true });
@@ -35,9 +38,52 @@ function RestaurantDetail() {
                 alert(error);
             }
         }
-
         fetchRestaurant();
-    }, [])
+    }, []);
+
+    function onClickUser(article){
+        console.log(basket);
+        let existingElementIndex = basket.findIndex((item) => item.article === article.articleId);
+        if (existingElementIndex == -1){ 
+            let newElement = {'article': article.articleId, 'quantity': 1};
+            basket.push(newElement);
+        }else{
+            basket[existingElementIndex].quantity++;
+        }
+    }
+    
+    function onClickRestaurantOwner(productId, isMenu){
+        if (isMenu){
+            navigate(`/articles/edit/${productId}?isMenu=${isMenu}`);
+        }else{
+            navigate(`/articles/edit/${productId}`);
+        }
+        
+    }
+
+    function clearBasket(){
+        if(basket.length !== 0){
+            setBasket([]);
+        }
+        console.log(basket);
+    }
+
+    function createOrder(){
+        let data = {
+            "restaurantId": id, 
+            "articleList": basket
+        };
+        try{
+            if (basket.length !== 0) {
+                createOrders(data);            
+                clearBasket();
+            }else{
+                alert("Le panier est vide ! Cliquez sur les cartes pour ajouter des articles !")
+            }
+        }catch(error){
+            alert("oulah c la sauce")
+        }
+    }
 
     return (
         <div className="restaurant-detail">
@@ -61,6 +107,8 @@ function RestaurantDetail() {
                             <div className="stat">
                                 <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton>
                             </div>
+                            <CustomButton children={"Vider le panier"} onClick={clearBasket} /> 
+                            <CustomButton children={"Valider la commande"} onClick={createOrder} />
                         </div>
                     </div>
                     <div className="content flex flex-col">
@@ -68,7 +116,7 @@ function RestaurantDetail() {
                         <div className="flex flex-row">
                             {products &&
                                 products.map((product, index) => (
-                                    <Article key={index} data={product} />
+                                    <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(product.productId, false) : onClickUser(product)} key={index} data={product} />
                                 ))
                             }
                         </div>
@@ -78,7 +126,7 @@ function RestaurantDetail() {
                         <div className="flex flex-row">
                             {menus &&
                                 menus.map((menu, index) => (
-                                    <Article key={index} data={menu} />
+                                    <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(menu.productId, true) : onClickUser(menu)} key={index} data={menu} />
                                 ))
                             }
                         </div>
