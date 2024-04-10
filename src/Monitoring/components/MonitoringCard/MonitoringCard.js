@@ -1,13 +1,26 @@
+import { Card, CardContent, Typography } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 export default function MonitoringCard({ name, address, port, state, endPoint }) {
-    return (
-      <div className="ml-10 bg-greyColor rounded-lg w-1/3 h-1/6 flex items-center justify-between">
-      <h1 className="ml-5">Monitoring de {name}</h1>
-      <p>endpoint : {endPoint}</p>
-        <div className="text-left">
-          <p>adresse : {address}</p>
-          <p>port : {port}</p>
-        </div>
-        <div className={`h-16 w-16 mr-10 rounded-full ${state ? 'bg-green-600' : 'bg-red-600'} `}></div>
-      </div>
-    );
-  }
+  return (
+    <Card className='monitoring F-now-j-b'>
+      <CardContent className='content'>
+        <Typography gutterBottom variant="h5" component="div">
+          Monitoring de {name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          endpoint : {endPoint}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          adresse : {address}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          port : {port}
+        </Typography>
+      </CardContent>
+      <CardContent className='content'>
+        {state ? <CheckIcon/> : <CloseIcon/>}
+      </CardContent>
+    </Card>
+  );
+}
