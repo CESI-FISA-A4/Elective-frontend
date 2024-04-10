@@ -92,11 +92,15 @@ export async function getArticleData(id, isMenu) {
 export async function getProductsByRestaurantId() {
     try {
         let restaurantId = await getRestaurantByUserId(localStorage.getItem("userId"));
-        const response = await axiosInstance({
-            url: `/api/articles/products/restaurant/${restaurantId}`,
-            headers: { "Authorization": localStorage.getItem('accessToken') },
-        });
-        return response.data;
+        try{
+            const response = await axiosInstance({
+                url: `/api/articles/products/restaurant/${restaurantId}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+            });
+            return response.data;
+        } catch (error){
+            alert("Vous devez créer des articles avant de créer un menu !");
+        }
     } catch (error) {
         alert(error);
     }
