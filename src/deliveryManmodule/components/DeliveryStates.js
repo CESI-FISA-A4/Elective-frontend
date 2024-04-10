@@ -4,17 +4,19 @@ import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import CustomButton from '../../utils/components/CustomButton';
 import { TextField } from '@mui/material';
-import { GetCodeDelivery, GetCommandeById } from '../services/Delivery.service';
+import { validateDelivery, GetCommandeById } from '../services/Delivery.service';
 import accountImg from '../../assets/account.png'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Order from '../../orderModule/components/Order/Order';
+import { useParams } from 'react-router-dom';
 
 
 export default function DeliveryStates(){
+    const { id } = useParams();
     const [address, setAddress] = useState('12 rue commandant guillaume 29200 Brest');
     const [showNumber, setShowNumber] = useState(false);
     const [codeValidation, setCodeValidation] = useState('');
-    const [OrderInfo, setOrderInfo] = useState({});
+    const [orderInfo, setOrderInfo] = useState({data:{},loading:false});
     const [deliveryMan, setDeliveryMan] = useState(false);
     const [userCode, setUserCode] = useState('');
 
@@ -27,12 +29,12 @@ export default function DeliveryStates(){
     const fetchAccount = async () => {
         try {
             console.log(localStorage.getItem("roleLabel"));
+            setOrderInfo({data : {},loading: false});
             if(localStorage.getItem("roleLabel")== "deliveryman"){
                 setDeliveryMan(true);
             }
-            let orderId = localStorage.getItem("orderId");
-            let response = await GetCommandeById(orderId);
-            setOrderInfo({ data: response.data});
+            let response = await GetCommandeById(id);
+            setOrderInfo({data : response.data,loading: true});
             setUserCode(response.data.clientCode);
         } catch (error) {
             alert(error);
@@ -44,10 +46,8 @@ export default function DeliveryStates(){
     }, []);
 
     async function handleSubmit(e) {
-        const deliveryId = localStorage.getItem('userId');
-        const response = await GetCodeDelivery(deliveryId)
-        console.log(e);
-        console.log(response);
+        const response = await validateDelivery(id,{code: codeValidation});
+        alert(response)
         if(codeValidation === response){
             alert('test');
         }
@@ -63,7 +63,10 @@ export default function DeliveryStates(){
                     <Typography variant="h5" component="div">
                         Adresse de livraison :
                         <br/>
-                        {address}
+                        {
+                            orderInfo.loading &&
+                            orderInfo.data["address"]
+                        }
                     </Typography>
                     {deliveryMan ? <CustomButton className='' onClick={handleShowPhoneNumber}>{showNumber ? '06.85.13.13.13' : 'Appeller le client'}</CustomButton> : ''}
                     </CardContent>
@@ -80,7 +83,14 @@ export default function DeliveryStates(){
                 </Card>
             </div>
             <div className="flex-column items-center content-center mt-5 mr-5 ml-5">
-                <Order data={{_id: "Commande n°41", totalPrice: 15, date: "12 mars 2024"}}></Order>
+                {orderInfo.loading && 
+                    <Order data={{
+                        _id: orderInfo.data["_id"], 
+                        state: orderInfo.data.status?.state,
+                        totalPrice: orderInfo.data["totalPrice"], 
+                        date: orderInfo.data["date"]
+                    }}></Order>
+                }
                 <div className='flex'>
                     <Card className=' mt-5 mr-5 ml-5 w-1/3 sm:w-36 '>
                         <CardContent>

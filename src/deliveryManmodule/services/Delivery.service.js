@@ -1,12 +1,13 @@
 import axiosInstance from "../../utils/constants/axios";
 
-export const GetCodeDelivery = (id) => {
+export const validateDelivery = (id,data) => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
-                method: "GET",
+                method: "POST",
                 url: `/api/orders/${id}/delivered`,
-                headers: { "Authorization": localStorage.getItem('accessToken') }
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                data
             });
             res(response);
         } catch (error) {
@@ -21,7 +22,7 @@ export const GetCommandeById= (id) => {
         try {
             const response = await axiosInstance({
                 method: "GET",
-                url: `/api/orders/${id}/`,
+                url: `/api/orders/${id}`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
