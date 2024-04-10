@@ -43,10 +43,10 @@ export default function SwipeableTemporaryDrawer() {
             additionnalLinks = [{ path: "/clients", text: "Liste des clients", icon: <PeopleIcon /> }, { path: "/orders-status", text: "Statut des commandes", icon: <QueryStatsIcon /> }];
             break;
         case "technician":
-            additionnalLinks = [{ path: "/restaurants", text: "Git", icon: <GitHubIcon /> }, { path: "/monitoring", text: "Monitoring", icon: <QueryStatsIcon /> }];
+            additionnalLinks = [{ path: "/git-editor", text: "Git", icon: <GitHubIcon /> }, { path: "/monitoring", text: "Monitoring", icon: <QueryStatsIcon /> }];
             break;
         case "developer":
-            additionnalLinks = [{ path: "/restaurants", text: "Git", icon: <GitHubIcon /> }]; //, { path: "/restaurants", text: "Statistiques", icon: <QueryStatsIcon /> }
+            additionnalLinks = [{ path: "/git-editor", text: "Git", icon: <GitHubIcon /> }];
             break;
     }
     // const restaurantLinks 
