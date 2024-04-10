@@ -9,7 +9,7 @@ const GithubCodeEditor = ({ repo, branch, composant, code}) => {
   const [commitMessage, setCommitMessage] = useState('');
   const [component, setComponent] = useState('');
   const [popupCommit, setPopup] = useState(false);
-  const [popupInfoCommit, setPopupInfo] = useState(true);
+  const [popupInfoCommit, setPopupInfo] = useState(false);
   async function handleCommit () {
     const commit = await commitSynch(repo, branch, codeVal, component.path, commitMessage);
     if(commit.state = "fulfilled") {
