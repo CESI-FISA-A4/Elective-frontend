@@ -9,6 +9,7 @@ import AccountPage from '../pages/AccountPage';
 import ClientPage from '../pages/ClientPage';
 import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
 import './App.css';
+import DeliveryStates from '../deliveryManmodule/components/DeliveryStates';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/clients" element={<ClientPage />}></Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
+          <Route path="/deliveystates/" element={<DeliveryStates/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
               <AccountPage/>
