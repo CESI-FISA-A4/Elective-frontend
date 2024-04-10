@@ -12,6 +12,7 @@ import ArticlePage from '../pages/ArticlePage';
 import OrdersStatus from '../orderModule/components/OrdersStatus/OrdersStatus';
 import './App.css';
 import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
+import DeliveryStates from '../deliveryManmodule/components/DeliveryStates';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path="/articles/edit/:id" element={<ArticlePage/>}></Route>
           <Route path="/articles/" element={<ArticlePage />}> </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
+          <Route path="/deliveystates/" element={<DeliveryStates/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
               <AccountPage/>
