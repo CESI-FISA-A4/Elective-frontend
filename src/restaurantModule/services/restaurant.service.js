@@ -90,3 +90,19 @@ export const deleteRestaurantById = (id) => {
         }
     })
 }
+
+export const getRestaurantStats = (id) => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/statistics/orders/restaurant/${id}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
