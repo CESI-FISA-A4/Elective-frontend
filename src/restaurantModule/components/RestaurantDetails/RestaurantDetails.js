@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom';
 import { getRestaurantById } from "../../services/restaurant.service";
-import './restaurantDetail.css';
 import Article from "../../../articleModule/components/Article/Article";
+import CustomButton from "../../../utils/components/CustomButton";
+import { useNavigate } from 'react-router-dom';
+import './restaurantDetail.css';
+
 
 function RestaurantDetail() {
     const { id } = useParams();
+
+    const naviguate = useNavigate();
 
     const [restaurant, setRestaurant] = useState({ data: {}, loading: false });
 
@@ -44,13 +49,18 @@ function RestaurantDetail() {
                             <h1 className="text-mainTitle align-center pb-3">{restaurant.data.name}</h1>
                             <p className="text-left">{restaurant.data.description}</p>
                         </div>
-                        <div className="flex flex-col h-auto w-1/3 justify-start gap-3">
-                            <p>Adresse : {restaurant.data.address}</p>
-                            <p>{restaurant.data.acceptTicket ?
-                                "Tickets restaurants acceptés"
-                                :
-                                "Nous ne prenons pas les tickets restaurants"
-                            }</p>
+                        <div className="flex flex-col h-auto w-1/3 m-4 justify-between gap-3">
+                            <div className="info">
+                                <p>Adresse : {restaurant.data.address}</p>
+                                <p>{restaurant.data.acceptTicket ?
+                                    "Tickets restaurants acceptés"
+                                    :
+                                    "Nous ne prenons pas les tickets restaurants"
+                                }</p>
+                            </div>
+                            <div className="stat">
+                                <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton>
+                            </div>
                         </div>
                     </div>
                     <div className="content flex flex-col">

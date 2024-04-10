@@ -1,11 +1,11 @@
 import axiosInstance from "../../utils/constants/axios";
 
-export const getRestaurants = (queryParams={}) => {
-    return new Promise(async(res, rej) => {
+export const getRestaurants = (queryParams = {}) => {
+    return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
                 method: "GET",
-                url: '/api/restaurants', 
+                url: '/api/restaurants',
                 params: queryParams
             });
             res(response);
@@ -17,9 +17,9 @@ export const getRestaurants = (queryParams={}) => {
 }
 
 export const searchRestaurantsByName = (name) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
-            const response = await axiosInstance.post('/api/restaurants/search', {name});
+            const response = await axiosInstance.post('/api/restaurants/search', { name });
             res(response);
         } catch (error) {
             console.error(error);
@@ -29,7 +29,7 @@ export const searchRestaurantsByName = (name) => {
 }
 
 export const getRestaurantById = (id) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance.get(`/api/restaurants/${id}`);
             res(response);
@@ -41,7 +41,7 @@ export const getRestaurantById = (id) => {
 }
 
 export const createRestaurant = (data) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
                 method: "POST",
@@ -59,7 +59,7 @@ export const createRestaurant = (data) => {
 }
 
 export const updateRestaurantById = (id, data) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
                 method: "PATCH",
@@ -76,12 +76,45 @@ export const updateRestaurantById = (id, data) => {
 }
 
 export const deleteRestaurantById = (id) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
                 method: "DELETE",
                 url: `/api/restaurants/${id}`,
                 headers: { "Authorization": localStorage.getItem('accessToken') },
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+export const getRestaurantStats = (id) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/statistics/orders/restaurant/${id}`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+export const getOrders = (id) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/orders/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                params: { restaurantid: id }
             });
             res(response);
         } catch (error) {
