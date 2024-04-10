@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import RepoCard from "../RepoCards/RepoCard";
 import CodeEditor from "../GitEditorFileds/GitEditorField";
-import {InputLabel, MenuItem, Select} from "@mui/material"
+import {InputLabel, MenuItem, Select, FormControl } from "@mui/material"
 import { getRepository, getBranch, getCompo, getCode } from "../../services/Repo.service";
+import ConfirmModal from "../../../utils/components/Modal/ConfirmModal/ConfirmModal";
 
 
 
@@ -14,6 +15,8 @@ export default function GitRepos(){
     const [repository, setRepository] = useState({data: [], loading: false});
     const [composants, setComposants] = useState({data: [], loading: false});
     const [code, setCode] = useState({data: [], loading: false});
+    const [popupDownload, setPopupDownload] = useState(false);
+    const [componentDownload, setComponentDownload] = useState({data: [], loading: false});
 
     useEffect(() => {
         const fetchRepository = async() => {
@@ -30,6 +33,7 @@ export default function GitRepos(){
 
     async function onSelectRepo(e){
         setbranches({data: [], loading: false});
+        setComposants({data: [], loading: false});
         setRepositoryVal( e.target.value);
         try {
             const branchesResponse = await getBranch(e.target.value);
@@ -51,60 +55,76 @@ export default function GitRepos(){
     }
 
     async function onClickCompo(value){
-        setComposants({data: '', loading: false});
+        // setComposants({data: '', loading: false});
         setComposantVal(value);
         try {
-            const codeResponse = await getCode(repositoryVal, brancheVal, value);
-            setCode({data: codeResponse.data, loading: true});
-        } catch (error) {
+            const codeResponse = await getCode(repositoryVal, brancheVal, value.path);
+            setCode({data: codeResponse.data.content, loading: true});
+            } catch (error) {
             alert(error);
         }
     }
 
     async function onClickDownload(value){
-        setComposants({data: '', loading: false});
-        setComposantVal(value);
-        try {
-            const codeResponse = await getCode(repositoryVal, brancheVal, value);
-            setCode({data: codeResponse.data, loading: true});
-        } catch (error) {
-            alert(error);
-        }
+        const response = await getCode(repositoryVal, brancheVal, value.path);
+        const blob = response.data.content;
+          // Create blob link to download
+          const url = window.URL.createObjectURL(
+            new Blob([blob], { type : 'plain/text' }),
+          );
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute(
+            'download',
+            `${value.name}`,
+          );
+      
+          // Append to html link element page
+          document.body.appendChild(link);
+      
+          // Start download
+          link.click();
+      
+          // Clean up and remove the link
+          link.parentNode.removeChild(link);
     }
 
 
     return(
-        <div className="w-screen h-screen flex flex-row">
-            <div className="bg-greyColor overflow-auto w-1/4 h-1/2 mt-24 ml-24">
-                <div className="flex justify-center mt-3">
-                    <div>
+        <div className="h-screen flex xl:flex-row flex-col">
+            <div className="bg-greyColor rounded-lg border border-black flex flex-col m-5">
+                <div className="flex p-2">
+                    <FormControl fullWidth sx={{ m: 1, minWidth: 150 }} size="small">
                         <InputLabel id="label">Repository</InputLabel>
-                        <Select className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectRepo}>
+                        <Select className='w-50' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectRepo}>
                         {repository.data.map(repo => (
                         <MenuItem key={repo.id} value={repo.name}>{repo.name}</MenuItem>
                         ))}
                         </Select>
-                    </div>
-                    <div className="ml-5">
+                    </FormControl>
+                    <FormControl fullWidth sx={{ m: 1, minWidth: 150 }} size="small">
                         <InputLabel id="label">Branches</InputLabel>
-                        <Select className='w-3/4' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectBranch}>
+                        <Select className='' labelId="demo-simple-select-label" id="demo-simple-select" onChange={onSelectBranch}>
                         {branches.data.map(branch => (
                         <MenuItem key={branch.id} value={branch.name}>{branch.name}</MenuItem>
                         ))}
                         </Select>
-                    </div>
+                    </FormControl>
                 </div>
-                <div className="mt-3 mb-3">Ajouter barre de recherche</div>
+                <div className="">Ajouter barre de recherche</div>
                 
+                <div className='flex flex-col max-h-48 xl:max-h-full overflow-auto'>
                 {composants.data.map(compo => (
-                    <RepoCard composantName={compo.name} key={compo.size} value={compo.path} onClickEdit={() => onClickCompo(compo.path)}  onClickDownload={console.log('dl')}/>
+                    <RepoCard composantName={compo.name} key={compo.path} value={compo.sha} onClickEdit={() => onClickCompo(compo)}  onClickDownload={() => {setComponentDownload(compo); setPopupDownload(true); console.log(compo)}}/>
                 ))}
+                </div>
             
             </div>
-            <div className="mt-24 ml-24 ">
-                <CodeEditor repo={repository} branch={branches} composant={composantVal} code={code}/>
+            <div className="flex flex-row grow m-5">
+                <CodeEditor repo={repositoryVal} branch={brancheVal} composant={composantVal} code={code}/>
             </div>
 
+            <ConfirmModal open={popupDownload} onClose={() => {setPopupDownload(false)}} onConfirm={() => {onClickDownload(componentDownload); setPopupDownload(false)}} title={"Download"} content={`Voulez vous télécharger le fichier ${componentDownload.name}`} textClose={"Annuler"} textConfirm={"Télécharger"} colorConfirm={"primary"} colorClose={"secondary"}></ConfirmModal>
         </div>
     )
 }

@@ -50,7 +50,7 @@ export const getCompo = (repo, branch) => {
     })
 }
 
-export const getCode = (repo, branch,comp) => {
+export const getCode = (repo, branch, comp) => {
     return new Promise(async (res, rej) => {
         try {
             if (branch !== undefined) {
@@ -68,15 +68,17 @@ export const getCode = (repo, branch,comp) => {
     })
 }
 
-export const commitSynch = (repo, branch, code, commitMessage) => {
+export const commitSynch = (repo, branch, code, path, commitMessage) => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
-                method: "PATCH",
-                url: `/api/git/${repo}/${branch}/`,
+                method: "PUT",
+                url: `/api/git/${repo}/${branch}/${path}`,
                 headers: { "Authorization": localStorage.getItem('accessToken') },
-                code,
-                commitMessage
+                data: {
+                    "message": commitMessage,
+                    "content": code
+                },
             });
             res(response);
         } catch (error) {
