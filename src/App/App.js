@@ -20,7 +20,12 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage/>}></Route>
           <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/clients" element={<ClientPage />}></Route>
+          <Route path="/clients" element={
+            <RequireAuth rolesAllowed={["admin", "salesman"]}>
+              <ClientPage />
+            </RequireAuth>
+            }>
+          </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
