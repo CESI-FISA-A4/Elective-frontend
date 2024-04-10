@@ -35,7 +35,7 @@ function RestaurantStats() {
 
             <div className="w-full flex flex-row justify-center">
                 <TableContainer component={Paper} className='m-5' sx={{ maxHeight: 500, maxWidth: 1200 }}>
-                    <Table size='small' aria-label="simple table">
+                    <Table size='medium' aria-label="simple table">
                         <TableHead className='head' sx={{ padding: 2 }}>
                             <TableRow>
                                 <TableCell>Panier moyen</TableCell>
@@ -48,7 +48,7 @@ function RestaurantStats() {
                                 <TableRow
                                     className='row'
                                 >
-                                    <TableCell>{restaurantStat.data["averagePrice"]}</TableCell>
+                                    <TableCell>{Math.round(restaurantStat.data["averagePrice"])}</TableCell>
                                     <TableCell>{restaurantStat.data["count"]}</TableCell>
                                     <TableCell>{restaurantStat.data["totalPrice"]}</TableCell>
                                 </TableRow>
