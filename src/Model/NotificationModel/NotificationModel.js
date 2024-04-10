@@ -13,9 +13,9 @@ export default function notificationModel(UserProfil, states){
         }
     }else if(UserProfil === 'restaurantOwner'){
         if (states==='newCmd'){
-            return({title:'Nouvelle commande', content:'Vous avez une nouvelle commande.'})
+            return({title:'Nouvelle commande', content:"Vous avez une nouvelle command, voulez vous l'accepter ?"})
         }else if(states==='deliverymanArrived'){
-            return({title:'Livreur en attente', content:'Le livreur est arrivé pour prendre votre commande.'})
+            return({title:'Livreur en attente', content:"la commande est elle prête ?"})
         }else if (states==='delivery'){
             return({title:'En cours de livraison', content:'Le livreur est en route pour livrer le client.'})
         }else if(states==='arrived'){
@@ -23,7 +23,7 @@ export default function notificationModel(UserProfil, states){
         }
     }else if(UserProfil === 'deliveryman'){
         if (states==='NewCmd'){
-            return({title:'Nouvelle commande', content:'Vous avez une nouvelle commande.'})
+            return({title:'Nouvelle commande', content:"Vous avez une nouvelle command, voulez vous l'accepter ?"})
         }else if(states==='ready'){
             return({title:'Prête', content:'La commande vous attend et est prête à être livré.'})
         }else if(states==='livraisonEnd'){
