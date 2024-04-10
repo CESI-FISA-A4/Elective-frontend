@@ -76,19 +76,6 @@ export async function addArticle(name, price, description, imageUrl, isMenu) {
     }
 }
 
-export async function uploadFileToS3(file) {
-    let s3Url = "";
-    try {
-        const response = await axiosInstance.post(s3Url, {
-            file
-        });
-        let imgUrl = response.data.imgUrl;
-        return imgUrl;
-    } catch (error) {
-        alert(error);
-    }
-}
-
 export async function getArticleData(id, isMenu) {
     try {
         let url = isMenu ? `/api/articles/menus/${id}` : `/api/articles/products/${id}`;

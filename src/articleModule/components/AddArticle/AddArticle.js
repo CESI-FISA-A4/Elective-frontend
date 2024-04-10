@@ -1,6 +1,5 @@
 import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
-import FileUploader from "../FileUploader/FileUploader";
 import CustomButton from "../../../utils/components/CustomButton";
 import {getProductsByRestaurantId, getArticleData, updateArticle, addArticle} from "../../services/article.service";
 import { useParams, useLocation } from "react-router-dom";
@@ -79,8 +78,6 @@ function AddArticle({isMenu, title, isEditable, buttonText}) {
                     </div>
                     <TextField disabled={!isEditable} className="w-full" id="description" label="Description" value={description ?? ""} variant='outlined' onChange={(e) => setDescription(e.target.value)}/>
                     <div className="w-full flex flex-row space-x-5">            
-                        {/*<FileUploader disabled={!isEditable} className='w-2/5' handleFile={handleFile}/>  
-                        <p className="bg-bgGreyColor w-3/5 ">{fileName}</p>    */}
                         <TextField disabled={!isEditable} className="w-full " id="file-url" label="Url de l'image" value={fileUrl ?? ""} type='text' variant='outlined' onChange={(e) => setFileUrl(e.target.value)}/>
                     </div>
                     <CustomButton disabled={!isEditable} type="submit" onClick={handleSubmit} children={buttonText}/>  
