@@ -11,6 +11,7 @@ import MonitoringList from '../monitoringModule/components/MonitoringList/Monito
 import ArticlePage from '../pages/ArticlePage';
 import OrdersStatus from '../orderModule/components/OrdersStatus/OrdersStatus';
 import './App.css';
+import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
 
 
 function App() {
@@ -42,6 +43,12 @@ function App() {
           <Route path="/monitoring" element={
             <RequireAuth rolesAllowed={["admin", "technician"]}>
               <MonitoringList/>
+            </RequireAuth>
+            }>
+          </Route>
+          <Route path="/git-editor" element={
+            <RequireAuth rolesAllowed={["admin", "technician", "developer"]}>
+              <GitRepos />
             </RequireAuth>
             }>
           </Route>
