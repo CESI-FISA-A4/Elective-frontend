@@ -9,6 +9,7 @@ import AccountPage from '../pages/AccountPage';
 import ClientPage from '../pages/ClientPage';
 import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
 import './App.css';
+import ArticlePage from '../pages/ArticlePage';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
             </RequireAuth>
             }>
           </Route>
+          <Route path="/articles/edit/:id" element={<ArticlePage/>}></Route>
+          <Route path="/articles/" element={<ArticlePage />}> </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
