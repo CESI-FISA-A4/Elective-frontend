@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 function ArticlePage() {
 
-    const [isEditable, setIsEditable] = useState(false);
+    const [isEditable, setIsEditable] = useState(true);
     const [isMenu , setIsMenu] = useState(false);
     const [title, setTitle] = useState('Ajouter un article');
     const [buttonText, setButtonText] = useState('Ajouter un article');
