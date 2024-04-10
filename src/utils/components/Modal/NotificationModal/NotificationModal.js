@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
-function NotificationModal({open, onClose, title, content}) {
+function NotificationModal({open, onClose, title, content, isChanging, ChangeStateCallBack}) {
     return (
         <div className="NotificationModal">
             <Dialog
@@ -17,6 +17,7 @@ function NotificationModal({open, onClose, title, content}) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
+                {isChanging ? <Button onClick={ChangeStateCallBack} variant="outlined" color="primary">Confirmer</Button> : <Button onClick={onClose} variant="outlined" color="primary">Confirmer</Button>}
                     <Button onClick={onClose} variant="outlined" color="primary">Confirmer</Button>
                 </DialogActions>
             </Dialog>

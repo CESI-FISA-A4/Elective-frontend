@@ -42,7 +42,6 @@ export default function Notification({ cmdId, cmdInprogr}){
 
     return(
         <div>
-            <Button variant="outlined" color="error" onClick={() => {setNotificatonModal(true)}} autoFocus>Suppression du compte</Button>
             <NotificationModal title={notificationInfo.title} 
                 content={notificationInfo.content} 
                 open={notificationModal}
