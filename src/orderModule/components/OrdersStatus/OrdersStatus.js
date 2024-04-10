@@ -31,7 +31,7 @@ function OrdersStatus() {
     const fetchSelectedOrderStats = async () => {
         try {
             setSelectedOrderStats({ data: [], loading: false });
-            let response = await getOrdersFromStatus({status: "orderChecking"});
+            let response = await getOrdersFromStatus();
             setSelectedOrderStats({ data: response.data, loading: true });
         } catch (error) {
             alert(error);
