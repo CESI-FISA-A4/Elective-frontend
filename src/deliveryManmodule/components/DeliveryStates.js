@@ -30,7 +30,7 @@ export default function DeliveryStates(){
             if(localStorage.getItem("roleLabel")== "deliveryman"){
                 setDeliveryMan(true);
             }
-            let orderId = localStorage.getItem("orderId");
+            let orderId = localStorage.getItem("Id");
             let response = await GetCommandeById(orderId);
             setOrderInfo({ data: response.data});
             setUserCode(response.data.clientCode);
