@@ -28,6 +28,7 @@ function App() {
             }>
           </Route>
           <Route path="/articles/:id" element={<ArticlePage/>}></Route>
+          <Route path="/articles/" element={<ArticlePage />}> </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
