@@ -51,6 +51,22 @@ export const abortOrders = (id) => {
     })
 }
 
+export const userPayedOrders = (id) => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "POST",
+                url: `/api/orders/${id}/client-validate`, 
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
 export const restaurantCheckOrders = (id) => {
     return new Promise(async(res, rej) => {
         try {
@@ -123,7 +139,7 @@ export const getOrdersById = (id) => {
                 url: `/api/orders/${id}`, 
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
-            res(response);
+            res(response.data);
         } catch (error) {
             console.error(error);
             rej(error);

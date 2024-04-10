@@ -7,6 +7,7 @@ import { isRestaurantOwner } from "../../../authModule/services/auth.service";
 import { useNavigate } from 'react-router-dom';
 import CustomButton from "../../../utils/components/CustomButton";
 import { createOrders } from "../../../orderModule/services/order.service";
+import TextField from '@mui/material/TextField'
 import CustomButton from "../../../utils/components/CustomButton";
 import { useNavigate } from 'react-router-dom';
 import './restaurantDetail.css';
@@ -21,6 +22,7 @@ function RestaurantDetail() {
     const [products, setProducts] = useState([]);
     const [menus, setMenus] = useState([]);
     const [basket, setBasket] = useState([]);
+    const [address, setAdress] = useState('');
 
     const navigate = useNavigate();
 
@@ -72,22 +74,25 @@ function RestaurantDetail() {
     }
 
     async function createOrder(){
+        if(address === ''){
+            throw new Error("Vous devez saisir une adresse de livraison avant de valider votre panier !")
+        }
         let data = {
+            "address": address,
             "restaurantId": id, 
             "articleList": basket
         };
         try{
             if (basket.length !== 0) {
-                let orderId = await createOrders(data);  
+                let orderId = await createOrders(data);
                 localStorage.setItem("ongoingOrderId", orderId);         
                 clearBasket();
-                alert("Paiement en cours...")
                 setTimeout(goToOrderDetails(), 5000);
             }else{
                 alert("Le panier est vide ! Cliquez sur les cartes pour ajouter des articles !")
             }
         }catch(error){
-            alert("oulah c la sauce")
+            alert(error);
         }
     }
 
@@ -100,6 +105,7 @@ function RestaurantDetail() {
                         <div className="flex flex-col w-full mx-4">
                             <h1 className="text-mainTitle align-center pb-3">{restaurant.data.name}</h1>
                             <p className="text-left">{restaurant.data.description}</p>
+                            <TextField className="w-full" id="address" label="Adresse de livraison" variant="outlined"  onChange={(e) => {setAdress(e.target.value)}}/>  
                         </div>
                         <div className="flex flex-col h-auto w-1/3 m-4 justify-between gap-3">
                             <div className="info">
