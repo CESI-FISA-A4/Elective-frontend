@@ -8,8 +8,9 @@ import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
 import ClientPage from '../pages/ClientPage';
 import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
-import './App.css';
 import ArticlePage from '../pages/ArticlePage';
+import OrdersStatus from '../orderModule/components/OrdersStatus/OrdersStatus';
+import './App.css';
 
 
 function App() {
@@ -44,10 +45,10 @@ function App() {
             </RequireAuth>
             }>
           </Route>
-          <Route path="/protected" element={
-              <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
-                <h2>TEST PROTECTED ROUTES</h2>
-              </RequireAuth>
+          <Route path="/orders-status" element={
+            <RequireAuth rolesAllowed={["admin", "salesman"]}>
+              <OrdersStatus />
+            </RequireAuth>
             }>
           </Route>
         </Routes>
