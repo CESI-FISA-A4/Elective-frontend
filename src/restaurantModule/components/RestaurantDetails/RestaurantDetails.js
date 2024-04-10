@@ -42,7 +42,6 @@ function RestaurantDetail() {
     }, []);
 
     function onClickUser(article){
-        console.log(basket);
         let existingElementIndex = basket.findIndex((item) => item.article === article.articleId);
         if (existingElementIndex == -1){ 
             let newElement = {'article': article.articleId, 'quantity': 1};
@@ -65,18 +64,25 @@ function RestaurantDetail() {
         if(basket.length !== 0){
             setBasket([]);
         }
-        console.log(basket);
     }
 
-    function createOrder(){
+    function goToOrderDetails(){
+        let orderId = localStorage.getItem("ongoingOrderId");
+        navigate(`/orders/${orderId}`);
+    }
+
+    async function createOrder(){
         let data = {
             "restaurantId": id, 
             "articleList": basket
         };
         try{
             if (basket.length !== 0) {
-                createOrders(data);            
+                let orderId = await createOrders(data);  
+                localStorage.setItem("ongoingOrderId", orderId);         
                 clearBasket();
+                alert("Paiement en cours...")
+                setTimeout(goToOrderDetails(), 5000);
             }else{
                 alert("Le panier est vide ! Cliquez sur les cartes pour ajouter des articles !")
             }

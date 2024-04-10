@@ -27,7 +27,7 @@ export const createOrders = (data) => {
                 headers: { "Authorization": localStorage.getItem('accessToken') },
                 data
             });
-            res(response);
+            res(response.data.id);
         } catch (error) {
             console.error(error);
             rej(error);
