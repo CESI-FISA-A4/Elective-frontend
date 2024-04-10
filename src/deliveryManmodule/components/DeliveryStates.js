@@ -46,10 +46,12 @@ export default function DeliveryStates(){
     }, []);
 
     async function handleSubmit(e) {
-        const response = await validateDelivery(id,{code: codeValidation});
-        alert(response)
-        if(codeValidation === response){
-            alert('test');
+        try {
+            const response = await validateDelivery(id,{code: codeValidation});
+            console.log(response);
+            alert('commande validée !')
+        } catch (error) {
+            alert('code invalide')
         }
     }
 
