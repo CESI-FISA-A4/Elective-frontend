@@ -95,3 +95,20 @@ export const activateAccountById = (id) => {
         }
     })
 }
+
+export const getOrders = (queryParams={}) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/orders/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                params: queryParams
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
