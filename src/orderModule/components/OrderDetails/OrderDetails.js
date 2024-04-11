@@ -75,6 +75,8 @@ function OrderDetails() {
             const response = await validateDelivery(orderId, { code: codeValidation });
             console.log(response);
             alert('commande validée !')
+            setOrderStatus("delivered");
+
         } catch (error) {
             alert('code invalide')
         }
