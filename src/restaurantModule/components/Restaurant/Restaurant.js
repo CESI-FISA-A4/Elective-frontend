@@ -25,14 +25,15 @@ function Restaurant({ data, onRestaurantUpdated, enableUpdate }) {
     }
 
     return (
-        <Card className='restaurant' onClick={() => navigate(`/restaurants/${data._id}`)}>
+        <Card className='restaurant'>
             <CardMedia
                 component="img"
                 height="140"
                 srcSet={data.imgUrl}
                 alt={data.name}
+                onClick={() => navigate(`/restaurants/${data._id}`)}
             />
-            <CardContent className='content'>
+            <CardContent className='content' onClick={() => navigate(`/restaurants/${data._id}`)}>
                 <Typography gutterBottom variant="h5" component="div">
                     {data.name}
                 </Typography>

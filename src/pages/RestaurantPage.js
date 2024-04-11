@@ -5,6 +5,7 @@ import RequireAuth from '../authModule/components/RequireAuth';
 import UpdateRestaurant from '../restaurantModule/components/UpdateRestaurant/UpdateRestaurant';
 import MyRestaurantList from '../restaurantModule/components/MyRestaurantList/MyRestaurantList';
 import RestaurantDetail from '../restaurantModule/components/RestaurantDetails/RestaurantDetails';
+import RestaurantStats from '../restaurantModule/components/RestaurantStat/RestaurantStats';
 
 
 function RestaurantPage() {
@@ -14,6 +15,11 @@ function RestaurantPage() {
 
             <Routes>
                 <Route path="" element={<RestaurantList />}/>
+                <Route path="statistics/:id" element={
+                    <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
+                        <RestaurantStats />
+                    </RequireAuth>
+                }/>
                 <Route path="owner" element={
                     <RequireAuth rolesAllowed={["admin", "restaurantOwner"]}>
                         <MyRestaurantList />

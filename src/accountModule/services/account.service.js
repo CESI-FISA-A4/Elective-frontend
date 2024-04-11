@@ -1,5 +1,21 @@
 import axiosInstance from "../../utils/constants/axios";
 
+export const getAllAccounts = () => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/accounts`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
 export const getAccountById = (id) => {
     return new Promise(async (res, rej) => {
         try {
@@ -55,6 +71,39 @@ export const suspendAccountById = (id) => {
                 method: "POST",
                 url: `/api/accounts/${id}/suspend`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+export const activateAccountById = (id) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "POST",
+                url: `/api/accounts/${id}/activate`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+export const getOrders = (queryParams={}) => {
+    return new Promise(async (res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/orders/`,
+                headers: { "Authorization": localStorage.getItem('accessToken') },
+                params: queryParams
             });
             res(response);
         } catch (error) {

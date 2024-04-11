@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { isDeveloper, isRestaurantOwner, isSalesman, isTechnician } from '../../../authModule/services/auth.service';
+import { isDeliveryman, isDeveloper, isRestaurantOwner, isSalesman, isTechnician, isUser } from '../../../authModule/services/auth.service';
 import { getAccountById } from '../../services/account.service';
 import ChangePassword from '../Area/ChangePassword/ChangePassword';
 import DangerArea from '../Area/DangerArea/DangerArea';
 import IdentityArea from '../Area/IdentityArea/IdentityArea';
 import MentorArea from '../Area/MentorArea/MentorArea';
 import OrderHistory from '../Area/OrderHistoryArea/OrderHistory';
-import RestaurantStatArea from '../Area/RestaurantStatArea/RestaurantStatArea';
 import './account.css';
 
 function Account() {
@@ -52,10 +51,8 @@ function Account() {
                         <DangerArea></DangerArea>
                     </div>
 
-                    <OrderHistory></OrderHistory>
-
-                    {isRestaurantOwner() && 
-                        <RestaurantStatArea></RestaurantStatArea>
+                    {(isUser() || isDeliveryman()) &&
+                        <OrderHistory></OrderHistory>
                     }
                 </div>
             }
