@@ -53,7 +53,6 @@ function OrderDetails(){
                 () => {alert("Paiement validé, commande prise en compte !");},
                 2000);
             setOrderStatus("orderChecking");
-            console.log("status", response);
             return response;
         }catch (error){
             alert("Une erreur s'est produite. Veuillez recommencer");
