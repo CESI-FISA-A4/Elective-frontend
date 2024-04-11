@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import { useState, useEffect } from 'react';
 import CustomButton from '../../utils/components/CustomButton';
 import { TextField } from '@mui/material';
-import { GetCodeDelivery, GetCommandeById } from '../services/Delivery.service';
+import { GetCodeValidationDelivery, GetCommandeById } from '../services/Delivery.service';
 import accountImg from '../../assets/account.png'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Order from '../../orderModule/components/Order/Order';
@@ -30,7 +30,7 @@ export default function DeliveryStates(){
             if(localStorage.getItem("roleLabel")== "deliveryman"){
                 setDeliveryMan(true);
             }
-            let orderId = localStorage.getItem("Id");
+            let orderId = localStorage.getItem("ongoingOrderId");
             let response = await GetCommandeById(orderId);
             setOrderInfo({ data: response.data});
             setUserCode(response.data.clientCode);
@@ -45,13 +45,57 @@ export default function DeliveryStates(){
 
     async function handleSubmit(e) {
         const deliveryId = localStorage.getItem('userId');
-        const response = await GetCodeDelivery(deliveryId)
+        const response = await GetCodeValidationDelivery(deliveryId)
         console.log(e);
         console.log(response);
         if(codeValidation === response){
             alert('test');
         }
     }
+
+    const plop =  {
+        "_id": "6616ee26a0f03119b9818df2",
+        "articleList": [
+          {
+            "article": {
+              "_id": "6613e364e8c1c98093d63f32",
+              "name": "Menu de base McDo",
+              "price": 10,
+              "description": "l'happy meal la",
+              "restaurantId": "661270c48866658945ee4946",
+              "imageUrl": "string",
+              "__v": 0
+            },
+            "quantity": 10,
+            "_id": "6616ee26a0f03119b9818df3"
+          },
+          {
+            "article": {
+              "_id": "6613e36fe8c1c98093d63f37",
+              "name": "Menu de base McDo 2",
+              "price": 10,
+              "description": "l'happy meal la",
+              "restaurantId": "661270c48866658945ee4946",
+              "imageUrl": "string",
+              "__v": 0
+            },
+            "quantity": 5,
+            "_id": "6616ee26a0f03119b9818df4"
+          }
+        ],
+        "date": "2024/3/10 21:53",
+        "clientCode": "i8fcpuji59",
+        "status": {
+          "_id": "6616c9681e75bc329c532572",
+          "state": "orderCreated",
+          "__v": 0
+        },
+        "restaurantId": "661274aa6ea43e23fdbf936e",
+        "address": "j'habite par la",
+        "clientId": 2,
+        "__v": 0,
+        "totalPrice": 150
+      } 
 
 
     return(
@@ -63,9 +107,10 @@ export default function DeliveryStates(){
                     <Typography variant="h5" component="div">
                         Adresse de livraison :
                         <br/>
-                        {address}
+                        {plop.address}
+                        <br/>
+                        {deliveryMan ? '' : 'Votre livraison est : ' + plop.status.state}
                     </Typography>
-                    {deliveryMan ? <CustomButton className='' onClick={handleShowPhoneNumber}>{showNumber ? '06.85.13.13.13' : 'Appeller le client'}</CustomButton> : ''}
                     </CardContent>
                 </Card>
 
@@ -74,7 +119,7 @@ export default function DeliveryStates(){
                         <Typography variant="h5" component="div">
                             Code de validation
                         </Typography>
-                        {deliveryMan ? <TextField className="w-full" id="Code" label="Code de Validation" variant="outlined"  onChange={(e) => {setCodeValidation(e.target.value)}}/> : 'Votre code de validation est : ' + userCode.value}
+                        {deliveryMan ? <TextField className="w-full" id="Code" label="Code de Validation" variant="outlined"  onChange={(e) => {setCodeValidation(e.target.value)}}/> : 'Votre code de validation est : ' + plop.clientCode}
                         {deliveryMan ? <CustomButton onClick={handleSubmit} children='valider'/>: ''}
                     </CardContent>
                 </Card>

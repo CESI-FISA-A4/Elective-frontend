@@ -1,6 +1,6 @@
 import axiosInstance from "../../utils/constants/axios";
 
-export const GetCodeDelivery = (id) => {
+export const GetCodeValidationDelivery = (id) => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
@@ -21,7 +21,7 @@ export const GetCommandeById= (id) => {
         try {
             const response = await axiosInstance({
                 method: "GET",
-                url: `/api/orders/${id}/`,
+                url: `/api/orders/${id}`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
