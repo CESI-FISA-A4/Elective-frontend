@@ -18,6 +18,7 @@ import CustomButton from '../CustomButton';
 import './header.css';
 import SwipeableTemporaryDrawer from '../Drawer/Drawer';
 import NotificationPanel from '../NotificationPanel/NotificationPanel';
+import { getCommandePreparedAvailable, getCommandePreparedCreated, getCommandePreparedDelivery, PostAbortCommandResto, PostDeliveryOk, PostRestoOk } from '../../services/NotificationPanel.service';
 
 
 
@@ -25,9 +26,52 @@ export default function Header({ isAuthenticate }) {
   const navigate = useNavigate();
 
   const [isAuth, setIsAuth] = React.useState(isAuthenticate);
+  const [notifs, setNotifs] = React.useState({ data: [], loading: false });
+  const navigateToOrder = async (id) => {
+    return navigate(`/orders/${id}`);
+  }
+  const fetchDataRestaurant = async () => {
+    try {
+      const response = await Promise.all([getCommandePreparedCreated()]);
+      response[0]["acceptFunction"] = PostRestoOk;
+      response[0]["refuseFunction"] = PostAbortCommandResto;
+      response[0]["type"] = "Nouvelle Commande";
+      setNotifs({ data: response, loading: false })
+    } catch (error) {
+      alert(error);
+    }
+  }
+  const fetchDataDeliveryman = async () => {
+    try {
+      const response = await Promise.all([getCommandePreparedDelivery(), getCommandePreparedAvailable()]);
+      response[0]["acceptFunction"] = navigateToOrder;
+      response[0]["refuseFunction"] = async() => { };
+      response[0]["type"] = "Commande Prête";
+      response[1]["acceptFunction"] = PostDeliveryOk;
+      response[1]["refuseFunction"] = async() => { };
+      response[1]["type"] = "Nouvelle Commande";
 
+      setNotifs({ data: response, loading: false })
+      // console.log(response);
+    } catch (error) {
+      alert(error);
+    }
+  }
   React.useEffect(() => {
     setIsAuth(isAuthenticate);
+    let interval;
+    if (isDeliveryman()) {
+      interval = setInterval(() => {
+        fetchDataDeliveryman();
+      }, 10000);
+    }
+    if (isRestaurantOwner()) {
+      interval = setInterval(() => {
+        fetchDataRestaurant();
+      }, 10000);
+    }
+
+    return () => clearInterval(interval);
   }, [isAuthenticate]);
 
   const goToHome = () => {
@@ -64,6 +108,7 @@ export default function Header({ isAuthenticate }) {
               {null}
             </Typography>
             <Stack direction="row" spacing={2}>
+              {isAuth && (isRestaurantOwner() || isDeliveryman()) && <NotificationPanel notifs={notifs} />}
               {!isAuth && <CustomButton variant="contained" onClick={goToSignup}>Sign Up</CustomButton>}
               {!isAuth && <CustomButton variant="contained" onClick={goToLogin}>Sign in</CustomButton>}
 

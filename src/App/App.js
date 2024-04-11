@@ -6,7 +6,6 @@ import Header from '../utils/components/Header/Header';
 import RestaurantPage from '../pages/RestaurantPage';
 import Contact from '../contactModule/components/Contact/Contact';
 import AccountPage from '../pages/AccountPage';
-import Notification from '../NotificationModule/components/Notification';
 import ClientPage from '../pages/ClientPage';
 import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
 import ArticlePage from '../pages/ArticlePage';

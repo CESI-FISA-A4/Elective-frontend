@@ -48,6 +48,7 @@ export const getCommandePreparedCreated = () => {
 export const PostAbortCommandResto = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log(`/api/orders/${id}/abort`);
             const response = await axiosInstance({
                 method: "POST",
                 url: `/api/orders/${id}/abort`,
@@ -64,6 +65,7 @@ export const PostAbortCommandResto = (id) => {
 export const PostRestoOk = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log( `/api/orders/${id}/restaurant-checked`);
             const response = await axiosInstance({
                 method: "POST",
                 url: `/api/orders/${id}/restaurant-checked`,
@@ -81,6 +83,7 @@ export const PostRestoOk = (id) => {
 export const PostDeliveryOk = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log(`/api/orders/${id}/deliveryman-checked`);
             const response = await axiosInstance({
                 method: "POST",
                 url: `/api/orders/${id}/deliveryman-checked`,
