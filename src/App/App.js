@@ -1,5 +1,5 @@
 import RequireAuth from '../authModule/components/RequireAuth';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '../pages/SignUpPage';
 import Header from '../utils/components/Header/Header';
@@ -10,15 +10,31 @@ import ClientPage from '../pages/ClientPage';
 import MonitoringList from '../monitoringModule/components/MonitoringList/MonitoringList';
 import ArticlePage from '../pages/ArticlePage';
 import OrdersStatus from '../orderModule/components/OrdersStatus/OrdersStatus';
-import './App.css';
 import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
+import { useEffect, useState } from 'react';
+import { isConnected } from '../authModule/services/auth.service';
+import './App.css';
 
+function RouteTrigger({callback}) {
+  const location = useLocation();
+
+  useEffect(() => {
+    callback(location.pathname);
+  }, [location]);
+}
 
 function App() {
+  const [isAuthenticate, setIsAuthenticate] = useState(isConnected());
+
+  const handleRouteChange = (path) => {
+    setIsAuthenticate(isConnected());
+  }
+
   return (
     <div className="app">
       <Router>
-        <Header></Header>
+        <Header isAuthenticate={isAuthenticate}></Header>
+        <RouteTrigger callback={handleRouteChange}></RouteTrigger>
         
         <Routes>
           <Route path="/" element={<LoginPage/>}></Route>
