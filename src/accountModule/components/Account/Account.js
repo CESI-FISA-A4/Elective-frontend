@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { isDeveloper, isRestaurantOwner, isSalesman, isTechnician } from '../../../authModule/services/auth.service';
+import { isDeliveryman, isDeveloper, isRestaurantOwner, isSalesman, isTechnician, isUser } from '../../../authModule/services/auth.service';
 import { getAccountById } from '../../services/account.service';
 import ChangePassword from '../Area/ChangePassword/ChangePassword';
 import DangerArea from '../Area/DangerArea/DangerArea';
@@ -51,7 +51,9 @@ function Account() {
                         <DangerArea></DangerArea>
                     </div>
 
-                    <OrderHistory></OrderHistory>
+                    {(isUser() || isDeliveryman()) &&
+                        <OrderHistory></OrderHistory>
+                    }
                 </div>
             }
         </>
