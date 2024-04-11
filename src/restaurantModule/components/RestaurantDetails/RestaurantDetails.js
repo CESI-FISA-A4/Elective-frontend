@@ -37,7 +37,7 @@ function RestaurantDetail() {
             } catch (error) {
                 if (nbGetError === 0){
                     nbGetError++;
-                    alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de scommander. Retour à la page des restaurants...");
+                    alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de commander. Retour à la page des restaurants...");
                     navigate("/restaurants");
                 }
             }
