@@ -50,7 +50,6 @@ function App() {
           <Route path="/articles/edit/:id" element={<ArticlePage/>}></Route>
           <Route path="/articles/" element={<ArticlePage />}> </Route>
           <Route path="/restaurants/*" element={<RestaurantPage/>}></Route>
-          <Route path="/" element={<RestaurantPage/>}></Route>
           <Route path="/account" element={
             <RequireAuth>
               <AccountPage/>
