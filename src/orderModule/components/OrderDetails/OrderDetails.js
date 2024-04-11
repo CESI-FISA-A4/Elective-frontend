@@ -11,10 +11,12 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import CustomButton from "../../../utils/components/CustomButton";
 import { useNavigate } from 'react-router-dom';
+import { isUser } from "../../../authModule/services/auth.service";
 
 
 function OrderDetails(){
-    const orderId = localStorage.getItem("ongoingOrderId");
+    const {orderId} = useParams();
+
     const navigate = useNavigate();
     const [orderInfos, setOrderInfos] = useState([]);
     const [articleList, setArticleList] =useState([]);
@@ -90,11 +92,12 @@ function OrderDetails(){
                 </Table>
             </TableContainer>
             <div className="flex flex-row m-5 gap-6">
-                {(orderStatus !== "aborted") && (orderStatus !== "delivered") ? <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/> :null}
+                {(orderStatus !== "aborted") && (orderStatus !== "delivered") && isUser(localStorage.getItem("userId")) ? <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/> :null}
                 {orderStatus === "orderCreated" ? <CustomButton onClick={payOrder} children={"Payer la commande"}/> : null}
-                <p> Statut de la commande : {orderStatus} </p>
                 <p className="text-secondaryTitle">Total : {orderInfos.totalPrice} €</p>
-            </div>
+            </div>                
+            <p className="text-secondaryTitle" > Statut de la commande : {orderStatus} </p>
+
     </div>
     )
 

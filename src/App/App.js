@@ -55,7 +55,7 @@ function App() {
             </RequireAuth>
             }>
           </Route>
-          <Route path="/orders/:id" element={
+          <Route path="/orders/:orderId" element={
             <RequireAuth rolesAllowed={["user", "deliveryman", "restaurantOwner", 'admin']}>
               <OrderDetails />
             </RequireAuth>
