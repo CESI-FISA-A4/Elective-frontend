@@ -35,7 +35,7 @@ function RestaurantDetail() {
                 let response = await getRestaurantById(id);
                 setRestaurant({ data: response.data, loading: true });
             } catch (error) {
-                alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible commander. Retour à la page des restaurants...");
+                alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de scommander. Retour à la page des restaurants...");
                 navigate("/restaurants");
             }
         }
