@@ -110,11 +110,9 @@ export default function GitRepos(){
                         ))}
                         </Select>
                     </FormControl>
-                </div>
-                <div className="">Ajouter barre de recherche</div>
-                
+                </div>                
                 <div className='flex flex-col max-h-48 xl:max-h-full overflow-auto'>
-                {composants.data.map(compo => (
+                {composants.data.sort((a, b) => { return (a.name > b.name) ? 1 : -1 }).map(compo => (
                     <RepoCard composantName={compo.name} key={compo.path} value={compo.sha} onClickEdit={() => onClickCompo(compo)}  onClickDownload={() => {setComponentDownload(compo); setPopupDownload(true); console.log(compo)}}/>
                 ))}
                 </div>
