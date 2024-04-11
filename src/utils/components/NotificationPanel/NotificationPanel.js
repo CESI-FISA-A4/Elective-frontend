@@ -62,13 +62,13 @@ export default function NotificationPanel({ notifs }) {
             {notifications.data.length && notifications.data.map((notifcategory) => (
                 notifcategory.data.map((element) =>
                     <div className={"hover:bg-bgGreyColor"} key={element.id}>
-                        <button onClick={() => setNotificationModal(!notificationModal)}>
+                        <button onClick={() => setNotificationModal(true)}>
                             <p>
                                 {`${notifcategory.type}: ${element.id}`}
                             </p>
                         </button>
-                        <NotificationModal title={element.label}
-                            content={element.text}
+                        <NotificationModal title={`Commande: ${element.id}`}
+                            content={notifcategory.text}
                             isChanging={true}
                             open={notificationModal}
                             onClose={() => setNotificationModal(false)}
@@ -96,7 +96,6 @@ export default function NotificationPanel({ notifs }) {
                     onClick={toggleDrawer(true)}
                 >
                     <NotificationsIcon sx={{ fontSize: 45 }} />
-                    <p style={{ position: "absolute", alignItems: "center", color: "red", fontSize: 15, fontWeight: "bold" }}>{count}</p>
                 </IconButton>
                 <SwipeableDrawer
                     anchor={"right"}

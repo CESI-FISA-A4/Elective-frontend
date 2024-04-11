@@ -1,18 +1,22 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function NotificationModal({ open, onClose, title, content, isChanging, acceptCallback, refuseCallback, id }) {
-   
+   const navigate = useNavigate();
+
     const onCancelButton = async () => {
         console.log("callback :",refuseCallback, "id : ", id);
         await refuseCallback(id);
         onClose();
+        // navigate(`/orders/${id}`)
     }
     const onAcceptButton = async () => {
         console.log("accept");
         console.log("callback :",acceptCallback, "id : ", id)
         await acceptCallback(id);
         onClose();
+        navigate(`/orders/${id}`)
     }
     return (
         <div className="NotificationModal">

@@ -36,6 +36,7 @@ export default function Header({ isAuthenticate }) {
       response[0]["acceptFunction"] = PostRestoOk;
       response[0]["refuseFunction"] = PostAbortCommandResto;
       response[0]["type"] = "Nouvelle Commande";
+      response[0]["text"] = "Voulez vous acceptez cette commande ?"
       setNotifs({ data: response, loading: false })
     } catch (error) {
       alert(error);
@@ -47,9 +48,11 @@ export default function Header({ isAuthenticate }) {
       response[0]["acceptFunction"] = navigateToOrder;
       response[0]["refuseFunction"] = async() => { };
       response[0]["type"] = "Commande Prête";
+      response[0]["text"] = "La commande est prête a être livrée !"
       response[1]["acceptFunction"] = PostDeliveryOk;
       response[1]["refuseFunction"] = async() => { };
       response[1]["type"] = "Nouvelle Commande";
+      response[1]["text"] = "Voulez vous acceptez cette commande ?"
 
       setNotifs({ data: response, loading: false })
       // console.log(response);
