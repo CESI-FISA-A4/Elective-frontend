@@ -9,11 +9,9 @@ import { useParams, useLocation } from "react-router-dom";
 function ArticlePage() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const isMenuQueryValue = queryParams.get('isMenu');    
 
-
-    const [isEditable, setIsEditable] = useState(isMenuQueryValue ? true : false);
-    const [isMenu , setIsMenu] = useState(isMenuQueryValue);
+    const [isEditable, setIsEditable] = useState(true);
+    const [isMenu , setIsMenu] = useState(queryParams.get('isMenu') === null ? false : queryParams.get('isMenu'));
     const [title, setTitle] = useState('Ajouter un article');
     const [buttonText, setButtonText] = useState('Ajouter un article');
 
@@ -41,13 +39,16 @@ function ArticlePage() {
         <div>
             <div className="flex flex-row justify-end items-center p-4">
                 <p> Produit </p>
-                <Switch defaultChecked={isEditable} onChange={handleChangeArticleType}/>
+                <Switch defaultChecked={isMenu} onChange={handleChangeArticleType}/>
                 <p> Menu </p>
                 <IconButton className="ml-6" onClick={handleIconButtonClick}>
                     <EditIcon  />
                 </IconButton>
             </div>
-            <AddArticle isMenu={isMenu} title={title} isEditable={isEditable} buttonText={buttonText}/>
+            {isMenu &&
+                <AddArticle isMenu={true} title={title} isEditable={isEditable} buttonText={buttonText}/>}
+            {!isMenu &&
+                <AddArticle isMenu={false} title={title} isEditable={isEditable} buttonText={buttonText}/>}
         </div>
     );
 }

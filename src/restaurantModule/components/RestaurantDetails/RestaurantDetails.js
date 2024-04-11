@@ -14,6 +14,7 @@ import './restaurantDetail.css';
 function RestaurantDetail() {
     const { id } = useParams();
     let nbGetError = 0;
+    const userId = localStorage.getItem('userId');
     const naviguate = useNavigate();
 
     const [restaurant, setRestaurant] = useState({ data: {}, loading: false });
@@ -37,8 +38,11 @@ function RestaurantDetail() {
             } catch (error) {
                 if (nbGetError === 0){
                     nbGetError++;
-                    alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de commander. Retour à la page des restaurants...");
-                    navigate("/restaurants");
+                    let errorMsg = isRestaurantOwner(userId) ?
+                    "Vous allez être redirigé vers la page d'ajout d'articles à votre carte." : 
+                    "Ce restaurant n'a pas encore ajouté sa carte. Impossible de commander. Retour à la page des restaurants...";
+                    alert(errorMsg);
+                    isRestaurantOwner(userId) ? navigate("/articles/") : navigate("/restaurants");
                 }
             }
         }
