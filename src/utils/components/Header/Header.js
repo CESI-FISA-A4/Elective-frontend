@@ -20,8 +20,14 @@ import SwipeableTemporaryDrawer from '../Drawer/Drawer';
 
 
 
-export default function Header({ title }) {
+export default function Header({ isAuthenticate }) {
   const navigate = useNavigate();
+
+  const [isAuth, setIsAuth] = React.useState(isAuthenticate);
+
+  React.useEffect(() => {
+    setIsAuth(isAuthenticate);
+  }, [isAuthenticate]);
 
   const goToHome = () => {
     navigate("/restaurants");
@@ -54,20 +60,23 @@ export default function Header({ title }) {
             >
             </Button>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
-              {title}
+              {null}
             </Typography>
             <Stack direction="row" spacing={2}>
-              <CustomButton variant="contained" onClick={goToSignup}>Sign Up</CustomButton>
-              <CustomButton variant="contained" onClick={goToLogin}>Sign in</CustomButton>
-              <IconButton
-                size="large"
-                edge="end"
-                aria-label="menu"
-                sx={{ mr: 1 / 2 }}
-                onClick={logoutUser}>
-                <LogoutIcon></LogoutIcon>
-              </IconButton>
-              <img id="header-account" src={accountImg} width="50" height="50" alt="account" onClick={goToAccount}/>
+              {!isAuth && <CustomButton variant="contained" onClick={goToSignup}>Sign Up</CustomButton>}
+              {!isAuth && <CustomButton variant="contained" onClick={goToLogin}>Sign in</CustomButton>}
+
+              {isAuth &&
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="menu"
+                  sx={{ mr: 1 / 2 }}
+                  onClick={logoutUser}>
+                  <LogoutIcon></LogoutIcon>
+                </IconButton>
+              }
+              {isAuth && <img id="header-account" src={accountImg} width="50" height="50" alt="account" onClick={goToAccount} />}
             </Stack>
           </Toolbar>
         </AppBar>
