@@ -17,8 +17,8 @@ function NotificationModal({open, onClose, title, content, isChanging, ChangeSta
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                {isChanging ? <Button onClick={ChangeStateCallBack} variant="outlined" color="primary">Confirmer</Button> : <Button onClick={onClose} variant="outlined" color="primary">Confirmer</Button>}
-                    <Button onClick={onClose} variant="outlined" color="primary">Confirmer</Button>
+                {isChanging ? <Button onClick={ChangeStateCallBack} variant="outlined" color="error">Annuler</Button> : null }
+                <Button onClick={onClose} variant="outlined" color="primary">Confirmer</Button>
                 </DialogActions>
             </Dialog>
         </div>

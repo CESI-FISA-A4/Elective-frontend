@@ -15,14 +15,20 @@
     import { useEffect } from 'react';
     import Alert from'@mui/material/Alert';
     import CircularProgress from '@mui/material/CircularProgress';
-    import Notification from '../../../NotificationModule/components/Notification';
+    import NotificationModal from '../Modal/NotificationModal/NotificationModal';
+    
+
 
     export default function NotificationPanel() {
         const [state, setState] = React.useState(false);
         const [commandeState, setCommandeState] = React.useState();
+        const [openItemLabel, setOpenItemLabel] = React.useState('');
+        const [notificationModal, setNotificationModal] = React.useState(false);
         let notifications = [];
         let list;
         let count = 0;
+        let etapes = '';
+        let choice = false;
         useEffect(() => {
             const fetchData = async () => {
                 try {
@@ -35,6 +41,7 @@
                         if(NewLivraison.data.length !== 0){
                             notifications.push(notificationModel('deliveryman', 'NewLivraison'));
                         }
+                        etapes = 'newLiv';
                         }else{
                             let ReadyToDelivers = await getCommandePreparedAvailable();
                             setCommandeState(ReadyToDelivers.data);
@@ -50,12 +57,20 @@
                         if( NewCommand.data.length !== 0){
                             notifications.push(notificationModel('restaurantOwner', 'NewCommand'));
                         }
+                        etapes = 'newCmd';
                     }
+                    isChanging();
                 }  catch (error) {
                     console.log(error);
                 }
             }
             
+            function isChanging(){
+                if (etapes == 'newCmd' || etapes == 'newLiv'){
+                    choice = true;
+                }
+            }
+
             fetchData();
             const interval = setInterval(() => {
                 fetchData();
@@ -82,9 +97,6 @@
 
             setState(open);
         };
-        function handleOnClick(element){
-            <Notification notificationInfo={element} notificationModal={true}/>
-        }
    
 
         const test = [
@@ -110,15 +122,22 @@
                 onClick={toggleDrawer(false)}
                 onKeyDown={toggleDrawer(false)}
             >
-                <List>
-                    {test.map((element) => (
-                        <ListItem key={element.label} onClick={() => handleOnClick(element)} disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary={element.text} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
+                {test.map((element) => ( 
+                    <div className={"hover:bg-bgGreyColor"} key={element.label}>
+                        <button onClick={() => setNotificationModal(!notificationModal)}> 
+                            <p>
+                            {element.text}
+                            </p>
+                             </button>                  
+                             <NotificationModal title={element.label} 
+                                content={element.text} 
+                                isChanging={true}
+                                open={notificationModal}
+                                onClose={() => setNotificationModal(false)}
+                                onConfirm={() => setNotificationModal(false)}>
+                         </NotificationModal>
+                    </div>
+                ))}
             </Box>
         ); 
 

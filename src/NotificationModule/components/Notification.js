@@ -1,17 +1,15 @@
 import NotificationModal from "../../utils/components/Modal/NotificationModal/NotificationModal";
-import {Button} from '@mui/material'
 
-export default function Notification({ notificationInfo, notificationModal}){
-    function setNotificatonModal(modal){
-        notificationModal = !modal;
-    }
+
+export default function Notification({ notificationInfo, isChanging, notificationModal, setNotificationModal}){
     return(
         <div>
-            <NotificationModal title={notificationInfo.title} 
-                content={notificationInfo.content} 
+            <NotificationModal title={notificationInfo.label} 
+                content={notificationInfo.text} 
+                isChanging={isChanging}
                 open={notificationModal}
-                onClose={() => setNotificatonModal(false)}
-                onConfirm={() => setNotificatonModal(false)}>
+                onClose={() => setNotificationModal(false)}
+                onConfirm={() => setNotificationModal(false)}>
             </NotificationModal>
         </div>
     )
