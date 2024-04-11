@@ -46,10 +46,9 @@ function OrderDetails(){
     async function payOrder(){
         alert("Paiement en cours...")
         let response = await userPayedOrders(orderId);
-        setTimeout(() => {
-            alert("Paiement validé, commande prise en compte !");
-            /*navigate("/restaurants");*/}
-            , 2000);
+        setTimeout(
+            () => {alert("Paiement validé, commande prise en compte !");},
+            2000);
         setOrderStatus("orderCreated");
         console.log("status", response);
         return response;

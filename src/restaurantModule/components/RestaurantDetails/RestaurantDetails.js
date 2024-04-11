@@ -135,7 +135,7 @@ function RestaurantDetail() {
 
 
                         <h2 className="text-secondaryTitle p-5">Menus</h2>
-                        <div className="flex flex-wrap gap-6 ml-4">
+                        <div className="flex flex-wrap gap-6 ml-4 mb-10">
                             {menus &&
                                 menus.map((menu, index) => (
                                     <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(menu.productId, true) : onClickUser(menu)} key={index} data={menu} />
