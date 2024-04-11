@@ -44,54 +44,58 @@ function OrderDetails(){
     }
 
     async function payOrder(){
-        alert("Paiement en cours...")
-        let response = await userPayedOrders(orderId);
-        setTimeout(
-            () => {alert("Paiement validé, commande prise en compte !");},
-            2000);
-        setOrderStatus("orderCreated");
-        console.log("status", response);
-        return response;
+        try{
+            alert("Paiement en cours...");
+            let response = await userPayedOrders(orderId);       
+            setTimeout(
+                () => {alert("Paiement validé, commande prise en compte !");},
+                2000);
+            setOrderStatus("orderChecking");
+            console.log("status", response);
+            return response;
+        }catch (error){
+            alert("Une erreur s'est produite. Veuillez recommencer");
+        }
     }
 
     return (
-        <>
-        <h1 className="text-secondaryTitle p-4"> Détail de votre commande </h1>
-    <TableContainer component={Paper} className='m-5' sx={{ maxHeight: 500, maxWidth: 1200 }}>
-        <Table size='small' aria-label="simple table">
-            <TableHead className='head' sx={{ padding: 2 }}>
-                <TableRow>
-                    <TableCell>Id de l'article</TableCell>
-                    <TableCell>Nom de l'article</TableCell>
-                    <TableCell>Quantité</TableCell>
-                    <TableCell>Prix à l'unité</TableCell>
-                    <TableCell>Sous-Total</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {articleList.map((row, index) => (
-                    <TableRow
-                        key={index}
-                        className='row'
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                        <TableCell>{row._id}</TableCell>
-                        <TableCell>{row.article.name}</TableCell>
-                        <TableCell>{row.quantity}</TableCell>
-                        <TableCell>{row.article.price}</TableCell>
-                        <TableCell>{row.article.price * row.quantity}</TableCell>
-                    </TableRow> 
-                ))}
-            </TableBody>
-        </Table>
-    </TableContainer>
-    <div className="flex flex-row m-5 gap-6">
-        {(orderStatus !== "aborted") && (orderStatus !== "delivered") ? <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/> :null}
-        {orderStatus === "orderCreated" ? <CustomButton onClick={payOrder} children={"Payer la commande"}/> : null}
-        <p> Statut de la commande : {orderStatus} </p>
-        <p className="text-secondaryTitle">Total : {orderInfos.totalPrice} €</p>
+        <div className="flex flex-col items-center">
+            <h1 className="text-secondaryTitle p-4"> Détail de votre commande </h1>
+            <TableContainer component={Paper} className='m-5' sx={{ maxHeight: 500, maxWidth: 1200 }}>
+                <Table size='small' aria-label="simple table">
+                    <TableHead className='head' sx={{ padding: 2 }}>
+                        <TableRow>
+                            <TableCell>Id de l'article</TableCell>
+                            <TableCell>Nom de l'article</TableCell>
+                            <TableCell>Quantité</TableCell>
+                            <TableCell>Prix à l'unité</TableCell>
+                            <TableCell>Sous-Total</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {articleList.map((row, index) => (
+                            <TableRow
+                                key={index}
+                                className='row'
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell>{row._id}</TableCell>
+                                <TableCell>{row.article.name}</TableCell>
+                                <TableCell>{row.quantity}</TableCell>
+                                <TableCell>{row.article.price}</TableCell>
+                                <TableCell>{row.article.price * row.quantity}</TableCell>
+                            </TableRow> 
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <div className="flex flex-row m-5 gap-6">
+                {(orderStatus !== "aborted") && (orderStatus !== "delivered") ? <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/> :null}
+                {orderStatus === "orderCreated" ? <CustomButton onClick={payOrder} children={"Payer la commande"}/> : null}
+                <p> Statut de la commande : {orderStatus} </p>
+                <p className="text-secondaryTitle">Total : {orderInfos.totalPrice} €</p>
+            </div>
     </div>
-    </>
     )
 
 }

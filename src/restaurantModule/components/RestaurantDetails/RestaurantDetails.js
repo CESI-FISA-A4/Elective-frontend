@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getRestaurantById, getProductsByRestaurantId, getMenusByRestaurantId} from "../../services/restaurant.service";
 import './restaurantDetail.css';
 import Article from "../../../articleModule/components/Article/Article";
-import { isRestaurantOwner } from "../../../authModule/services/auth.service";
+import { isRestaurantOwner, isUser } from "../../../authModule/services/auth.service";
 import { useNavigate } from 'react-router-dom';
 import CustomButton from "../../../utils/components/CustomButton";
 import { createOrders } from "../../../orderModule/services/order.service";
@@ -118,9 +118,9 @@ function RestaurantDetail() {
                                     "Nous ne prenons pas les tickets restaurants"
                                 }</p>
                             </div>
-                            <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton>
-                            <CustomButton children={"Vider le panier"} onClick={clearBasket} /> 
-                            <CustomButton children={"Valider le panier"} onClick={createOrder} />
+                            {isRestaurantOwner(localStorage.getItem('userId')) ? <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton> : null}
+                            {isUser(localStorage.getItem('userId')) ? <CustomButton children={"Vider le panier"} onClick={clearBasket} /> :null}
+                            {isUser(localStorage.getItem('userId')) ?  <CustomButton children={"Valider le panier"} onClick={createOrder} /> : null }
                         </div>
                     </div>
                     <div className="content flex flex-col">
