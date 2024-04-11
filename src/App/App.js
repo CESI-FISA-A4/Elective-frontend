@@ -14,6 +14,7 @@ import GitRepos from '../RepoModule/components/GitRepo/GitRepo';
 import { useEffect, useState } from 'react';
 import { isConnected } from '../authModule/services/auth.service';
 import './App.css';
+import OrderDetails from '../orderModule/components/OrderDetails/OrderDetails';
 
 function RouteTrigger({callback}) {
   const location = useLocation();
@@ -51,6 +52,12 @@ function App() {
           <Route path="/account" element={
             <RequireAuth>
               <AccountPage/>
+            </RequireAuth>
+            }>
+          </Route>
+          <Route path="/orders/:orderId" element={
+            <RequireAuth rolesAllowed={["user", "deliveryman", "restaurantOwner", 'admin']}>
+              <OrderDetails />
             </RequireAuth>
             }>
           </Route>

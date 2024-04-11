@@ -16,6 +16,41 @@ export const getRestaurants = (queryParams = {}) => {
     })
 }
 
+export const getProductsByRestaurantId = (restaurantId) => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/articles/products/restaurant/${restaurantId}`,
+                headers: localStorage.getItem("accessToken")
+            });
+            console.log(response.data)
+            res(response.data);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+export const getMenusByRestaurantId = (restaurantId) => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "GET",
+                url: `/api/articles/menus/restaurant/${restaurantId}`,
+                headers: localStorage.getItem("accessToken")
+            });
+            res(response.data);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    })
+}
+
+
+
 export const searchRestaurantsByName = (name) => {
     return new Promise(async (res, rej) => {
         try {

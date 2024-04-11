@@ -5,24 +5,25 @@ import Typography from '@mui/material/Typography';
 import './article.css';
 
 
-function Article({ data }) {
+function Article({ data, onSelect }) {
+
     return (
-        <Card className='article'>
-            <CardMedia
-                component="img"
-                height="140"
-                srcSet={data.imageUrl}
-                alt={data.name}
-            />
-            <CardContent className='content'>
-                <Typography gutterBottom variant="h5" component="div">
-                    {data.name} {data.price}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {data.description}
-                </Typography>
-            </CardContent>
-        </Card>
+            <Card className='article' onClick={onSelect}>
+                <CardMedia
+                    component="img"
+                    height="140"
+                    srcSet={data.imageUrl}
+                    alt={data.name}
+                />
+                <CardContent className='content'>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {data.name} - {data.price} € 
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {data.description}
+                    </Typography>
+                </CardContent>
+            </Card>
     );
 }
 
