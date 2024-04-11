@@ -24,6 +24,7 @@ function RouteTrigger({callback}) {
   }, [location]);
 }
 
+
 function App() {
   const [isAuthenticate, setIsAuthenticate] = useState(isConnected());
 

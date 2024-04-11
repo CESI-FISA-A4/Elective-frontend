@@ -26,7 +26,7 @@ function OrderHistory() {
                 {orderHistory.loading && 
                     orderHistory.data.map((order, index) => {
                         return <Order key={index} data={{
-                            _id : `Commande ${order._id}`,
+                            _id : order._id,
                             totalPrice: order.totalPrice,
                             date: order.date
                         }}></Order>
