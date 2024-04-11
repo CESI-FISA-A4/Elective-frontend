@@ -18,13 +18,14 @@ function OrderDetails(){
     const navigate = useNavigate();
     const [orderInfos, setOrderInfos] = useState([]);
     const [articleList, setArticleList] =useState([]);
+    const [orderStatus, setOrderStatus] = useState(''); 
 
     useEffect(() => {
         const fetchOrderInfos = async () => {
             console.log(orderId);
             let newOrderInfos = await getOrdersById(orderId);
-            console.log(newOrderInfos);
             setOrderInfos(newOrderInfos);
+            setOrderStatus(newOrderInfos.status.state);
             setArticleList(newOrderInfos.articleList);
         }
         fetchOrderInfos();
@@ -35,6 +36,7 @@ function OrderDetails(){
         try{
             let response = await abortOrders(orderId);
             alert("La commande a bien été annulée !");
+            setOrderStatus("aborted");
             return response.data;
         }catch(error){
             alert("Une erreur s'est produite lors de l'annulation de votre commande. Veuillez réessayer.")
@@ -45,15 +47,17 @@ function OrderDetails(){
         alert("Paiement en cours...")
         let response = await userPayedOrders(orderId);
         setTimeout(() => {
-            alert("Paiement validé, commande prise en compte. Redirection vers la page d'accueil...");
-            navigate("/restaurants");}
+            alert("Paiement validé, commande prise en compte !");
+            /*navigate("/restaurants");*/}
             , 2000);
-        console.log(response);
+        setOrderStatus("orderCreated");
+        console.log("status", response);
         return response;
     }
 
     return (
         <>
+        <h1 className="text-secondaryTitle p-4"> Détail de votre commande </h1>
     <TableContainer component={Paper} className='m-5' sx={{ maxHeight: 500, maxWidth: 1200 }}>
         <Table size='small' aria-label="simple table">
             <TableHead className='head' sx={{ padding: 2 }}>
@@ -83,8 +87,9 @@ function OrderDetails(){
         </Table>
     </TableContainer>
     <div className="flex flex-row m-5 gap-6">
-        <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/>
-        <CustomButton onClick={payOrder} children={"Payer la commande"}/>
+        {(orderStatus !== "aborted") && (orderStatus !== "delivered") ? <CustomButton onClick={cancelOrder} children={"Annuler la commande"}/> :null}
+        {orderStatus === "orderCreated" ? <CustomButton onClick={payOrder} children={"Payer la commande"}/> : null}
+        <p> Statut de la commande : {orderStatus} </p>
         <p className="text-secondaryTitle">Total : {orderInfos.totalPrice} €</p>
     </div>
     </>

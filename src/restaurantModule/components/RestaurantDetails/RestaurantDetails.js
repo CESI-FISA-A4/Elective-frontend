@@ -50,7 +50,7 @@ function RestaurantDetail() {
             basket[existingElementIndex].quantity++;
         }
     }
-    
+
     function onClickRestaurantOwner(productId, isMenu){
         if (isMenu){
             navigate(`/articles/edit/${productId}?isMenu=${isMenu}`);
@@ -114,16 +114,14 @@ function RestaurantDetail() {
                                     "Nous ne prenons pas les tickets restaurants"
                                 }</p>
                             </div>
-                            <div className="stat">
-                                <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton>
-                            </div>
+                            <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton>
                             <CustomButton children={"Vider le panier"} onClick={clearBasket} /> 
-                            <CustomButton children={"Valider la commande"} onClick={createOrder} />
+                            <CustomButton children={"Valider le panier"} onClick={createOrder} />
                         </div>
                     </div>
                     <div className="content flex flex-col">
-                        <h2 className="text-secondaryTitle">Produits</h2>
-                        <div className="flex flex-row">
+                        <h2 className="text-secondaryTitle p-5">Produits</h2>
+                        <div className="flex flex-wrap gap-6 ml-4 ">
                             {products &&
                                 products.map((product, index) => (
                                     <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(product.productId, false) : onClickUser(product)} key={index} data={product} />
@@ -132,8 +130,8 @@ function RestaurantDetail() {
                         </div>
 
 
-                        <h2 className="text-secondaryTitle">Menus</h2>
-                        <div className="flex flex-row">
+                        <h2 className="text-secondaryTitle p-5">Menus</h2>
+                        <div className="flex flex-wrap gap-6 ml-4">
                             {menus &&
                                 menus.map((menu, index) => (
                                     <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(menu.productId, true) : onClickUser(menu)} key={index} data={menu} />

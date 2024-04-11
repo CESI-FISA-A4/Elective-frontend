@@ -9,6 +9,9 @@
 .restaurant:hover {
     scale: 1.05;
 }
+.article:hover {
+    scale: 1.05;
+}
 
 .content {
     flex: 1;

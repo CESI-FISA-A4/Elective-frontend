@@ -1,3 +1,6 @@
 .restaurant-detail img {
     width: 250px;
 }
+.product-card:hover {
+    scale: 1.05;
+}
