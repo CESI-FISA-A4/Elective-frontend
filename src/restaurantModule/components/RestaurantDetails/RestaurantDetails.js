@@ -13,7 +13,7 @@ import './restaurantDetail.css';
 
 function RestaurantDetail() {
     const { id } = useParams();
-
+    let nbGetError = 0;
     const naviguate = useNavigate();
 
     const [restaurant, setRestaurant] = useState({ data: {}, loading: false });
@@ -35,8 +35,11 @@ function RestaurantDetail() {
                 let response = await getRestaurantById(id);
                 setRestaurant({ data: response.data, loading: true });
             } catch (error) {
-                alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de scommander. Retour à la page des restaurants...");
-                navigate("/restaurants");
+                if (nbGetError === 0){
+                    nbGetError++;
+                    alert("Ce restaurant n'a pas encore ajouté sa carte. Impossible de scommander. Retour à la page des restaurants...");
+                    navigate("/restaurants");
+                }
             }
         }
         fetchRestaurant();
