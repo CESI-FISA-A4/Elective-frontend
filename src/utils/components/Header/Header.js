@@ -13,10 +13,11 @@ import { Avatar } from '@mui/material';
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from '../../../contexts/MainPalette'
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../../authModule/services/auth.service';
+import { isDeliveryman, isRestaurantOwner, isUser, logout } from '../../../authModule/services/auth.service';
 import CustomButton from '../CustomButton';
 import './header.css';
 import SwipeableTemporaryDrawer from '../Drawer/Drawer';
+import NotificationPanel from '../NotificationPanel/NotificationPanel';
 
 
 
@@ -56,7 +57,7 @@ export default function Header({ title }) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} >
               {title}
             </Typography>
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={2} alignItems={"center"}>
               <CustomButton variant="contained" onClick={goToSignup}>Sign Up</CustomButton>
               <CustomButton variant="contained" onClick={goToLogin}>Sign in</CustomButton>
               <IconButton
@@ -68,6 +69,8 @@ export default function Header({ title }) {
                 <LogoutIcon></LogoutIcon>
               </IconButton>
               <img id="header-account" src={accountImg} width="50" height="50" alt="account" onClick={goToAccount}/>
+              {isRestaurantOwner() && <NotificationPanel />}
+              {isDeliveryman() && <NotificationPanel />}
             </Stack>
           </Toolbar>
         </AppBar>
