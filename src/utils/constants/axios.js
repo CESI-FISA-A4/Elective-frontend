@@ -28,8 +28,6 @@ axiosInstance.interceptors.response.use(
             if (error.response.status === 401 && !originalConfig._retry && error.response.data.error == "Token not found") {
                 originalConfig._retry = true;
 
-                console.log("INTERCEPTOR RESPONSE 401");
-
                 let response = await refreshToken();
                 localStorage.setItem("accessToken", response.data.accessToken);
 
