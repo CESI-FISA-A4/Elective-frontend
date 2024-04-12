@@ -131,14 +131,40 @@ function OrderDetails() {
                         </CardContent>
                     </Card>
                 }
-                {isDeliveryman() && 
+                {isDeliveryman() &&
                     <Card className=' mt-5 mr-5 ml-5 sm:w-3/4 '>
                         <CardContent>
                             <Typography variant="h5" component="div">
                                 Adresse de livraison :
                                 <br />
-                                {   
+                                {
                                     orderInfos.address
+                                }
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                }
+                {isUser() &&
+                    <Card className=' mt-5 mr-5 ml-5 sm:w-3/4 '>
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                Adresse de livraison :
+                                <br />
+                                {
+                                    orderInfos.address
+                                }
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                }
+                {isUser() &&
+                    <Card className=' mt-5 mr-5 ml-5 sm:w-3/4 '>
+                        <CardContent>
+                            <Typography variant="h5" component="div">
+                                Code de validation de commande :
+                                <br />
+                                {
+                                    orderInfos.clientCode
                                 }
                             </Typography>
                         </CardContent>

@@ -33,8 +33,12 @@ export async function addArticle(name, price, description, imageUrl, isMenu) {
         let userId = localStorage.getItem("userId");
         let restaurantId = await getRestaurantByUserId(userId);
         let productIdList = localStorage.getItem("productIdList");
-        productIdList = productIdList.split(',');
-        if (isMenu && (productIdList.length === 0)) {
+        try {
+            productIdList = localStorage.getItem("productIdList");
+            productIdList = productIdList.split(',');
+        } catch (error) {
+            console.log("Erreur lors de l'ajout de l'article. Rafraichir la page et réessayer.")
+        } if (isMenu && (productIdList.length === 0)) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {
@@ -92,13 +96,13 @@ export async function getArticleData(id, isMenu) {
 export async function getProductsByRestaurantId() {
     try {
         let restaurantId = await getRestaurantByUserId(localStorage.getItem("userId"));
-        try{
+        try {
             const response = await axiosInstance({
                 url: `/api/articles/products/restaurant/${restaurantId}`,
                 headers: { "Authorization": localStorage.getItem('accessToken') },
             });
             return response.data;
-        } catch (error){
+        } catch (error) {
             alert("Vous devez créer des articles avant de créer un menu !");
         }
     } catch (error) {
@@ -114,8 +118,12 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
         let userId = localStorage.getItem("userId");
         let restaurantId = await getRestaurantByUserId(userId);
         let productIdList = localStorage.getItem("productIdList");
-        productIdList = productIdList.split(',');
-        if (isMenu && (productIdList.length === 0)) {
+        try {
+            productIdList = localStorage.getItem("productIdList");
+            productIdList = productIdList.split(',');
+        } catch (error) {
+            console.log("Erreur lors de l'ajout de l'article. Rafraichir la page et réessayer.")
+        } if (isMenu && (productIdList.length === 0)) {
             throw new Error("Vous devez ajouter des produits à votre menu.")
         }
         if (isMenu) {
@@ -141,7 +149,7 @@ export async function updateArticle(name, price, description, imageUrl, id, isMe
                     name,
                     price,
                     description,
-                    imageUrl, 
+                    imageUrl,
                     restaurantId,
                     allergenList,
                     ingredientList,
