@@ -34,14 +34,11 @@ export default function SwipeableTemporaryDrawer() {
     let roleLabel = localStorage.getItem("roleLabel");
 
     switch (roleLabel) {
-        case "user":
-            additionnalLinks = [{ path: "/deliveystates", text: "Suivi de livraison", icon: <DeliveryDiningIcon /> }];
-            break;
         case "restaurantOwner":
             additionnalLinks = [{ path: "/restaurants/owner", text: "Mes restaurants", icon: <FoodBankIcon /> }];
             break;
         case "deliveryman":
-            additionnalLinks = [{ path: "/restaurants", text: "Réception des commandes", icon: <BorderColorIcon /> }, { path: "/deliveystates", text: "Suivi de livraison", icon: <DeliveryDiningIcon /> }];
+            additionnalLinks = [{ path: "/restaurants", text: "Réception des commandes", icon: <BorderColorIcon /> }];
             break;
         case "salesman":
             additionnalLinks = [{ path: "/clients", text: "Liste des clients", icon: <PeopleIcon /> }, { path: "/orders-status", text: "Statut des commandes", icon: <QueryStatsIcon /> }];
