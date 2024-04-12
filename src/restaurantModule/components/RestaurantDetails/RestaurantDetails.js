@@ -111,7 +111,7 @@ function RestaurantDetail() {
                         <div className="flex flex-col w-full mx-4">
                             <h1 className="text-mainTitle align-center pb-3">{restaurant.data.name}</h1>
                             <p className="text-left">{restaurant.data.description}</p>
-                            <TextField required className="w-full" id="address" label="Adresse de livraison" variant="outlined"  onChange={(e) => {setAdress(e.target.value)}}/>  
+                            {isUser() && <TextField required className="w-full" id="address" label="Adresse de livraison" variant="outlined"  onChange={(e) => {setAdress(e.target.value)}}/>}
                         </div>
                         <div className="flex flex-col h-auto w-1/3 m-4 justify-between gap-3">
                             <div className="info">
