@@ -122,9 +122,10 @@ function RestaurantDetail() {
                                     "Nous ne prenons pas les tickets restaurants"
                                 }</p>
                             </div>
-                            {isRestaurantOwner(localStorage.getItem('userId')) ? <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton> : null}
-                            {isUser(localStorage.getItem('userId')) ? <CustomButton children={"Vider le panier"} onClick={clearBasket} /> :null}
-                            {isUser(localStorage.getItem('userId')) ?  <CustomButton children={"Valider le panier"} onClick={createOrder} /> : null }
+                            {isRestaurantOwner() ? <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton> : null}
+                            {isUser() ? <CustomButton children={"Vider le panier"} onClick={clearBasket} /> :null}
+                            {isUser() ?  <CustomButton children={"Valider le panier"} onClick={createOrder} /> : null }
+                            {isRestaurantOwner() ?  <CustomButton children={"Ajouter un article"} onClick={() => navigate("/articles")} /> : null }
                         </div>
                     </div>
                     <div className="content flex flex-col">
