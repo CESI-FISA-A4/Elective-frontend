@@ -41,6 +41,22 @@ export const signup = async (username, password, firstname, lastname, roleLabel,
     }
 }
 
+export const refreshToken = () => {
+    return new Promise(async(res, rej) => {
+        try {
+            const response = await axiosInstance({
+                method: "POST", 
+                url: '/api/auth/refresh-token',
+                data: {refreshToken: localStorage.getItem("refreshToken")}
+            });
+            res(response);
+        } catch (error) {
+            console.error(error);
+            rej(error);
+        }
+    });   
+}
+
 export const changePassword = (username, password, newPassword) => {
     return new Promise(async(res, rej) => {
         try {
@@ -90,7 +106,7 @@ export const isDeveloper = () => localStorage.getItem("roleLabel") == "developer
 
 export const isUser = () => localStorage.getItem("roleLabel") == "user";
 
-export const isConnected = () => localStorage.getItem("accessToken") !== undefined;
+export const isConnected = () => localStorage.getItem("accessToken") !== null;
 
 export const logout = (path='/login') => {
     localStorage.clear();

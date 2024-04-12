@@ -1,4 +1,4 @@
-import ClientList from "../SalesmanModule/components/ClientList";
+import ClientList from "../SalesmanModule/components/ClientList/ClientList";
 
 function ClientPage() {
   return (

@@ -1,11 +1,10 @@
 import axiosInstance from "../../utils/constants/axios";
 
-export const getAllAccounts = () => {
+export const getCommandePreparedDelivery = () => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
-                method: "GET",
-                url: `/api/accounts`,
+                url: `/api/orders/prepared`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
@@ -16,11 +15,11 @@ export const getAllAccounts = () => {
     })
 }
 
-export const getAccountById = (id) => {
+export const getCommandePreparedAvailable = () => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
-                url: `/api/accounts/${id}`,
+                url: `/api/orders/available`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
@@ -31,14 +30,12 @@ export const getAccountById = (id) => {
     })
 }
 
-export const updateAccountById = (id, data) => {
+export const getCommandePreparedCreated = () => {
     return new Promise(async (res, rej) => {
         try {
             const response = await axiosInstance({
-                method: "PATCH",
-                url: `/api/accounts/${id}`,
-                headers: { "Authorization": localStorage.getItem('accessToken') },
-                data
+                url: `/api/orders/created`,
+                headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
         } catch (error) {
@@ -48,12 +45,13 @@ export const updateAccountById = (id, data) => {
     })
 }
 
-export const mentorAccountByCode = (code) => {
+export const PostAbortCommandResto = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log(`/api/orders/${id}/abort`);
             const response = await axiosInstance({
                 method: "POST",
-                url: `/api/accounts/mentor/${code}`,
+                url: `/api/orders/${id}/abort`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
@@ -64,12 +62,13 @@ export const mentorAccountByCode = (code) => {
     })
 }
 
-export const suspendAccountById = (id) => {
+export const PostRestoOk = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log( `/api/orders/${id}/restaurant-checked`);
             const response = await axiosInstance({
                 method: "POST",
-                url: `/api/accounts/${id}/suspend`,
+                url: `/api/orders/${id}/restaurant-checked`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
@@ -80,12 +79,14 @@ export const suspendAccountById = (id) => {
     })
 }
 
-export const activateAccountById = (id) => {
+
+export const PostDeliveryOk = (id) => {
     return new Promise(async (res, rej) => {
         try {
+            // console.log(`/api/orders/${id}/deliveryman-checked`);
             const response = await axiosInstance({
                 method: "POST",
-                url: `/api/accounts/${id}/activate`,
+                url: `/api/orders/${id}/deliveryman-checked`,
                 headers: { "Authorization": localStorage.getItem('accessToken') }
             });
             res(response);
@@ -96,19 +97,6 @@ export const activateAccountById = (id) => {
     })
 }
 
-export const getOrders = (queryParams={}) => {
-    return new Promise(async (res, rej) => {
-        try {
-            const response = await axiosInstance({
-                method: "GET",
-                url: `/api/orders/`,
-                headers: { "Authorization": localStorage.getItem('accessToken') },
-                params: queryParams
-            });
-            res(response);
-        } catch (error) {
-            console.error(error);
-            rej(error);
-        }
-    })
-}
+
+
+

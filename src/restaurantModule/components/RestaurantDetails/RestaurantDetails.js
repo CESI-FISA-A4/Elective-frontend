@@ -1,38 +1,106 @@
 import { useEffect, useState } from "react"
 import { useParams } from 'react-router-dom';
-import { getRestaurantById } from "../../services/restaurant.service";
+import { getRestaurantById, getProductsByRestaurantId, getMenusByRestaurantId} from "../../services/restaurant.service";
 import './restaurantDetail.css';
 import Article from "../../../articleModule/components/Article/Article";
+import { isRestaurantOwner, isUser } from "../../../authModule/services/auth.service";
+import { useNavigate } from 'react-router-dom';
+import CustomButton from "../../../utils/components/CustomButton";
+import { createOrders } from "../../../orderModule/services/order.service";
+import TextField from '@mui/material/TextField'
+import './restaurantDetail.css';
+
 
 function RestaurantDetail() {
     const { id } = useParams();
+    let nbGetError = 0;
+    const userId = localStorage.getItem('userId');
+    const naviguate = useNavigate();
 
     const [restaurant, setRestaurant] = useState({ data: {}, loading: false });
+    const [products, setProducts] = useState([]);
+    const [menus, setMenus] = useState([]);
+    const [basket, setBasket] = useState([]);
+    const [address, setAdress] = useState('');
 
-    const products = [
-        { name: "Spaghettis bolognaise", price: "12,65", description: "Le meilleur plat du monde", imageUrl: "https://img.cuisineaz.com/660x660/2016/07/29/i84653-spaghettis-bolognaise-rapides.jpg" },
-        { name: "Spaghettis carbonara", price: "14,65", description: "Le 2ième meilleur plat du monde", imageUrl: "https://img.passeportsante.net/1200x675/2021-03-19/i100428-spaghetti-a-la-carbonara.webp" },
-        { name: "Spaghettis bolognaise", price: "12,65", description: "Le meilleur plat du monde", imageUrl: "https://img.cuisineaz.com/660x660/2016/07/29/i84653-spaghettis-bolognaise-rapides.jpg" },
-    ];
-    const menus = [
-        { name: "Menu pates", price: "21", description: "Les meilleurs plats", imageUrl: "https://cache.marieclaire.fr/data/photo/w1000_c17/cuisine/18q/photo-de-spaghetti-1.jpg" },
-        { name: "Menu pates", price: "21", description: "Les meilleurs plats", imageUrl: "https://cache.marieclaire.fr/data/photo/w1000_c17/cuisine/18q/photo-de-spaghetti-1.jpg" },
-    ];
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchRestaurant = async () => {
             try {
+                let productsValue = await getProductsByRestaurantId(id);
+                setProducts(productsValue);
+                let menusValue = await getMenusByRestaurantId(id);
+                setMenus(menusValue);
                 setRestaurant({ data: {}, loading: false });
                 let response = await getRestaurantById(id);
                 setRestaurant({ data: response.data, loading: true });
             } catch (error) {
-                alert(error);
+                if (nbGetError === 0){
+                    nbGetError++;
+                    let errorMsg = isRestaurantOwner(userId) ?
+                    "Vous allez être redirigé vers la page d'ajout d'articles à votre carte." : 
+                    "Ce restaurant n'a pas encore ajouté sa carte. Impossible de commander. Retour à la page des restaurants...";
+                    alert(errorMsg);
+                    isRestaurantOwner(userId) ? navigate("/articles/") : navigate("/restaurants");
+                }
             }
         }
-
         fetchRestaurant();
-    }, [])
+    }, []);
+
+    function onClickUser(article){
+        let existingElementIndex = basket.findIndex((item) => item.article === article.articleId);
+        if (existingElementIndex == -1){ 
+            let newElement = {'article': article.articleId, 'quantity': 1};
+            basket.push(newElement);
+        }else{
+            basket[existingElementIndex].quantity++;
+        }
+    }
+
+    function onClickRestaurantOwner(productId, isMenu){
+        if (isMenu){
+            navigate(`/articles/edit/${productId}?isMenu=${isMenu}`);
+        }else{
+            navigate(`/articles/edit/${productId}`);
+        }
+        
+    }
+
+    function clearBasket(){
+        if(basket.length !== 0){
+            setBasket([]);
+        }
+    }
+
+    function goToOrderDetails(){
+        let orderId = localStorage.getItem("ongoingOrderId");
+        navigate(`/orders/${orderId}`);
+    }
+
+    async function createOrder(){
+        if(address === ''){
+            alert("Vous devez saisir une adresse de livraison avant de valider votre panier !")
+        }
+        let data = {
+            "address": address,
+            "restaurantId": id, 
+            "articleList": basket
+        };
+        try{
+            if (basket.length !== 0) {
+                let orderId = await createOrders(data);
+                localStorage.setItem("ongoingOrderId", orderId);         
+                clearBasket();
+                setTimeout(goToOrderDetails(), 5000);
+            }else{
+                alert("Le panier est vide ! Cliquez sur les cartes pour ajouter des articles !")
+            }
+        }catch(error){
+            alert(error);
+        }
+    }
 
     return (
         <div className="restaurant-detail">
@@ -43,32 +111,38 @@ function RestaurantDetail() {
                         <div className="flex flex-col w-full mx-4">
                             <h1 className="text-mainTitle align-center pb-3">{restaurant.data.name}</h1>
                             <p className="text-left">{restaurant.data.description}</p>
+                            <TextField required className="w-full" id="address" label="Adresse de livraison" variant="outlined"  onChange={(e) => {setAdress(e.target.value)}}/>  
                         </div>
-                        <div className="flex flex-col h-auto w-1/3 justify-start gap-3">
-                            <p>Adresse : {restaurant.data.address}</p>
-                            <p>{restaurant.data.acceptTicket ?
-                                "Tickets restaurants acceptés"
-                                :
-                                "Nous ne prenons pas les tickets restaurants"
-                            }</p>
+                        <div className="flex flex-col h-auto w-1/3 m-4 justify-between gap-3">
+                            <div className="info">
+                                <p>Adresse : {restaurant.data.address}</p>
+                                <p>{restaurant.data.acceptTicket ?
+                                    "Tickets restaurants acceptés"
+                                    :
+                                    "Nous ne prenons pas les tickets restaurants"
+                                }</p>
+                            </div>
+                            {isRestaurantOwner(localStorage.getItem('userId')) ? <CustomButton onClick={() => naviguate(`/restaurants/statistics/${id}`)}>Statistique commandes</CustomButton> : null}
+                            {isUser(localStorage.getItem('userId')) ? <CustomButton children={"Vider le panier"} onClick={clearBasket} /> :null}
+                            {isUser(localStorage.getItem('userId')) ?  <CustomButton children={"Valider le panier"} onClick={createOrder} /> : null }
                         </div>
                     </div>
                     <div className="content flex flex-col">
-                        <h2 className="text-secondaryTitle">Produits</h2>
-                        <div className="flex flex-row">
+                        <h2 className="text-secondaryTitle p-5">Produits</h2>
+                        <div className="flex flex-wrap gap-6 ml-4 ">
                             {products &&
                                 products.map((product, index) => (
-                                    <Article key={index} data={product} />
+                                    <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(product.productId, false) : onClickUser(product)} key={index} data={product} />
                                 ))
                             }
                         </div>
 
 
-                        <h2 className="text-secondaryTitle">Menus</h2>
-                        <div className="flex flex-row">
+                        <h2 className="text-secondaryTitle p-5">Menus</h2>
+                        <div className="flex flex-wrap gap-6 ml-4 mb-10">
                             {menus &&
                                 menus.map((menu, index) => (
-                                    <Article key={index} data={menu} />
+                                    <Article onSelect={() => isRestaurantOwner() ? onClickRestaurantOwner(menu.productId, true) : onClickUser(menu)} key={index} data={menu} />
                                 ))
                             }
                         </div>
